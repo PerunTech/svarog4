@@ -1,0 +1,165 @@
+stages:
+  - build
+  - code_analysis
+  - svarog-unit-tests
+  - svarog-upgrade-pipeline
+  - mvn_install
+
+variables:
+  UT_ORA_DB_USER: $ut_ora_db_user
+  UT_ORA_DB_PASS: $ut_ora_db_pass
+  UT_ORA_DB_CONNSTRING: $ora_db_connstring
+  UT_ORA_DB_SCHEMA: $ut_ora_db_schema 
+  UT_PG_DB_USER: $pg_db_user
+  UT_PG_DB_PASS: $pg_db_pass
+  UT_PG_DB_CONNSTRING: $pg_db_connstring
+  UT_PG_DB_SCHEMA: $ut_pg_db_schema 
+  PG_DB_HANDLER: "com.prtech.svarog.SvPostgresIO"
+  ORA_DB_HANDLER: "com.prtech.svarog.io.SvOracleIO"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+      variables:
+          ORA_DB_USER: $master_ora_db_user
+          ORA_DB_PASS: $master_ora_db_pass
+          ORA_DB_CONNSTRING: $ora_db_connstring
+          ORA_DB_SCHEMA: $master_ora_db_user 
+          PG_DB_USER: $pg_db_user
+          PG_DB_PASS: $pg_db_pass
+          PG_DB_CONNSTRING: $pg_db_connstring
+          PG_DB_SCHEMA: $master_pg_db_schema 
+    - if: $CI_COMMIT_REF_NAME == "staging"
+      variables:
+          ORA_DB_USER: $staging_ora_db_user
+          ORA_DB_PASS: $staging_ora_db_pass
+          ORA_DB_CONNSTRING: $ora_db_connstring
+          ORA_DB_SCHEMA: $staging_ora_db_user 
+          PG_DB_USER: $pg_db_user
+          PG_DB_PASS: $pg_db_pass
+          PG_DB_CONNSTRING: $pg_db_connstring
+          PG_DB_SCHEMA: $staging_pg_db_schema
+    - if: $CI_COMMIT_REF_NAME == "dev"
+      variables:
+          ORA_DB_USER: $dev_ora_db_user
+          ORA_DB_PASS: $dev_ora_db_pass
+          ORA_DB_CONNSTRING: $ora_db_connstring
+          ORA_DB_SCHEMA: $dev_ora_db_user 
+          PG_DB_USER: $pg_db_user
+          PG_DB_PASS: $pg_db_pass
+          PG_DB_CONNSTRING: $pg_db_connstring
+          PG_DB_SCHEMA: $dev_pg_db_schema
+
+#before_script:
+
+
+#after_script:
+#  - git reset --hard HEAD
+#  - git clean -df
+#  - git stash
+#  - git pull origin $CI_COMMIT_REF_NAME
+01_svarog-build:
+  stage: build
+  script:
+    - echo Project name
+    - echo $CI_PROJECT_NAME 
+    - echo Project id
+    - echo $CI_PROJECT_ID
+    - git reset --hard $CI_COMMIT_SHA
+    - git clean -df
+    - git stash
+    - git pull origin $CI_COMMIT_SHA  
+    - mvn clean compile
+
+
+install-postgres-ut:
+  stage: svarog-unit-tests
+  script:
+    - mvn clean compile
+    - cd .gitlab-ci
+    - ./ansible-svarog.sh $PG_DB_HANDLER $CI_PROJECT_DIR POSTGRES $UT_PG_DB_USER $UT_PG_DB_PASS "org.postgresql.Driver" $UT_PG_DB_CONNSTRING $UT_PG_DB_SCHEMA $heartbeat_port 
+    - cd $CI_PROJECT_DIR
+    - mvn exec:java@install-drop-auto -P PostgreSQL
+    - mvn test -P PostgreSQL
+    - mvn exec:java@upgrade-force-auto -P PostgreSQL
+    - mvn test -P PostgreSQL
+
+install-oracle-ut:
+  stage: svarog-unit-tests
+  script:
+    - mvn clean compile
+    - cd .gitlab-ci
+    - ./ansible-svarog.sh $ORA_DB_HANDLER $CI_PROJECT_DIR ORACLE $UT_ORA_DB_USER $UT_ORA_DB_PASS "oracle.jdbc.driver.OracleDriver" $UT_ORA_DB_CONNSTRING $UT_ORA_DB_SCHEMA $heartbeat_port 
+    - cd $CI_PROJECT_DIR
+    - mvn exec:java@install-drop-auto -P Oracle
+    - mvn test -P Oracle
+    - mvn exec:java@upgrade-force-auto -P Oracle
+    - mvn test -P Oracle
+    
+upgrade-postgres-pipeline:
+  stage: svarog-upgrade-pipeline
+  script:
+    - mvn clean compile
+    - cd .gitlab-ci
+    - ./ansible-svarog.sh $PG_DB_HANDLER $CI_PROJECT_DIR POSTGRES $PG_DB_USER $PG_DB_PASS "org.postgresql.Driver" $PG_DB_CONNSTRING $PG_DB_SCHEMA $heartbeat_port 
+    - cd $CI_PROJECT_DIR  
+    - mvn exec:java@upgrade-force-auto -P PostgreSQL
+    - mvn test -P PostgreSQL
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  only:
+    - master
+    - staging
+    - dev
+
+    
+upgrade-oracle-pipeline:
+  stage: svarog-upgrade-pipeline
+  script:
+    - mvn clean compile
+    - cd .gitlab-ci
+    - ./ansible-svarog.sh $ORA_DB_HANDLER $CI_PROJECT_DIR ORACLE $ORA_DB_USER $ORA_DB_PASS "oracle.jdbc.driver.OracleDriver" $ORA_DB_CONNSTRING $ORA_DB_SCHEMA $heartbeat_port  
+    - cd $CI_PROJECT_DIR  
+    - mvn exec:java@upgrade-force-auto -P Oracle
+    - mvn test -P Oracle
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  only:
+    - master
+    - staging
+    - dev
+
+
+svarog-sonarqube:
+  stage: code_analysis
+  script:
+    - mvn sonar:sonar -Dsonar.analysis.mode=preview -Dsonar.projectName=$CI_PROJECT_NAME -Dsonar.gitlab.commit_sha=$CI_BUILD_REF -Dsonar.gitlab.ref_name=$CI_BUILD_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID
+  when: manual
+  
+svarog-sonarqube_publish:
+  stage: code_analysis
+  script:
+    - mvn clean compile
+    - cd .gitlab-ci
+    - ./ansible-svarog.sh ut $CI_PROJECT_DIR POSTGRES 
+    - cd $CI_PROJECT_DIR
+    - mvn exec:java@install-drop-auto -P PostgreSQL
+    - mvn exec:java@upgrade-force-auto -P PostgreSQL
+    - mvn test -P PostgreSQL  
+    - mvn sonar:sonar -Dsonar.analysis.mode=publish -Dsonar.projectName=$CI_PROJECT_NAME -Dsonar.gitlab.commit_sha=$CI_BUILD_REF -Dsonar.gitlab.ref_name=$CI_BUILD_REF_NAME -Dsonar.gitlab.project_id=$CI_PROJECT_ID -Donar.gitlab.user_token access=a18878c7b5beb401ce2f847537c296b46a3902b8 
+  environment:
+    name: $CI_COMMIT_REF_NAME
+  only:
+    - staging
+    - dev  
+  when: manual
+  
+svarog-install:
+  stage: mvn_install
+  script:  
+    - pwd
+    - mvn clean package org.apache.maven.plugins:maven-deploy-plugin:3.0.0-M1:deploy -DskipTests
+  only:
+    - master
+    - staging
+    - dev    

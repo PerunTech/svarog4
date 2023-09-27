@@ -1,0 +1,23 @@
+---
+- name: Set pipeline variables
+  set_fact:
+    db_username: "{{ vdb_username }}"
+    db_password: "{{ vdb_password }}"
+    db_driver_name: "{{ vdb_driver_name }}"
+    db_connstring: "{{ vdb_connstring }}"
+    db_schema: "{{ vdb_schema }}"
+    db_handler: "{{ vdb_handler }}"
+    heartbeat_port: "{{ vheartbeat_port }}"
+    db_type: "{{ vdb_type }}"
+
+- name: "Apply  svarog.properties"
+  include: apply_svarog_properties.yml
+
+- name: Display all HOSTVARS
+  debug:
+    var: hostvars
+
+- name: Display all VARS
+  debug:
+    var: vars
+

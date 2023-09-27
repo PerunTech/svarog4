@@ -1,0 +1,7 @@
+[runner]
+localhost
+
+[master]
+localhost
+
+[master:vars]

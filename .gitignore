@@ -1,0 +1,21 @@
+*.retry
+# ignore build folder
+/build/*
+/.classpath
+/.settings
+/.directory
+/.project
+/.vscode/*
+/build/
+/doc/
+/target/
+/bin/
+/osgi-bundles/
+/osgi-cache/
+/osgi-bundles-default.zip
+/conf/config
+/conf/records
+/sv_batch_fs/
+/svarog_filestore/
+/svarog.properties
+/svarog.properties.bkp
