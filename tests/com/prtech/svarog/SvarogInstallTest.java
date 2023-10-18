@@ -37,4 +37,14 @@ public class SvarogInstallTest {
 		}
 
 	}
+	
+	@Test
+	public void testTableExtension() {
+		try (SvReader svr = new SvReader()) {
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fail("Exception was raised");
+		}
+
+	}
 }

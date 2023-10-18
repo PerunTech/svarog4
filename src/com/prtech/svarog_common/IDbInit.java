@@ -15,10 +15,32 @@ package com.prtech.svarog_common;
 
 import java.util.ArrayList;
 
+/**
+ * Interface which allows one to add custom database objects to a svarog
+ * instance.
+ * 
+ * Each class which implements this interface shall provide two lists of
+ * objects: 1. Custom Object types (your database tables which Svarog should
+ * create in the database) 2. Object instances which svarog should save into the
+ * database as per your own configuration
+ * 
+ * If you need more flexible configuration you should look at ISvConfiguration
+ * interface
+ */
 public interface IDbInit {
 
+	/**
+	 * method returning a list of object types your OSGi Svarog Plug-in needs
+	 * 
+	 * @return
+	 */
 	public ArrayList<DbDataTable> getCustomObjectTypes();
 
+	/**
+	 * method returning a list of object instances your OSGi Svarog Plug-in needs to work
+	 * 
+	 * @return
+	 */
 	public ArrayList<DbDataObject> getCustomObjectInstances();
 
 }

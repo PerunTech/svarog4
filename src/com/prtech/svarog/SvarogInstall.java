@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
@@ -70,6 +71,7 @@ import com.prtech.svarog_common.DbSearchCriterion;
 import com.prtech.svarog_common.DbSearchCriterion.DbCompareOperand;
 import com.prtech.svarog_common.DbSearchExpression;
 import com.prtech.svarog_common.DboFactory;
+import com.prtech.svarog_common.IDbInit;
 import com.prtech.svarog_common.SvCharId;
 import com.prtech.svarog_interfaces.ISvConfiguration;
 import com.prtech.svarog_interfaces.ISvCore;
@@ -1140,6 +1142,14 @@ public class SvarogInstall {
 	/**
 	 * Method to generate the core svarog JSON structure
 	 * 
+	 * 1. Generate the DbDataTable JSON configuration used in the schema update and
+	 * store in SvarogInstall.masterDbtPath
+	 * 
+	 * 2. Generate the DbDataObject JSON configuration based on the data from
+	 * previous step and store in SvarogInstall.masterRecordsPath
+	 * 
+	 * 3. Generate DbDataObjects for the Labels loaded from all OSGi bundles
+	 * 
 	 * @return 0 if success, -1 if failed
 	 */
 	private static int generateJsonCfg() {
@@ -1151,6 +1161,7 @@ public class SvarogInstall {
 			File confDir = new File(SvConf.getConfPath());
 			if (confDir.exists()) {
 				for (File currFile : confDir.listFiles()) {
+					// remove all previous configuration except for the SDI directory
 					if (!currFile.getName().equals("sdi"))
 						FileUtils.deleteDirectory(currFile);
 				}
@@ -1159,17 +1170,28 @@ public class SvarogInstall {
 		} catch (IOException e) {
 			log4j.error("Error deleting conf resources ", e);
 		}
-		String errorMessage = DbInit.createJsonMasterRepo();
+		// first get map of all available dbInit instances
+		Map<IDbInit, String> dbInits = DbInit.loadDbInitFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
+		
+		// Load all available table configurations
+		List<DbDataTable> tables = DbInit.getDbInitTableList(dbInits);
+
+		// create all JSON configurations from DbDataTables to prepare for SCHEMA
+		// upgrade (creation of tables and views)
+		String errorMessage = DbInit.createJsonSvarogRepo(tables);
 		if (!errorMessage.equals("")) {
 			log4j.error("Error building svarog master repo. " + errorMessage);
 			return -1;
 		}
-		errorMessage = DbInit.createJsonMasterTableRecords();
+		// first create all DbDataObject for JSON configurations from DbDataTables in
+		// the previous steps to store in the database
+		errorMessage = DbInit.createJsonSvarogRecords(dbInits);
 		if (!errorMessage.equals("")) {
 			log4j.error("Error building svarog master records. " + errorMessage);
 			System.exit(-1);
 			return -1;
 		}
+		// now pre-process the Svarog Labels from each of the OSGi bundles.
 		errorMessage = DbInit.prepareLabels();
 		if (!errorMessage.equals("")) {
 

@@ -58,7 +58,7 @@ public class MembersJsonTest {
 		DbDataArray coreObjects = new DbDataArray();
 		DbDataArray coreCodes = new DbDataArray();
 
-		svObjectId = DbInit.dbTables2DbDataArray(DbInit.getMasterRoot(), coreObjects, coreCodes, svObjectId, errMsg);
+		svObjectId = DbInit.dbTables2DbDataArray(DbInit.getDefaultObjects(), coreObjects, coreCodes, svObjectId, errMsg);
 
 		String json = coreObjects.toJson().toString();
 		json = json.replace("{MASTER_REPO}", SvConf.getMasterRepo());

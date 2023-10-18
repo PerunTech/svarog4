@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.felix.main.AutoProcessor;
@@ -95,10 +96,10 @@ public class SvConfigurationUpgrade {
 					// add the system implementation
 					getiSvCfgs().add(new SvConfigurationImpl());
 
-					ArrayList<Object> cfgs = DbInit.loadClass(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY),
-							ISvConfiguration.class);
+					Map<Object, String> cfgs = DbInit.loadClassFromDir(
+							SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY), ISvConfiguration.class);
 					if (cfgs != null)
-						for (Object o : cfgs)
+						for (Object o : cfgs.keySet())
 							if (o instanceof ISvConfiguration)
 								getiSvCfgs().add((ISvConfiguration) o);
 				}

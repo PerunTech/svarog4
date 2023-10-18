@@ -31,9 +31,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.jar.JarEntry;
@@ -349,6 +353,7 @@ public class DbInit {
 
 		return dbt;
 	}
+
 	// table USER_PARAMS
 	private static DbDataTable getUserParams() {
 		DbDataTable dbt = new DbDataTable();
@@ -406,7 +411,7 @@ public class DbInit {
 		dbt.setDbTableFields(dbTableFields);
 		return dbt;
 	}
-	
+
 	// table SYS_PARAMS
 	private static DbDataTable getSysParams() {
 		DbDataTable dbt = new DbDataTable();
@@ -1087,20 +1092,20 @@ public class DbInit {
 		dbf15.setDbFieldType(DbFieldType.BOOLEAN);
 		dbf15.setIsNull(true);
 		dbf15.setLabel_code("form_field_type.field_ismultiopt");
-		
+
 		DbDataField dbf16 = new DbDataField();
 		dbf16.setDbFieldName("IS_NOTE");
 		dbf16.setDbFieldType(DbFieldType.BOOLEAN);
 		dbf16.setIsNull(true);
 		dbf16.setLabel_code("form_field_type.field_isnote");
-		
+
 		DbDataField dbf17 = new DbDataField();
 		dbf17.setDbFieldName("CODE_VALUE");
 		dbf17.setDbFieldType(DbFieldType.NVARCHAR);
 		dbf17.setDbFieldSize(50);
 		dbf17.setIsNull(true);
 		dbf17.setLabel_code("form_field_type.code_value");
-		
+
 		DbDataField dbf18 = new DbDataField();
 		dbf18.setDbFieldName("MAX_SCORE");
 		dbf18.setDbFieldType(DbFieldType.NUMERIC);
@@ -1120,7 +1125,7 @@ public class DbInit {
 		dbTableFields[7] = dbf12;
 		dbTableFields[8] = dbf14;
 		dbTableFields[9] = dbf7_1;
-		
+
 		dbTableFields[10] = dbf15;
 		dbTableFields[11] = dbf16;
 		dbTableFields[12] = dbf17;
@@ -1196,7 +1201,7 @@ public class DbInit {
 		dbe7.setDbFieldType(DbFieldType.NVARCHAR);
 		dbe7.setDbFieldSize(200);
 		dbe7.setLabel_code("field.second_check");
-		
+
 		DbDataField dbe8 = new DbDataField();
 		dbe8.setDbFieldName("ACHIEVED_SCORE");
 		dbe8.setDbFieldType(DbFieldType.NUMERIC);
@@ -1211,7 +1216,7 @@ public class DbInit {
 		dbTableFields[3] = dbe5;
 		dbTableFields[4] = dbe6;
 		dbTableFields[5] = dbe7;
-		
+
 		dbTableFields[6] = dbe8;
 
 		dbe.setDbTableFields(dbTableFields);
@@ -1341,7 +1346,7 @@ public class DbInit {
 		dbf16.setDbFieldSize(18);
 		dbf16.setIsNull(true);
 		dbf16.setLabel_code("form_type.max_score");
-		
+
 		DbDataField[] dbTableFields = new DbDataField[14];
 		dbTableFields[0] = dbe1;
 		dbTableFields[1] = dbe2;
@@ -1356,7 +1361,7 @@ public class DbInit {
 		dbTableFields[10] = dbe10;
 		dbTableFields[11] = dbf11;
 		dbTableFields[12] = dbe15;
-		
+
 		dbTableFields[13] = dbf16;
 
 		dbe.setDbTableFields(dbTableFields);
@@ -1437,7 +1442,7 @@ public class DbInit {
 		dbf8.setDbFieldSize(18);
 		dbf8.setIsNull(true);
 		dbf8.setLabel_code("form.achieved_score");
-		
+
 		DbDataField[] dbTableFields = new DbDataField[7];
 		dbTableFields[0] = dbe1;
 		dbTableFields[1] = dbe1_1;
@@ -1493,11 +1498,11 @@ public class DbInit {
 		dbTableFields[0] = dbe1;
 		dbTableFields[1] = dbe2;
 		dbTableFields[2] = dbe3;
-		
+
 		dbe.setDbTableFields(dbTableFields);
 		return dbe;
 	}
-	
+
 	// JOB_TYPE
 	private static DbDataTable createJobType() {
 
@@ -4380,7 +4385,7 @@ public class DbInit {
 			dbf19.setDbFieldType(DbFieldType.TEXT);
 			dbf19.setIsNull(true);
 			dbf19.setLabel_code(Sv.MASTER_REPO + Sv.DOT + Sv.GEOMETRY_TYPE.toLowerCase());
-			
+
 			dbt.setDbTableFields(new DbDataField[22]);
 			dbt.getDbTableFields()[0] = dbf1;
 			dbt.getDbTableFields()[1] = dbf2;
@@ -4598,8 +4603,8 @@ public class DbInit {
 		dbt.setUse_cache(true);
 		dbt.setObjectId(svCONST.OBJECT_TYPE_GRID);
 		dbt.setCacheType(Sv.LRU_TTL);
-		//dbt.setIsConfigTable(true);
-		//dbt.setConfigColumnName("GRID_NAME");
+		// dbt.setIsConfigTable(true);
+		// dbt.setConfigColumnName("GRID_NAME");
 
 		// f1
 		DbDataField dbf1 = new DbDataField();
@@ -5520,9 +5525,9 @@ public class DbInit {
 	 * 
 	 * @return A DbDataTable descriptor array
 	 */
-	static ArrayList<DbDataTable> getMasterRoot() {
+	static List<DbDataTable> getDefaultObjects() {
 		DbDataTable dbtt = null;
-		ArrayList<DbDataTable> dbtList = new ArrayList<DbDataTable>();
+		List<DbDataTable> dbtList = new ArrayList<DbDataTable>();
 		dbtt = getLocales();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getLabels();
@@ -5551,7 +5556,7 @@ public class DbInit {
 	 * @param dbtList The arrayList of DbDataTable objects
 	 * @return List containing object types unique by schema.table_name
 	 */
-	static ArrayList<DbDataTable> getDedupTables(ArrayList<DbDataTable> dbtList) {
+	static List<DbDataTable> deduplicateTables(ArrayList<DbDataTable> dbtList) {
 		HashMap<String, DbDataTable> dedupDbt = new HashMap<String, DbDataTable>();
 		for (DbDataTable dbt : dbtList) {
 			dedupDbt.put(dbt.getDbSchema() + "." + dbt.getDbTableName(), dbt);
@@ -5565,10 +5570,10 @@ public class DbInit {
 	 * 
 	 * @return A DbDataTable descriptor array
 	 */
-	private static ArrayList<DbDataTable> getMasterObjectsImpl() {
+	private static ArrayList<DbDataTable> getSvarogObjects() {
 		DbDataTable dbtt = null;
 		ArrayList<DbDataTable> dbtList = new ArrayList<DbDataTable>();
-		dbtList.addAll(getMasterRoot());
+		dbtList.addAll(getDefaultObjects());
 		dbtt = getMasterCodes();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getLocales();
@@ -5727,8 +5732,11 @@ public class DbInit {
 	 * @return List of instances found
 	 */
 	@SuppressWarnings("unchecked")
-	static ArrayList<Object> getCustomDbInit(String subDir) {
-		return (ArrayList<Object>) loadClass(subDir, IDbInit.class);
+	static Map<IDbInit, String> loadDbInitFromDir(String subDir) {
+		Map<IDbInit, String> resultMap = new HashMap<IDbInit, String>();
+		for (Map.Entry<Object, String> dbis : loadClassFromDir(subDir, IDbInit.class).entrySet())
+			resultMap.put((IDbInit) dbis.getKey(), dbis.getValue());
+		return resultMap;
 	}
 
 	/**
@@ -5739,23 +5747,23 @@ public class DbInit {
 	 * @param clazz  The class type
 	 * @return Object instances of the specified class type
 	 */
-	static ArrayList<Object> loadClass(String subDir, Class<?> clazz) {
-		File customFolder = new File(subDir);
-		ArrayList<Object> objectResults = new ArrayList<>();
-		if (!customFolder.exists())
+	static Map<Object, String> loadClassFromDir(String subDir, Class<?> clazz) {
+		File dir = new File(subDir);
+		Map<Object, String> objectResults = new HashMap<>();
+		if (!dir.exists())
 			return objectResults;
-		File[] customJars = customFolder.listFiles();
-		if (customJars != null) {
-			Arrays.sort(customJars);
-			for (int i = 0; i < customJars.length; i++) {
+		File[] files = dir.listFiles();
+		if (files != null) {
+			Arrays.sort(files);
+			for (int i = 0; i < files.length; i++) {
 				try {
-					if (customJars[i].getName().endsWith(".jar")) {
-						ArrayList<Object> dbi = DbInit.loadClassFromJar(customJars[i].getAbsolutePath(), clazz);
-						objectResults.addAll((Collection<?>) dbi);
+					if (files[i].getName().endsWith(".jar")) {
+						ArrayList<Object> classInstances = DbInit.loadClassFromJar(files[i].getAbsolutePath(), clazz);
+						for (Object objInstance : classInstances)
+							objectResults.put(objInstance, files[i].getAbsolutePath());
 					}
 				} catch (Exception e) {
-					log4j.error(
-							"Loading " + clazz.getSimpleName() + " instance failed! File: " + customJars[i].getName(),
+					log4j.error("Loading " + clazz.getSimpleName() + " instance failed! File: " + files[i].getName(),
 							e);
 				}
 			}
@@ -5763,43 +5771,70 @@ public class DbInit {
 		return objectResults;
 	}
 
-	public static String createJsonMasterRepo() {
+	/**
+	 * method to return a list of all custom object types published by all DbInit
+	 * instances available in the OSGi plugin bundles
+	 * 
+	 * 
+	 * @return List of all available DbDataTable objects
+	 */
+	static List<DbDataTable> getDbInitTableList(Map<IDbInit, String> dbInits) {
+		List<DbDataTable> dbtList = deduplicateTables(getSvarogObjects());
 
-		ArrayList<DbDataTable> dbtList = getDedupTables(getMasterObjectsImpl());
-		ArrayList<Object> dbiResult = new ArrayList<Object>();
-
-		// load all dbinit instances from the legacy custom folder
-		// Disable DbInit objects if svarog is not installed
-		if (SvarogInstall.isSvarogInstalled()) {
-			dbiResult.addAll(getCustomDbInit("custom/"));
-			dbiResult.addAll(getCustomDbInit(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY)));
-		}
-
-		for (Object idb : dbiResult) {
+		// for each identified DbInit load the custom types
+		for (Object idb : dbInits.keySet()) {
 			if (idb instanceof IDbInit)
 				dbtList.addAll(((IDbInit) idb).getCustomObjectTypes());
 			else
 				log4j.error("Object is not IDbInit instance!");
 		}
-		String fullRetval = "";
-		for (int i = 0; i < dbtList.size(); i++) {
-			DbDataTable dbt = dbtList.get(i);
+		return dbtList;
+	}
 
-			String retval = saveMasterJson(
+	/**
+	 * Method to create the JSON configuration files for all objects available in
+	 * the system. This method will only generate the JSON configuration for Svarog
+	 * system objects returned by getSvarogObjects(), if svarog has not been
+	 * installed in the database (SvarogInstall.isSvarogInstalled() returning
+	 * false).
+	 * 
+	 * If svarog has been installed already, this method will load all available
+	 * class implementing IDbInit from the directories "custom" and the directory
+	 * specified in the svarog.properties by AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY
+	 * 
+	 * @param objectTypes list of all available DbDataTables
+	 * 
+	 * @return A text containing errors of warning generated during creating the
+	 *         JSON configuration. Return value of EmptyString is considered
+	 *         successful processing
+	 */
+	public static String createJsonSvarogRepo(List<DbDataTable> objectTypes) {
+
+		StringBuilder fullRetval = new StringBuilder();
+
+		// for each of the tables in list of DbDataTables create a json file
+		for (DbDataTable dbt : objectTypes) {
+			String retval = saveObjectToJson(
 					SvConf.getConfPath() + SvarogInstall.masterDbtPath
 							+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master").toLowerCase() + "_repo.json",
 					dbt, false);
 
-			if (!retval.equals("")) {
-				fullRetval += fullRetval + "; " + SvConf.getConfPath() + SvarogInstall.masterDbtPath
-						+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master") + "_repo.json";
+			// if the methor returned any errors or warnings, concatenate
+			if (!retval.isEmpty()) {
+				fullRetval.append("; " + retval + SvConf.getConfPath() + SvarogInstall.masterDbtPath
+						+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master") + "_repo.json");
 			}
 
 		}
-		return fullRetval;
+		return fullRetval.toString();
 
 	}
 
+	/**
+	 * Method which generates text file with the list of config files. Used to
+	 * ensure that no files were removed manually in the installation process.
+	 * 
+	 */
 	private static void updateFileLists() {
 		String fileList = "";
 
@@ -5829,9 +5864,17 @@ public class DbInit {
 		}
 	}
 
-	static String saveMasterJson(String jsonFilePath, Object dbt, Boolean isPretty) {
+	/**
+	 * Method to save an configuration object to a Json file
+	 * 
+	 * @param jsonFilePath The file path
+	 * @param jsonable     The object which implements the Jsonable interface
+	 * @param isPretty     Flag for Gson to enable pretty printing
+	 * @return
+	 */
+	static String saveObjectToJson(String jsonFilePath, Jsonable jsonable, Boolean isPretty) {
 		try {
-			JsonObject obj = ((Jsonable) dbt).toJson();
+			JsonObject obj = jsonable.toJson();
 			Gson gson = (new GsonBuilder().setPrettyPrinting().create());
 
 			String json = gson.toJson(obj);
@@ -5918,7 +5961,7 @@ public class DbInit {
 				aclStr = DbInit.loadCustomResources(jarPath, filePath);
 			else {
 				istr = new FileInputStream(new File(filePath));
-				aclStr = IOUtils.toString(istr,"UTF-8");
+				aclStr = IOUtils.toString(istr, "UTF-8");
 			}
 			if (aclStr != null) {
 				aclStr = aclStr.replace(Sv.MASTER_REPO_NAME, SvConf.getMasterRepo());
@@ -6033,27 +6076,9 @@ public class DbInit {
 				String aclFilePath = SvarogInstall.masterSecurityPath + SvarogInstall.aclFile;
 				String aclSidFilePath = SvarogInstall.masterSecurityPath + SvarogInstall.aclSidFile;
 
-				File customFolder = new File("custom/");
+				File customFolder = new File(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 				File[] customJars = customFolder.exists() ? customFolder.listFiles() : null;
-				if (customJars != null) {
-					for (int i = 0; i < customJars.length; i++) {
-						if (customJars[i].getName().endsWith(".jar")) {
-							JsonElement jsonAcl = loadJsonResource(customJars[i].getAbsolutePath(), aclFilePath);
-							if (jsonAcl != null) {
-								mACLs.add(jsonAcl);
-								log4j.info("Loaded ACLs from " + aclFilePath);
-							}
-							JsonElement jsonAclSID = loadJsonResource(customJars[i].getAbsolutePath(), aclSidFilePath);
-							if (jsonAclSID != null) {
-								mACLSIDs.add(jsonAclSID);
-								log4j.info("Loaded ACL/SIDs from " + aclSidFilePath);
-							}
-
-						}
-					}
-				}
 				// load ACSfrom the OSGI bundles dir too
-				customFolder = new File(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 				customJars = customFolder.listFiles();
 				if (customJars != null) {
 					for (int i = 0; i < customJars.length; i++) {
@@ -6165,10 +6190,10 @@ public class DbInit {
 				log4j.error("Exception while parsing ACLs", e);
 			}
 
-			testRetval += saveMasterJson(
+			testRetval += saveObjectToJson(
 					SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "90. " + SvarogInstall.aclFile, arrAcl,
 					true);
-			testRetval += saveMasterJson(
+			testRetval += saveObjectToJson(
 					SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "91. " + SvarogInstall.aclSidFile,
 					arrAclSid, true);
 
@@ -6279,19 +6304,8 @@ public class DbInit {
 				try {
 
 					loadInternalLabels((String) entry.getVal(Sv.LOCALE_ID), mLabels);
-					// load labers from the custom folder
-					File customFolder = new File("custom/");
-					if (customFolder != null) {
-						File[] customJars = customFolder.listFiles();
-						if (customJars != null) {
-							for (int i = 0; i < customJars.length; i++) {
-								log4j.debug("Trying to load labels from: " + customJars[i].getAbsolutePath());
-								if (customJars[i].getName().endsWith(".jar"))
-									loadLabelsFromCustom(customJars[i].getAbsolutePath(), mLabels,
-											(String) entry.getVal(Sv.LOCALE_ID));
-							}
-						}
-					}
+
+					File customFolder;
 					// load labels from the svarog OSG bundles dir
 					customFolder = new File(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 					if (customFolder != null) {
@@ -6313,7 +6327,7 @@ public class DbInit {
 				if (mLabels != null && mLabels.size() > 0) {
 					arr.setItems(new ArrayList<DbDataObject>(mLabels.values()));
 					String strRetval = "";
-					strRetval = saveMasterJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath
+					strRetval = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath
 							+ SvarogInstall.labelsFilePrefix + entry.getVal(Sv.LOCALE_ID) + ".json", arr, true);
 					if (!strRetval.equals("")) {
 						testRetval += testRetval + strRetval + " json/records/20. master_labels_"
@@ -6333,15 +6347,6 @@ public class DbInit {
 		// if (!testRetval.equals(""))
 		// fail(testRetval);
 		return testRetval;
-	}
-
-	/**
-	 * Method for generating the base svarog configuration
-	 * 
-	 * @return String holding any error messages which might have occured
-	 */
-	public static String createJsonMasterTableRecords() {
-		return createJsonMasterTableRecords(getDedupTables(getMasterObjectsImpl()));
 	}
 
 	/**
@@ -6378,11 +6383,10 @@ public class DbInit {
 	 * @return The object id which should be used after generating the dbo style
 	 *         objects
 	 */
-	public static Long dbTables2DbDataArray(ArrayList<DbDataTable> dbtList, DbDataArray dbarrOut,
-			DbDataArray defaultCodes, Long svObjectId, StringBuilder errMsg) {
+	public static Long dbTables2DbDataArray(List<DbDataTable> dbtList, DbDataArray dbarrOut, DbDataArray defaultCodes,
+			Long svObjectId, StringBuilder errMsg) {
 
-		for (int i = 0; i < dbtList.size(); i++) {
-			DbDataTable dbt = dbtList.get(i);
+		for (DbDataTable dbt : dbtList) {
 			DbDataObject dbo = new DbDataObject();
 			dbo.setObjectType(svCONST.OBJECT_TYPE_TABLE);
 			dbo.setObjectId(dbt.getObjectId());
@@ -6403,7 +6407,6 @@ public class DbInit {
 			dbo.setVal("config_relation_type", dbt.getConfigRelationType());
 			dbo.setVal("config_relation_id", dbt.getConfigRelatedTypeName());
 			dbo.setVal("gui_metadata", dbt.getGui_metadata());
-
 
 			if (dbt.getIsConfigTable()) {
 				if (dbt.getConfigColumnName() == null || dbt.getConfigColumnName().length() < 1) {
@@ -6490,7 +6493,8 @@ public class DbInit {
 
 	/**
 	 * Method to return an array of the basic core svarog objects needed to
-	 * bootstrap
+	 * bootstrap. The method will fill the defaultCodes and defaultObjects with the
+	 * basic configuration needed to start Svarog
 	 * 
 	 * @param defaultCodes   The array with default codes
 	 * @param defaultObjests The array with default sys objects
@@ -6499,7 +6503,8 @@ public class DbInit {
 	public static void initCoreRecords(DbDataArray defaultCodes, DbDataArray defaultObjests) {
 		Long svObjectId = svCONST.MAX_SYS_OBJECT_ID;
 		StringBuilder errMsg = new StringBuilder();
-		dbTables2DbDataArray(getMasterRoot(), defaultObjests, defaultCodes, svObjectId, errMsg);
+		// populate the default configuation from
+		dbTables2DbDataArray(getDefaultObjects(), defaultObjests, defaultCodes, svObjectId, errMsg);
 
 		String json = defaultObjests.toJson().toString();
 		json = json.replace(Sv.MASTER_REPO_NAME, SvConf.getMasterRepo());
@@ -6731,8 +6736,8 @@ public class DbInit {
 		// dbo.setTable_name(dbt.getDbRepoName() + "_tables");
 		// dbo.setSchema(dbt.getDbSchema());
 		dboAdminUser.setObjectType(svCONST.OBJECT_TYPE_USER);
-		//dboAdminUser.setObjectId(svObjectId);
-		//svObjectId++;
+		// dboAdminUser.setObjectId(svObjectId);
+		// svObjectId++;
 		dboAdminUser.setVal("USER_TYPE", "INTERNAL");
 		dboAdminUser.setVal("USER_UID", UUID.randomUUID().toString());
 		dboAdminUser.setVal("USER_NAME", "ADMIN");
@@ -6756,78 +6761,64 @@ public class DbInit {
 	 * @param defaultCodes the list of default codes used for decoding
 	 * @return The updated max object id as result of the custom DbInit processing
 	 */
-	static Long saveCustomToJson(String subDir, Long svObjectId, DbDataArray defaultCodes,
-			DbDataArray customObjestsAll) {
+	static Long saveDbInitToJson(Long svObjectId, DbDataArray defaultCodes, DbDataArray customObjestsAll,
+			Map<IDbInit, String> dbTables) {
 		// DbDataArray defaultObjests = new DbDataArray();
 		DbDataArray customObjests = new DbDataArray();
 		StringBuilder errMsg = new StringBuilder();
 
-		File customFolder = new File(subDir);
-		File[] customJars = customFolder.listFiles();
-		if (customJars != null) {
-			Arrays.sort(customJars);
-			for (int i = 0; i < customJars.length; i++) {
-				if (customJars[i].getName().endsWith(".jar")) {
-					log4j.info("Trying to load IDbInit from jar: " + customJars[i].getName());
-					ArrayList<Object> dbi = null;
-					try {
-						dbi = DbInit.loadClassFromJar(customJars[i].getAbsolutePath(), IDbInit.class);
-					} catch (Exception e) {
-						log4j.error("Loading IDbInit instance failed! File: " + customJars[i].getName(), e);
-					}
-					if (dbi != null && dbi.size() > 0)
-						log4j.info("Found IDbInit instance in jar: " + customJars[i].getName());
-					customObjests.getItems().clear();
-					for (Object idb : (ArrayList<Object>) dbi) {
-						svObjectId = dbTables2DbDataArray(((IDbInit) idb).getCustomObjectTypes(), customObjests,
-								defaultCodes, svObjectId, errMsg);
-						if (!errMsg.toString().equals("")) {
-							log4j.error("Error creating DbDataArray from custom IDbInit:" + customJars[i].getName()
-									+ "." + errMsg.toString());
-							return svObjectId;
-						}
+		customObjests.getItems().clear();
+		int i = 0;
+		for (Map.Entry<IDbInit, String> e : dbTables.entrySet()) {
 
-						for (DbDataObject dboCustom : ((IDbInit) idb).getCustomObjectInstances()) {
-							for (DbDataObject dbl : defaultCodes.getItems()) {
+			IDbInit idb = e.getKey();
+			String jarName = e.getValue();
+			svObjectId = dbTables2DbDataArray(idb.getCustomObjectTypes(), customObjests, defaultCodes, svObjectId,
+					errMsg);
+			if (!errMsg.toString().equals("")) {
+				log4j.error("Error creating DbDataArray from custom IDbInit:" + jarName + "." + errMsg.toString());
+				return svObjectId;
+			}
 
-								if (dboCustom.getObjectType().equals(svCONST.OBJECT_TYPE_FORM_FIELD_TYPE)) {
-									String codeVal = (String) dboCustom.getVal(Sv.CODE_LIST_ID);
-									if (dbl.getVal("CODE_VALUE").equals(codeVal))
-										dboCustom.setVal(Sv.CODE_LIST_ID, dbl.getObjectId());
-								}
+			for (DbDataObject dboCustom : ((IDbInit) idb).getCustomObjectInstances()) {
+				for (DbDataObject dbl : defaultCodes.getItems()) {
 
-							}
-							customObjests.addDataItem(dboCustom);
-						}
-
-					}
-					String errStr = "";
-					if (customObjests.size() > 0) {
-						errStr = saveMasterJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "4" + i + ". "
-								+ customJars[i].getName().replace(".jar", ".json"), customObjests, true);
-						customObjestsAll.getItems().addAll(customObjests.getItems());
-					}
-					if (!errStr.equals("")) {
-						log4j.error("Error saving DbDataArray to file from custom IDbInit:" + customJars[i].getName()
-								+ "." + errStr.toString());
-						return svObjectId;
+					if (dboCustom.getObjectType().equals(svCONST.OBJECT_TYPE_FORM_FIELD_TYPE)) {
+						String codeVal = (String) dboCustom.getVal(Sv.CODE_LIST_ID);
+						if (dbl.getVal("CODE_VALUE").equals(codeVal))
+							dboCustom.setVal(Sv.CODE_LIST_ID, dbl.getObjectId());
 					}
 
 				}
+				customObjests.addDataItem(dboCustom);
 			}
+			String errStr = "";
+			if (customObjests.size() > 0) {
+				errStr = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "4" + i + ". "
+						+ jarName.replace(".jar", ".json"), customObjests, true);
+				customObjestsAll.getItems().addAll(customObjests.getItems());
+			}
+			if (!errStr.equals("")) {
+				log4j.error(
+						"Error saving DbDataArray to file from custom IDbInit:" + jarName + "." + errStr.toString());
+			}
+			i++;
 		}
+
 		return svObjectId;
 	}
 
 	/**
 	 * Method that creates all master records for the tables according to the array
-	 * created by getMasterObjects();
+	 * of tables. This method creates the actual records DbDataObjects which are
+	 * stored in SVAROG_TABLES and SVAROG_FIELDS
+	 * 
 	 * 
 	 * @param dbtList ArraList holding all DbDataTable objects from the master
 	 *                records should be created
 	 * @return Description of the error if any
 	 */
-	public static String createJsonMasterTableRecords(ArrayList<DbDataTable> dbtList) {
+	static String createJsonSvarogRecords(Map<IDbInit, String> dbTables) {
 
 		StringBuilder errMsg = new StringBuilder();
 		DbDataArray defaultCodes = new DbDataArray();
@@ -6837,30 +6828,26 @@ public class DbInit {
 		Long svObjectId = prepDefaultCodeList(defaultCodes);
 		String retval = "";
 
-		svObjectId = dbTables2DbDataArray(dbtList, defaultObjests, defaultCodes, svObjectId, errMsg);
+		svObjectId = dbTables2DbDataArray(deduplicateTables(getSvarogObjects()), defaultObjests, defaultCodes,
+				svObjectId, errMsg);
 
 		if (!errMsg.toString().equals(""))
 			return errMsg.toString();
 
 		// load custom objects as well as from the OSGI bundles dir
 		// if svarog installed, otherwhise skip
-		if (SvarogInstall.isSvarogInstalled()) {
-			svObjectId = saveCustomToJson("custom/", svObjectId, defaultCodes, customObjests);
-			customObjestsAll.getItems().addAll(customObjests.getItems());
-			saveCustomToJson(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY), svObjectId, defaultCodes,
-					customObjests);
-			customObjestsAll.getItems().addAll(customObjests.getItems());
-		}
+		saveDbInitToJson(svObjectId, defaultCodes, customObjests, dbTables);
+		customObjestsAll.getItems().addAll(customObjests.getItems());
 
 		DbDataArray arrWF = new DbDataArray();
 		addDefaultUnitsUsers(arrWF, svObjectId);
 
 		addDefaultLinkTypes(defaultObjests);
 
-		retval += saveMasterJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "40. master_records.json",
+		retval += saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "40. master_records.json",
 				defaultObjests, true);
 
-		retval += saveMasterJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + SvarogInstall.usersFile,
+		retval += saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + SvarogInstall.usersFile,
 				arrWF, true);
 
 		prepareACLs(defaultObjests, customObjestsAll);
@@ -6958,8 +6945,7 @@ public class DbInit {
 	}
 
 	/**
-	 * Method to load codes from either 'custom/' directory or OSGI bundles
-	 * AUTODEPLOY DIR
+	 * Method to load codes from OSGI bundles AUTODEPLOY DIR
 	 * 
 	 * @param jarPath The path of the jar file containining
 	 *                "labels/codes.properties"
@@ -7022,15 +7008,8 @@ public class DbInit {
 	 */
 	private static void loadCodes(JsonObject jCodes) throws IOException {
 		// load codes from the custom dir
-		File customFolder = new File("custom/");
-		File[] customJars = customFolder.listFiles();
-		if (customJars != null) {
-			for (int i = 0; i < customJars.length; i++) {
-				if (customJars[i].getName().endsWith(".jar"))
-					loadCodesFromCustom(customJars[i].getAbsolutePath(), jCodes);
-			}
-		}
-
+		File customFolder;
+		File[] customJars;
 		// load codes from the OSGI bundles dir too
 		customFolder = new File(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 		customJars = customFolder.listFiles();
@@ -7109,7 +7088,7 @@ public class DbInit {
 			GeoJsonReader jtsReader = new GeoJsonReader();
 			String path = "./" + SvConf.getConfPath() + SvarogInstall.masterSDIPath + "/boundary.json";
 			is = new FileInputStream(path);
-			geoJSONBounds = IOUtils.toString(is,"UTF-8");
+			geoJSONBounds = IOUtils.toString(is, "UTF-8");
 			geo = jtsReader.read(geoJSONBounds);
 		} catch (IOException e) {
 			log4j.error("System bounds can not be read from file!", e);
@@ -7262,7 +7241,7 @@ public class DbInit {
 					JarEntry je = (JarEntry) e.nextElement();
 					if (je.getName().equals(resourceName)) {
 						try (InputStream is = jarFile.getInputStream(je)) {
-							retVal = IOUtils.toString(is,"UTF-8");
+							retVal = IOUtils.toString(is, "UTF-8");
 						}
 					}
 				}
