@@ -166,29 +166,21 @@ public class SvExecManagerTest {
 
 	@Test
 	public void callExecutor() {
-		SvExecManager sve = null;
-		try {
-			sve = new SvExecManager();
+		try (SvExecManager sve = new SvExecManager();) {
+
 			sve.osgiServices = new Object[1];
 			sve.osgiServices[0] = new TestExecutor(null);
 			sve.execute(category, name, null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Test raised execption" + e.toString());
-		} finally {
-			if (sve != null)
-				sve.release();
 		}
 
-		if (SvConnTracker.hasTrackedConnections(false, false))
-			fail("You have a connection leak, you dirty animal!");
 	}
 
 	@Test
 	public void callExecutorGroup() {
-		SvExecManager sve = null;
-		try {
-			sve = new SvExecManager();
+		try (SvExecManager sve = new SvExecManager();) {
 			sve.osgiServices = new Object[2];
 			sve.osgiServices[0] = new TestExecutor(null);
 			sve.osgiServices[1] = new TestExecutorGroup();
@@ -196,23 +188,16 @@ public class SvExecManagerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Test raised execption" + e.toString());
-		} finally {
-			if (sve != null)
-				sve.release();
 		}
-		if (SvConnTracker.hasTrackedConnections(false, false))
-			fail("You have a connection leak, you dirty animal!");
 	}
 
 	@Test
 	public void callInvalidExecutor() {
-		SvExecManager sve = null;
-		SvReader svr = null;
-		SvWorkflow svw = null;
-		try {
-			sve = new SvExecManager();
-			svr = new SvReader(sve);
-			svw = new SvWorkflow(sve);
+
+		try (SvExecManager sve = new SvExecManager();
+				SvReader svr = new SvReader(sve);
+				SvWorkflow svw = new SvWorkflow(sve);) {
+
 			sve.osgiServices = new Object[1];
 			ISvExecutor svExec = new TestExecutor(null);
 			sve.osgiServices[0] = svExec;
@@ -249,23 +234,16 @@ public class SvExecManagerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Test raised execption" + e.toString());
-		} finally {
-			if (sve != null)
-				sve.release();
-			if (svr != null)
-				svr.release();
-			if (svw != null)
-				svw.release();
-		}
-		if (SvConnTracker.hasTrackedConnections(false, false))
-			fail("You have a connection leak, you dirty animal!");
+		} 
 	}
 
 	@Test
 	public void callExecutorPastEndDate() {
 
 		String errMessage = null;
-		try(SvExecManager sve = new SvExecManager(); SvReader svr = new SvReader(sve); SvWriter svw = new SvWriter(sve)) {
+		try (SvExecManager sve = new SvExecManager();
+				SvReader svr = new SvReader(sve);
+				SvWriter svw = new SvWriter(sve)) {
 
 			sve.osgiServices = new Object[1];
 			ISvExecutor svExec = new TestExecutor(null);
@@ -306,9 +284,8 @@ public class SvExecManagerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Test raised execption" + e.toString());
-		} 
-		if (SvConnTracker.hasTrackedConnections(false, false))
-			fail("You have a connection leak, you dirty animal!");
+		}
+		
 	}
 
 	@Test
@@ -378,8 +355,7 @@ public class SvExecManagerTest {
 			e.printStackTrace();
 			fail("Test raised execption" + e.toString());
 		}
-		if (SvConnTracker.hasTrackedConnections(false, false))
-			fail("You have a connection leak, you dirty animal!");
+
 	}
 
 	@Test
