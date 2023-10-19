@@ -1174,18 +1174,26 @@ public class SvarogInstall {
 		Map<IDbInit, String> dbInits = DbInit.loadDbInitFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 		
 		// Load all available table configurations
-		List<DbDataTable> tables = DbInit.getDbInitTableList(dbInits);
+		Map<String, List<DbDataTable>> allTables = DbInit.getDbInitTableList(dbInits);
+
+		// Load all available table configurations
+		allTables = DbInit.applyDbDataTableExtensions(allTables);
+		
+		// Load all available table configurations
+		Map<String, List<DbDataObject>> allObjects = DbInit.getDbInitObjectInstances(dbInits);
+
+
 
 		// create all JSON configurations from DbDataTables to prepare for SCHEMA
 		// upgrade (creation of tables and views)
-		String errorMessage = DbInit.createJsonSvarogRepo(tables);
+		String errorMessage = DbInit.createJsonSvarogRepo(allTables);
 		if (!errorMessage.equals("")) {
 			log4j.error("Error building svarog master repo. " + errorMessage);
 			return -1;
 		}
 		// first create all DbDataObject for JSON configurations from DbDataTables in
 		// the previous steps to store in the database
-		errorMessage = DbInit.createJsonSvarogRecords(dbInits);
+		errorMessage = DbInit.createJsonSvarogRecords(allTables, allObjects);
 		if (!errorMessage.equals("")) {
 			log4j.error("Error building svarog master records. " + errorMessage);
 			System.exit(-1);

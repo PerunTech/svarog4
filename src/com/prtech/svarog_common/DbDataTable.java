@@ -299,11 +299,6 @@ public class DbDataTable extends Jsonable {
 		return dbTableFields;
 	}
 
-	@Deprecated
-	/**
-	 * use of setting an array of DbDataFields will be removed soon. Use addDbDataField method
-	 * @param dbTableFields
-	 */
 	public void setDbTableFields(DbDataField[] dbTableFields) {
 		this.dbTableFields = dbTableFields;
 		syncMap();

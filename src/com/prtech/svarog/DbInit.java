@@ -63,6 +63,9 @@ public class DbInit {
 	 * Log4j instance used for logging
 	 */
 	private static final Logger log4j = SvConf.getLogger(DbInit.class);
+	private static final String SVAROG_JAR = "svarog.jar";
+	static final String CONST_MASTER_REPO = "{MASTER_REPO}";
+	static final String CONST_DEFAULT_SCHEMA = "{DEFAULT_SCHEMA}";
 
 	private static JsonObject getDefaultSDIMetadata() {
 		JsonObject meta = new JsonObject();
@@ -5760,7 +5763,7 @@ public class DbInit {
 					if (files[i].getName().endsWith(".jar")) {
 						ArrayList<Object> classInstances = DbInit.loadClassFromJar(files[i].getAbsolutePath(), clazz);
 						for (Object objInstance : classInstances)
-							objectResults.put(objInstance, files[i].getAbsolutePath());
+							objectResults.put(objInstance, files[i].getName());
 					}
 				} catch (Exception e) {
 					log4j.error("Loading " + clazz.getSimpleName() + " instance failed! File: " + files[i].getName(),
@@ -5778,17 +5781,54 @@ public class DbInit {
 	 * 
 	 * @return List of all available DbDataTable objects
 	 */
-	static List<DbDataTable> getDbInitTableList(Map<IDbInit, String> dbInits) {
+	static Map<String, List<DbDataTable>> getDbInitTableList(Map<IDbInit, String> dbInits) {
+		Map<String, List<DbDataTable>> result = new HashMap<>();
+		String jarName = SVAROG_JAR;
+		// first add the Svarog tables to the list
 		List<DbDataTable> dbtList = deduplicateTables(getSvarogObjects());
+		result.put(jarName, dbtList);
 
 		// for each identified DbInit load the custom types
-		for (Object idb : dbInits.keySet()) {
-			if (idb instanceof IDbInit)
-				dbtList.addAll(((IDbInit) idb).getCustomObjectTypes());
+		for (Entry<IDbInit, String> m : dbInits.entrySet()) {
+			jarName = m.getValue();
+			List<DbDataTable> tmpList;
+			if (result.containsKey(jarName))
+				tmpList = result.get(jarName);
 			else
-				log4j.error("Object is not IDbInit instance!");
+				tmpList = new ArrayList<>();
+
+			tmpList.addAll(((IDbInit) m.getKey()).getCustomObjectTypes());
+
+			if (tmpList != null)
+				result.put(jarName, tmpList);
 		}
-		return dbtList;
+		return result;
+	}
+
+	/**
+	 * method to return a list of all custom object instances published by all
+	 * DbInit instances available in the OSGi plugin bundles
+	 * 
+	 * 
+	 * @return List of all available DbDataTable objects
+	 */
+	static Map<String, List<DbDataObject>> getDbInitObjectInstances(Map<IDbInit, String> dbInits) {
+		Map<String, List<DbDataObject>> result = new HashMap<>();
+		String jarName;
+
+		// for each identified DbInit load the custom types
+		for (Entry<IDbInit, String> m : dbInits.entrySet()) {
+			jarName = m.getValue();
+			List<DbDataObject> tmpList;
+			if (result.containsKey(jarName)) {
+				tmpList = result.get(jarName);
+				tmpList.addAll(m.getKey().getCustomObjectInstances());
+			} else
+				tmpList = m.getKey().getCustomObjectInstances();
+			if (tmpList != null)
+				result.put(jarName, tmpList);
+		}
+		return result;
 	}
 
 	/**
@@ -5808,23 +5848,23 @@ public class DbInit {
 	 *         JSON configuration. Return value of EmptyString is considered
 	 *         successful processing
 	 */
-	public static String createJsonSvarogRepo(List<DbDataTable> objectTypes) {
+	public static String createJsonSvarogRepo(Map<String, List<DbDataTable>> objectTypes) {
 
 		StringBuilder fullRetval = new StringBuilder();
 
 		// for each of the tables in list of DbDataTables create a json file
-		for (DbDataTable dbt : objectTypes) {
-			String retval = saveObjectToJson(
-					SvConf.getConfPath() + SvarogInstall.masterDbtPath
-							+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master").toLowerCase() + "_repo.json",
-					dbt, false);
+		for (List<DbDataTable> dbts : objectTypes.values()) {
+			for (DbDataTable dbt : dbts) {
+				String retval = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterDbtPath
+						+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master").toLowerCase() + "_repo.json", dbt,
+						false);
 
-			// if the methor returned any errors or warnings, concatenate
-			if (!retval.isEmpty()) {
-				fullRetval.append("; " + retval + SvConf.getConfPath() + SvarogInstall.masterDbtPath
-						+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master") + "_repo.json");
+				// if the methor returned any errors or warnings, concatenate
+				if (!retval.isEmpty()) {
+					fullRetval.append("; " + retval + SvConf.getConfPath() + SvarogInstall.masterDbtPath
+							+ dbt.getDbTableName().replace(Sv.REPO_TABLE_NAME, "master") + "_repo.json");
+				}
 			}
-
 		}
 		return fullRetval.toString();
 
@@ -6762,39 +6802,44 @@ public class DbInit {
 	 * @return The updated max object id as result of the custom DbInit processing
 	 */
 	static Long saveDbInitToJson(Long svObjectId, DbDataArray defaultCodes, DbDataArray customObjestsAll,
-			Map<IDbInit, String> dbTables) {
+			Map<String, List<DbDataTable>> dbTables, Map<String, List<DbDataObject>> dbObjects) {
 		// DbDataArray defaultObjests = new DbDataArray();
-		DbDataArray customObjests = new DbDataArray();
+
 		StringBuilder errMsg = new StringBuilder();
 
-		customObjests.getItems().clear();
-		int i = 0;
-		for (Map.Entry<IDbInit, String> e : dbTables.entrySet()) {
-
-			IDbInit idb = e.getKey();
-			String jarName = e.getValue();
-			svObjectId = dbTables2DbDataArray(idb.getCustomObjectTypes(), customObjests, defaultCodes, svObjectId,
-					errMsg);
+		int i = 1;
+		for (Map.Entry<String, List<DbDataTable>> e : dbTables.entrySet()) {
+			DbDataArray customObjests = new DbDataArray();
+			List<DbDataTable> dbts = e.getValue();
+			String jarName = e.getKey();
+			svObjectId = dbTables2DbDataArray(dbts, customObjests, defaultCodes, svObjectId, errMsg);
 			if (!errMsg.toString().equals("")) {
 				log4j.error("Error creating DbDataArray from custom IDbInit:" + jarName + "." + errMsg.toString());
 				return svObjectId;
 			}
+			if (dbObjects.containsKey(jarName)) {
+				List<DbDataObject> objecList = dbObjects.get(jarName);
+				for (DbDataObject dboCustom : objecList) {
+					for (DbDataObject dbl : defaultCodes.getItems()) {
 
-			for (DbDataObject dboCustom : ((IDbInit) idb).getCustomObjectInstances()) {
-				for (DbDataObject dbl : defaultCodes.getItems()) {
+						if (dboCustom.getObjectType().equals(svCONST.OBJECT_TYPE_FORM_FIELD_TYPE)) {
+							String codeVal = (String) dboCustom.getVal(Sv.CODE_LIST_ID);
+							if (dbl.getVal("CODE_VALUE").equals(codeVal))
+								dboCustom.setVal(Sv.CODE_LIST_ID, dbl.getObjectId());
+						}
 
-					if (dboCustom.getObjectType().equals(svCONST.OBJECT_TYPE_FORM_FIELD_TYPE)) {
-						String codeVal = (String) dboCustom.getVal(Sv.CODE_LIST_ID);
-						if (dbl.getVal("CODE_VALUE").equals(codeVal))
-							dboCustom.setVal(Sv.CODE_LIST_ID, dbl.getObjectId());
 					}
-
+					customObjests.addDataItem(dboCustom);
 				}
-				customObjests.addDataItem(dboCustom);
 			}
 			String errStr = "";
 			if (customObjests.size() > 0) {
-				errStr = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "4" + i + ". "
+				String scriptPrefix = "40. ";
+				if (!jarName.equals(SVAROG_JAR)) {
+					scriptPrefix = "5" + i + ". ";
+					i++;
+				}
+				errStr = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + scriptPrefix
 						+ jarName.replace(".jar", ".json"), customObjests, true);
 				customObjestsAll.getItems().addAll(customObjests.getItems());
 			}
@@ -6802,7 +6847,7 @@ public class DbInit {
 				log4j.error(
 						"Error saving DbDataArray to file from custom IDbInit:" + jarName + "." + errStr.toString());
 			}
-			i++;
+
 		}
 
 		return svObjectId;
@@ -6818,7 +6863,8 @@ public class DbInit {
 	 *                records should be created
 	 * @return Description of the error if any
 	 */
-	static String createJsonSvarogRecords(Map<IDbInit, String> dbTables) {
+	static String createJsonSvarogRecords(Map<String, List<DbDataTable>> dbTables,
+			Map<String, List<DbDataObject>> dbObjects) {
 
 		StringBuilder errMsg = new StringBuilder();
 		DbDataArray defaultCodes = new DbDataArray();
@@ -6828,25 +6874,15 @@ public class DbInit {
 		Long svObjectId = prepDefaultCodeList(defaultCodes);
 		String retval = "";
 
-		svObjectId = dbTables2DbDataArray(deduplicateTables(getSvarogObjects()), defaultObjests, defaultCodes,
-				svObjectId, errMsg);
-
-		if (!errMsg.toString().equals(""))
-			return errMsg.toString();
-
 		// load custom objects as well as from the OSGI bundles dir
 		// if svarog installed, otherwhise skip
-		saveDbInitToJson(svObjectId, defaultCodes, customObjests, dbTables);
+		saveDbInitToJson(svObjectId, defaultCodes, customObjests, dbTables, dbObjects);
 		customObjestsAll.getItems().addAll(customObjests.getItems());
 
 		DbDataArray arrWF = new DbDataArray();
 		addDefaultUnitsUsers(arrWF, svObjectId);
 
 		addDefaultLinkTypes(defaultObjests);
-
-		retval += saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + "40. master_records.json",
-				defaultObjests, true);
-
 		retval += saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + SvarogInstall.usersFile,
 				arrWF, true);
 
@@ -6957,11 +6993,17 @@ public class DbInit {
 		Gson gson = (new GsonBuilder().setPrettyPrinting().create());
 		try {
 			jsonCustom = DbInit.loadCustomResources(jarPath, "labels/codes.properties");
-			if (jsonCustom != null) {
-
-				JsonObject customJobj = gson.fromJson(jsonCustom, JsonElement.class).getAsJsonObject();
-				mergeChildrenCodes(jCodes, customJobj);
-				log4j.info("Loading 'labels/codes.properties' from custom jar:" + jarPath);
+			if (jsonCustom != null && !jsonCustom.trim().isEmpty()) {
+				JsonObject customJobj = null;
+				try {
+					customJobj = gson.fromJson(jsonCustom, JsonElement.class).getAsJsonObject();
+				} catch (Exception e1) {
+					log4j.error("Bad JSON format in codes.properties from custom jar:" + jarPath);
+				}
+				if (customJobj != null) {
+					mergeChildrenCodes(jCodes, customJobj);
+					log4j.info("Loading 'labels/codes.properties' from custom jar:" + jarPath);
+				}
 			}
 		} catch (Exception e1) {
 			log4j.error("Error loading codes from custom jar:" + jarPath);
@@ -7172,7 +7214,7 @@ public class DbInit {
 					} catch (java.lang.NoClassDefFoundError | java.lang.IllegalAccessError | java.lang.VerifyError
 							| ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
 
-						if (!isClassStandard(className)) {
+						if (!isClassStandard(className) && !className.contains("$")) {
 							log4j.error("Error loading class:" + className + ", faulty jar:" + pathToJar);
 							log4j.debug(ex);
 						}
@@ -7189,7 +7231,7 @@ public class DbInit {
 
 	static boolean isClassStandard(String className) {
 		String[] standardClasses = new String[] { "org.apache", "com.fasterxml", "org.glassfish", "org.eclipse",
-				"org.osgi", "com.eclipsesource" };
+				"org.osgi", "com.eclipsesource", "org.jline" };
 
 		for (String prefix : standardClasses) {
 			if (className.startsWith(prefix))
@@ -7253,4 +7295,104 @@ public class DbInit {
 		return retVal;
 	}
 
+	/**
+	 * Method to identify all available DbDataTableExtension classes and apply the
+	 * extensions over the original DbDataTable class
+	 * 
+	 * @param allTables The list of all DbDataTables objects including
+	 *                  DbDataTableExtensions
+	 * @return Filtered list of all DbDataTables objects WITHOUT
+	 *         DbDataTableExtensions, after they were applied to the original
+	 */
+	public static Map<String, List<DbDataTable>> applyDbDataTableExtensions(Map<String, List<DbDataTable>> allTables) {
+		List<DbDataTableExtension> extensions = new ArrayList<>();
+		// first lets extract all DbDataTableExtensions into a list "extensions"
+		for (List<DbDataTable> dbts : allTables.values()) {
+			Iterator<DbDataTable> it = dbts.iterator();
+			while (it.hasNext()) {
+				DbDataTable dbt = it.next();
+				if (dbt instanceof DbDataTableExtension) {
+					extensions.add((DbDataTableExtension) dbt);
+					it.remove();
+				}
+			}
+		}
+		// now apply the extensions
+		for (DbDataTableExtension dbte : extensions) {
+			DbDataTable dbt = findBaseTable(allTables, dbte.getBaseTableName(), dbte.getBaseSchema());
+			if (dbt != null) {
+				applyExtension(dbt, dbte);
+			} else
+				log4j.error("Base table: " + dbte.getBaseSchema() + "." + dbte.getBaseTableName()
+						+ ", not found. Extension not applied");
+		}
+
+		return allTables;
+	}
+
+	/**
+	 * Method to apply the field extensions over the original table.
+	 * 
+	 * 1. If the field name exists, the extension field will replace the original
+	 * definition
+	 * 
+	 * 2. If the field does not exist, the extension field will be appended at the
+	 * end.
+	 * 
+	 * @param dbt  the original table definition
+	 * @param dbte the extension of the table
+	 */
+	private static void applyExtension(DbDataTable dbt, DbDataTableExtension dbte) {
+		for (DbDataField dbf : dbte.getDbDataFields()) {
+			DbDataField[] fields = dbt.getDbTableFields();
+			boolean applied = false;
+			for (int i = 0; i < fields.length; i++) {
+				DbDataField field = fields[i];
+				// if we find a matching field, then replace the original with the extension
+				if (field != null && field.getDbFieldName().equalsIgnoreCase(dbf.getDbFieldName())) {
+					fields[i] = dbf;
+					applied = true;
+					break;
+				}
+			}
+			// if not applied we need to append it at the end
+			if (!applied) {
+				// Creating an array b[] of same size as a[]
+				DbDataField newFields[] = new DbDataField[fields.length + 1];
+				// Copying elements of a[] to b[]
+				System.arraycopy(fields, 0, newFields, 0, fields.length);
+				newFields[newFields.length-1] = dbf;
+				dbt.setDbTableFields(newFields);
+			}
+
+		}
+
+	}
+
+	/**
+	 * Find the base table from the configuration using the table name and table
+	 * schema parameters
+	 * 
+	 * @param allTables   Map of all lists of tables coming from different jar files
+	 * @param tableName   Name of the table we are searching for
+	 * @param tableSchema Name of the scheme of the table
+	 * @return Null if the table was not found, otherwise DbDataTable object
+	 *         reference
+	 */
+	static DbDataTable findBaseTable(Map<String, List<DbDataTable>> allTables, String tableName,
+			String tableSchema) {
+
+		for (List<DbDataTable> dbts : allTables.values()) {
+			Iterator<DbDataTable> it = dbts.iterator();
+			while (it.hasNext()) {
+				DbDataTable dbt = it.next();
+				if ((dbt.getDbSchema().equalsIgnoreCase(CONST_DEFAULT_SCHEMA) || dbt.getDbSchema().equalsIgnoreCase(tableSchema))
+						&& dbt.getDbTableName().equalsIgnoreCase(tableName)) {
+					return dbt;
+				}
+			}
+		}
+		return null;
+
+	}
 }

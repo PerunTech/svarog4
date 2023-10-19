@@ -406,6 +406,12 @@ Agreement
 					<artifactId>postgresql</artifactId>
 					<version>42.5.4</version>
 				</dependency>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+					<version>2.17.1</version>
+
+				</dependency>
 				<!--
 				https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.framework -->
 			</dependencies>
@@ -426,8 +432,8 @@ Agreement
 				<dependency>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-core</artifactId>
-					<version>2.17.0</version>
-					<scope>provided</scope>
+					<version>2.17.1</version>
+
 				</dependency>
 			</dependencies>
 		</profile>
