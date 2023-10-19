@@ -6836,7 +6836,7 @@ public class DbInit {
 			if (customObjests.size() > 0) {
 				String scriptPrefix = "40. ";
 				if (!jarName.equals(SVAROG_JAR)) {
-					scriptPrefix = "5" + i + ". ";
+					scriptPrefix = "4" + i + ". ";
 					i++;
 				}
 				errStr = saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + scriptPrefix
@@ -6873,7 +6873,9 @@ public class DbInit {
 		DbDataArray customObjestsAll = new DbDataArray();
 		Long svObjectId = prepDefaultCodeList(defaultCodes);
 		String retval = "";
-
+		addDefaultLinkTypes(defaultObjests);
+		dbObjects.put(SVAROG_JAR, defaultObjests.getItems());
+		
 		// load custom objects as well as from the OSGI bundles dir
 		// if svarog installed, otherwhise skip
 		saveDbInitToJson(svObjectId, defaultCodes, customObjests, dbTables, dbObjects);
@@ -6882,7 +6884,6 @@ public class DbInit {
 		DbDataArray arrWF = new DbDataArray();
 		addDefaultUnitsUsers(arrWF, svObjectId);
 
-		addDefaultLinkTypes(defaultObjests);
 		retval += saveObjectToJson(SvConf.getConfPath() + SvarogInstall.masterRecordsPath + SvarogInstall.usersFile,
 				arrWF, true);
 
@@ -7361,7 +7362,7 @@ public class DbInit {
 				DbDataField newFields[] = new DbDataField[fields.length + 1];
 				// Copying elements of a[] to b[]
 				System.arraycopy(fields, 0, newFields, 0, fields.length);
-				newFields[newFields.length-1] = dbf;
+				newFields[newFields.length - 1] = dbf;
 				dbt.setDbTableFields(newFields);
 			}
 
@@ -7379,14 +7380,14 @@ public class DbInit {
 	 * @return Null if the table was not found, otherwise DbDataTable object
 	 *         reference
 	 */
-	static DbDataTable findBaseTable(Map<String, List<DbDataTable>> allTables, String tableName,
-			String tableSchema) {
+	static DbDataTable findBaseTable(Map<String, List<DbDataTable>> allTables, String tableName, String tableSchema) {
 
 		for (List<DbDataTable> dbts : allTables.values()) {
 			Iterator<DbDataTable> it = dbts.iterator();
 			while (it.hasNext()) {
 				DbDataTable dbt = it.next();
-				if ((dbt.getDbSchema().equalsIgnoreCase(CONST_DEFAULT_SCHEMA) || dbt.getDbSchema().equalsIgnoreCase(tableSchema))
+				if ((dbt.getDbSchema().equalsIgnoreCase(CONST_DEFAULT_SCHEMA)
+						|| dbt.getDbSchema().equalsIgnoreCase(tableSchema))
 						&& dbt.getDbTableName().equalsIgnoreCase(tableName)) {
 					return dbt;
 				}
