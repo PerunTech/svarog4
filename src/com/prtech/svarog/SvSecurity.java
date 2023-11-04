@@ -195,7 +195,7 @@ public class SvSecurity extends SvCore {
 	 */
 	public void switchUser(DbDataObject user) throws SvException {
 		if (!this.isService() && !SvConf.isServiceClass(SvUtil.getCallerClassName(this.getClass())))
-			throw (new SvException("system.error.cant_switch_system_user", instanceUser));
+			throw (new SvException(Sv.Exceptions.SWITCH_USER_SYSTEM, instanceUser));
 
 		super.switchUser(user);
 	}

@@ -13,6 +13,8 @@
  *******************************************************************************/
 package com.prtech.svarog_common;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,6 +26,8 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.internal.LazilyParsedNumber;
 import com.prtech.svarog.svCONST;
 
 public class DbDataObject extends Jsonable {
@@ -131,7 +135,6 @@ public class DbDataObject extends Jsonable {
 		return false;
 	}
 
-	
 	public boolean hasVal(String key) {
 		return values.containsKey(key) && values.get(key) != null;
 
@@ -794,6 +797,176 @@ public class DbDataObject extends Jsonable {
 			retval = getVal(key);
 
 		return retval;
+	}
+
+	/**
+	 * Check whether this primitive contains a boolean value.
+	 *
+	 * @return true if this primitive contains a boolean value, false otherwise.
+	 */
+	public boolean isBoolean(String key) {
+		Object value = getVal(key);
+		return value instanceof Boolean;
+	}
+
+	/**
+	 * convenience method to get this element as a boolean value.
+	 *
+	 * @return get this element as a primitive boolean value.
+	 */
+	public boolean getAsBoolean(String key) {
+		Object value = getVal(key);
+		if (value instanceof Boolean) {
+			return ((Boolean) value).booleanValue();
+		}
+		// Check to see if the value as a String is "true" in any case.
+		return Boolean.parseBoolean(getAsString(key));
+	}
+
+	/**
+	 * Check whether this primitive contains a Number.
+	 *
+	 * @return true if this primitive contains a Number, false otherwise.
+	 */
+	public boolean isNumber(String key) {
+		Object value = getVal(key);
+		return value instanceof Number;
+	}
+
+	/**
+	 * convenience method to get this element as a Number.
+	 *
+	 * @return get this element as a Number.
+	 * @throws NumberFormatException if the value contained is not a valid Number.
+	 */
+	public Number getAsNumber(String key) {
+		Object value = getVal(key);
+		return value instanceof String ? new LazilyParsedNumber((String) value) : (Number) value;
+	}
+
+	/**
+	 * Check whether this primitive contains a String value.
+	 *
+	 * @return true if this primitive contains a String value, false otherwise.
+	 */
+	public boolean isString(String key) {
+		Object value = getVal(key);
+		return value instanceof String;
+	}
+
+	/**
+	 * convenience method to get this element as a String.
+	 *
+	 * @return get this element as a String.
+	 */
+	public String getAsString(String key) {
+		Object value = getVal(key);
+		if (value instanceof Number) {
+			return getAsNumber(key).toString();
+		} else if (value instanceof Boolean) {
+			return ((Boolean) value).toString();
+		} else {
+			return (String) value;
+		}
+	}
+
+	/**
+	 * convenience method to get this element as a primitive double.
+	 *
+	 * @return get this element as a primitive double.
+	 * @throws NumberFormatException if the value contained is not a valid double.
+	 */
+	public double getAsDouble(String key) {
+		return isNumber(key) ? getAsNumber(key).doubleValue() : Double.parseDouble(getAsString(key));
+	}
+
+	/**
+	 * convenience method to get this element as a {@link BigDecimal}.
+	 *
+	 * @return get this element as a {@link BigDecimal}.
+	 * @throws NumberFormatException if the value contained is not a valid
+	 *                               {@link BigDecimal}.
+	 */
+	public BigDecimal getAsBigDecimal(String key) {
+		Object value = getVal(key);
+		return value instanceof BigDecimal ? (BigDecimal) value : new BigDecimal(value.toString());
+	}
+
+	/**
+	 * convenience method to get this element as a {@link BigInteger}.
+	 *
+	 * @return get this element as a {@link BigInteger}.
+	 * @throws NumberFormatException if the value contained is not a valid
+	 *                               {@link BigInteger}.
+	 */
+	public BigInteger getAsBigInteger(String key) {
+		Object value = getVal(key);
+		return value instanceof BigInteger ? (BigInteger) value : new BigInteger(value.toString());
+	}
+
+	/**
+	 * convenience method to get this element as a float.
+	 *
+	 * @return get this element as a float.
+	 * @throws NumberFormatException if the value contained is not a valid float.
+	 */
+	public float getAsFloat(String key) {
+		return isNumber(key) ? getAsNumber(key).floatValue() : Float.parseFloat(getAsString(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive long.
+	 *
+	 * @return get this element as a primitive long.
+	 * @throws NumberFormatException if the value contained is not a valid long.
+	 */
+	public long getAsLong(String key) {
+		return isNumber(key) ? getAsNumber(key).longValue() : Long.parseLong(getAsString(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive short.
+	 *
+	 * @return get this element as a primitive short.
+	 * @throws NumberFormatException if the value contained is not a valid short
+	 *                               value.
+	 */
+	public short getAsShort(String key) {
+		return isNumber(key) ? getAsNumber(key).shortValue() : Short.parseShort(getAsString(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive integer.
+	 *
+	 * @return get this element as a primitive integer.
+	 * @throws NumberFormatException if the value contained is not a valid integer.
+	 */
+
+	public int getAsInt(String key) {
+		return isNumber(key) ? getAsNumber(key).intValue() : Integer.parseInt(getAsString(key));
+	}
+
+	public byte getAsByte(String key) {
+		Object value = getVal(key);
+		return isNumber(key) ? getAsNumber(key).byteValue() : Byte.parseByte(getAsString(key));
+	}
+
+	public char getAsCharacter(String key) {
+		Object value = getVal(key);
+		return getAsString(key).charAt(0);
+	}
+
+	/**
+	 * Returns true if the specified number is an integral type (Long, Integer,
+	 * Short, Byte, BigInteger)
+	 */
+	private static boolean isIntegral(Object value) {
+		if (value instanceof Number) {
+			Number number = (Number) value;
+			return number instanceof BigInteger || number instanceof Long || number instanceof Integer
+					|| number instanceof Short || number instanceof Byte;
+		}
+		return false;
 	}
 
 }

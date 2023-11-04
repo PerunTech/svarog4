@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -855,6 +856,15 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 			return objType.getObjectId();
 	}
 
+	/**
+	 * A method to return the all type descriptor in Svarog.
+	 * 
+	 * @return A DbDataObject descriptor of the DBT
+	 */
+	public static List<DbDataObject> getTypes() {
+		return new ArrayList<DbDataObject>(dbtMap.values());
+	}
+	
 	/**
 	 * A method to return the type descriptor of an object according to the object
 	 * name.
