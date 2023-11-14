@@ -143,6 +143,12 @@ public class SvGrid extends SvSDITile {
 	}
 
 	public static GeometryCollection generateGrid(Geometry geo, int gridSize, ISvCore core) throws SvException {
+		return generateGrid(geo, gridSize, core, false);
+
+	}
+
+	public static GeometryCollection generateGrid(Geometry geo, int gridSize, ISvCore core, boolean useMeters)
+			throws SvException {
 		if (!core.isAdmin())
 			throw (new SvException("sys.error.admin_user_required", svCONST.systemUser));
 
@@ -167,11 +173,16 @@ public class SvGrid extends SvSDITile {
 			Geometry polygon = null;
 			double currentMinY = envGrid.getMinY();
 			double currentMaxX = envGrid.getMinX();
-
+			int cellSize = gridSize * 1000;
+			
 			Boolean isFinished = false;
 			while (!isFinished) {
-				currentGridItem = new Envelope(currentMaxX, currentMaxX + gridSize * 1000, currentMinY,
-						currentMinY + gridSize * 1000);
+				
+				
+				
+				
+				currentGridItem = new Envelope(currentMaxX, currentMaxX + cellSize, currentMinY,
+						currentMinY + cellSize);
 				currentMinY = currentGridItem.getMinY();
 				currentMaxX = currentGridItem.getMaxX();
 
