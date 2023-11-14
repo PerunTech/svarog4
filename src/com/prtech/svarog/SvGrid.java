@@ -173,14 +173,11 @@ public class SvGrid extends SvSDITile {
 			Geometry polygon = null;
 			double currentMinY = envGrid.getMinY();
 			double currentMaxX = envGrid.getMinX();
-			int cellSize = gridSize * 1000;
-			
+			int cellSize = gridSize * (useMeters ? 1 : 1000);
+
 			Boolean isFinished = false;
 			while (!isFinished) {
-				
-				
-				
-				
+
 				currentGridItem = new Envelope(currentMaxX, currentMaxX + cellSize, currentMinY,
 						currentMinY + cellSize);
 				currentMinY = currentGridItem.getMinY();
