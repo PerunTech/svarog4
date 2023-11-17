@@ -72,7 +72,7 @@ public class SvGeometryTest {
 
 		try (SvReader svr = new SvReader()) {
 			// generate and prepare fake grid
-			GeometryCollection grid = SvGrid.generateGrid(boundGeom[0], SvConf.getSdiGridSize(), svr, MapUnit.METER);
+			GeometryCollection grid = SvGrid.generateGrid(boundGeom[0], SvConf.getSdiGridSize(), svr, SvConf.getMapUnit());
 			Cache<String, SvSDITile> gridCache = SvGeometry.getLayerCache(svCONST.OBJECT_TYPE_GRID);
 			SvGrid svg = new SvGrid(grid, Sv.SDI_SYSGRID);
 			SvGeometry.setSysGrid(svg);
