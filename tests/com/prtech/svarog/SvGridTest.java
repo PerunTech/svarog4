@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 
+import com.prtech.svarog.SvGrid.MapUnit;
+
 public class SvGridTest {
 
 	@Test
@@ -26,8 +28,12 @@ public class SvGridTest {
 	public void sysGridGenerate() {
 		Geometry boundary = DbInit.getSysBoundaryFromJson();
 		try (SvReader svr = new SvReader()) {
-				GeometryCollection grid = SvGrid.generateGrid(boundary, SvConf.getSdiGridSize(), svr);
-				SvGrid.saveGridToDatabase(grid, "KNT_2020", svr);
+			// GeometryCollection grid = SvGrid.generateGrid(boundary,
+			// SvConf.getSdiGridSize(), svr);
+			GeometryCollection grid = SvGrid.generateGrid(boundary, SvConf.getSdiGridSize(), svr, SvConf.getMapUnit());
+			SvGrid.saveGridToDatabase(grid, "KNT_2020", svr);
+			// SvGrid.saveGridToMasterFile(grid);
+			System.out.println(grid.getNumGeometries());
 		} catch (SvException e) {
 			fail("Exception with sys grid initialisation");
 		}

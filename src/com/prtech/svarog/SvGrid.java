@@ -32,6 +32,11 @@ public class SvGrid extends SvSDITile {
 	public static final String GRID_NAME = "GRID_NAME";
 	public static final String GRIDTILE_ID = "GRIDTILE_ID";
 	private static final String IS_BORDER = "IS_BORDER";
+
+	public static enum MapUnit {
+		METER, KILOMETER, DEGREE
+	};
+
 	/**
 	 * The main index of grid geometries.
 	 */
@@ -143,11 +148,11 @@ public class SvGrid extends SvSDITile {
 	}
 
 	public static GeometryCollection generateGrid(Geometry geo, int gridSize, ISvCore core) throws SvException {
-		return generateGrid(geo, gridSize, core, false);
+		return generateGrid(geo, (double) gridSize, core, MapUnit.KILOMETER);
 
 	}
 
-	public static GeometryCollection generateGrid(Geometry geo, int gridSize, ISvCore core, boolean useMeters)
+	public static GeometryCollection generateGrid(Geometry geo, double gridSize, ISvCore core, MapUnit unit)
 			throws SvException {
 		if (!core.isAdmin())
 			throw (new SvException("sys.error.admin_user_required", svCONST.systemUser));
@@ -161,11 +166,14 @@ public class SvGrid extends SvSDITile {
 		int col = 0;
 		GeometryCollection gcl = null;
 		try {
+			double threshold;
+			if(unit.equals(MapUnit.DEGREE))
+				threshold=0.0001;
+			else
+				threshold=10.0;
 
-			env.expandBy(10);
-
-			Envelope envGrid = new Envelope(java.lang.Math.round(env.getMinX()), java.lang.Math.round(env.getMaxX()),
-					java.lang.Math.round(env.getMinY()), java.lang.Math.round(env.getMaxY()));
+			env.expandBy(threshold);			
+			Envelope envGrid = new Envelope(env.getMinX(), env.getMaxX(), env.getMinY(), env.getMaxY());
 
 			ArrayList<Geometry> gridList = new ArrayList<Geometry>();
 			Envelope currentGridItem = null;
@@ -173,7 +181,10 @@ public class SvGrid extends SvSDITile {
 			Geometry polygon = null;
 			double currentMinY = envGrid.getMinY();
 			double currentMaxX = envGrid.getMinX();
-			int cellSize = gridSize * (useMeters ? 1 : 1000);
+			double cellSize = gridSize;
+			
+			if(unit.equals(MapUnit.KILOMETER))
+				cellSize = cellSize *1000;
 
 			Boolean isFinished = false;
 			while (!isFinished) {
@@ -185,7 +196,7 @@ public class SvGrid extends SvSDITile {
 
 				polygon = SvUtil.sdiFactory.toGeometry(currentGridItem);
 				if (!polygon.disjoint(geo)) {
-					if (polygon.getArea() > 1) {
+					if (polygon.getArea() > threshold) {
 						polygon.setUserData(row + ":" + col + "-" + (!polygon.within(geo)));
 						gridList.add(polygon);
 					}

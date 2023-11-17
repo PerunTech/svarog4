@@ -35,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import com.prtech.svarog.SvGrid.MapUnit;
 import com.prtech.svarog_common.DbDataField;
 import com.prtech.svarog_common.DbDataTable;
 import com.prtech.svarog_common.DboFactory;
@@ -195,7 +196,7 @@ public class SvConf {
 	/**
 	 * Size of the generated grid of the territory covered by the spatial modules
 	 */
-	static int sdiGridSize;
+	static double sdiGridSize;
 	/**
 	 * Flag to enable svarog to recalculate geometry area/perimeter
 	 */
@@ -316,6 +317,9 @@ public class SvConf {
 	private static boolean deleteCodesOnUpgrade = false;
 
 	private static int maxRequestsPerMinute;
+
+
+	private static MapUnit mapUnit;
 
 	/**
 	 * Method to return the currently configured ISvDatabaseIO instance
@@ -528,7 +532,7 @@ public class SvConf {
 			System.getProperties().setProperty("oracle.jdbc.J2EE13Compliant", oracleJdbcComliance);
 			repoName = getProperty(mainProperties, "sys.masterRepo", "SVAROG").toUpperCase();
 			defaultSchema = getProperty(mainProperties, "conn.defaultSchema", "SVAROG").toUpperCase();
-			sdiGridSize = getProperty(mainProperties, "sys.gis.grid_size", 10);
+			sdiGridSize = getProperty(mainProperties, "sys.gis.grid_size", 10.0);
 			sdiOverrideGeomCalc = getProperty(mainProperties, "sys.gis.override_user_area_perim", false);
 
 			maxLockTimeout = getProperty(mainProperties, "sys.lock.max_wait_time", 5) * 60L * 1000L;
@@ -552,6 +556,11 @@ public class SvConf {
 			intersectSysBoundary = getProperty(mainProperties, "sys.gis.allow_boundary_intersect", false);
 
 			svDbType = SvDbType.valueOf(mainProperties.getProperty("conn.dbType").trim().toUpperCase());
+			if (mainProperties.getProperty("sys.gis.map_unit") != null)
+				setMapUnit(MapUnit.valueOf(mainProperties.getProperty("sys.gis.map_unit").trim().toUpperCase()));
+			else
+				setMapUnit(MapUnit.KILOMETER);
+
 			svDbConnType = SvDbConnType.valueOf(mainProperties.getProperty("conn.type").trim().toUpperCase());
 
 			// make sure we configure the service classes as well as system
@@ -600,6 +609,25 @@ public class SvConf {
 		}
 		return retval;
 
+	}
+
+	/**
+	 * Method to try to parse a property to integer and set to default value if it
+	 * fails
+	 * 
+	 * @param mainProperties the list of properties
+	 * @param propName       the name of the property
+	 * @param defaultValue   the default value to be set to if parsing fails
+	 * @return the int value of the property
+	 */
+	static double getProperty(Properties mainProperties, String propName, double defaultValue) {
+		double dblProp = defaultValue;
+		try {
+			dblProp = Double.parseDouble(mainProperties.getProperty(propName).trim());
+		} catch (Exception ex) {
+			log4j.debug(propName + " config property is unreadable, using default initial value = " + defaultValue);
+		}
+		return dblProp;
 	}
 
 	/**
@@ -971,11 +999,11 @@ public class SvConf {
 		return sqlKw;
 	}
 
-	public static int getSdiGridSize() {
+	public static double getSdiGridSize() {
 		return sdiGridSize;
 	}
 
-	public static void setSdiGridSize(int sdiGridSize) {
+	public static void setSdiGridSize(double sdiGridSize) {
 		SvConf.sdiGridSize = sdiGridSize;
 	}
 
@@ -1081,6 +1109,14 @@ public class SvConf {
 
 	public static void setMaxRequestsPerMinute(int maxRequestsPerMinute) {
 		SvConf.maxRequestsPerMinute = maxRequestsPerMinute;
+	}
+
+	public static MapUnit getMapUnit() {
+		return mapUnit;
+	}
+
+	public static void setMapUnit(MapUnit svMapUnit) {
+		SvConf.mapUnit = svMapUnit;
 	}
 
 }

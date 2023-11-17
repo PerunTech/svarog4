@@ -308,7 +308,7 @@ public class SvarogInstall {
 		boolean gridExists = false;
 		Geometry boundary = DbInit.getSysBoundaryFromJson();
 		try (SvReader svr = new SvReader()) {
-			GeometryCollection grid = SvGrid.generateGrid(boundary, SvConf.getSdiGridSize(), svr);
+			GeometryCollection grid = SvGrid.generateGrid(boundary, SvConf.getSdiGridSize(), svr, SvConf.getMapUnit());
 			gridExists = SvGrid.saveGridToDatabase(grid, Sv.SDI_SYSGRID, svr);
 		} catch (SvException e) {
 			log4j.error("Error generating system tile grid.", 2);

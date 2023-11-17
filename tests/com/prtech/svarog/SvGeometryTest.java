@@ -33,6 +33,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.prtech.svarog.SvGrid.MapUnit;
 import com.prtech.svarog.SvSDITile.SDIRelation;
 import com.prtech.svarog_common.DbDataArray;
 import com.prtech.svarog_common.DbDataObject;
@@ -71,7 +72,7 @@ public class SvGeometryTest {
 
 		try (SvReader svr = new SvReader()) {
 			// generate and prepare fake grid
-			GeometryCollection grid = SvGrid.generateGrid(boundGeom[0], SvConf.getSdiGridSize(), svr);
+			GeometryCollection grid = SvGrid.generateGrid(boundGeom[0], SvConf.getSdiGridSize(), svr, MapUnit.METER);
 			Cache<String, SvSDITile> gridCache = SvGeometry.getLayerCache(svCONST.OBJECT_TYPE_GRID);
 			SvGrid svg = new SvGrid(grid, Sv.SDI_SYSGRID);
 			SvGeometry.setSysGrid(svg);
