@@ -467,8 +467,24 @@ public class GeoJsonReader {
 				Map<String, Object> propertiesMap = (Map<String, Object>) crsMap.get(GeoJsonConstants.NAME_PROPERTIES);
 				String name = (String) propertiesMap.get(GeoJsonConstants.NAME_NAME);
 				String[] split = name.split(":");
-				String epsg = split[1];
-				srid = Integer.valueOf(epsg);
+				boolean epsgFound = false;
+				for(int i=0;i<split.length;i++)
+				{
+					if(GeoJsonConstants.NAME_EPSG.equalsIgnoreCase(split[i].trim()))
+					{
+						epsgFound=true;
+						continue;
+					}
+					if(epsgFound)
+					{
+					    try {
+					    	srid = Integer.parseInt( split[i].trim() );
+					        break;
+					    }
+					    catch( Exception e ) {
+					    }
+					}
+				}
 			} catch (RuntimeException e) {
 				throw new ParseException("Could not parse SRID from Geojson 'crs' object.", e);
 			}

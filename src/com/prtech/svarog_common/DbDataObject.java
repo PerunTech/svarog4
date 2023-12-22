@@ -805,6 +805,15 @@ public class DbDataObject extends Jsonable {
 	 * @return true if this primitive contains a boolean value, false otherwise.
 	 */
 	public boolean isBoolean(String key) {
+		return isBoolean(new SvCharId(key));
+	}
+
+	/**
+	 * Check whether this primitive contains a boolean value.
+	 *
+	 * @return true if this primitive contains a boolean value, false otherwise.
+	 */
+	public boolean isBoolean(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof Boolean;
 	}
@@ -815,6 +824,15 @@ public class DbDataObject extends Jsonable {
 	 * @return get this element as a primitive boolean value.
 	 */
 	public boolean getAsBoolean(String key) {
+		return getAsBoolean(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a boolean value.
+	 *
+	 * @return get this element as a primitive boolean value.
+	 */
+	public boolean getAsBoolean(SvCharId key) {
 		Object value = getVal(key);
 		if (value instanceof Boolean) {
 			return ((Boolean) value).booleanValue();
@@ -829,6 +847,15 @@ public class DbDataObject extends Jsonable {
 	 * @return true if this primitive contains a Number, false otherwise.
 	 */
 	public boolean isNumber(String key) {
+		return isNumber(new SvCharId(key));
+	}
+
+	/**
+	 * Check whether this primitive contains a Number.
+	 *
+	 * @return true if this primitive contains a Number, false otherwise.
+	 */
+	public boolean isNumber(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof Number;
 	}
@@ -840,6 +867,16 @@ public class DbDataObject extends Jsonable {
 	 * @throws NumberFormatException if the value contained is not a valid Number.
 	 */
 	public Number getAsNumber(String key) {
+		return getAsNumber(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a Number.
+	 *
+	 * @return get this element as a Number.
+	 * @throws NumberFormatException if the value contained is not a valid Number.
+	 */
+	public Number getAsNumber(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof String ? new LazilyParsedNumber((String) value) : (Number) value;
 	}
@@ -850,6 +887,15 @@ public class DbDataObject extends Jsonable {
 	 * @return true if this primitive contains a String value, false otherwise.
 	 */
 	public boolean isString(String key) {
+		return isString(new SvCharId(key));
+	}
+
+	/**
+	 * Check whether this primitive contains a String value.
+	 *
+	 * @return true if this primitive contains a String value, false otherwise.
+	 */
+	public boolean isString(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof String;
 	}
@@ -860,6 +906,15 @@ public class DbDataObject extends Jsonable {
 	 * @return get this element as a String.
 	 */
 	public String getAsString(String key) {
+		return getAsString(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a String.
+	 *
+	 * @return get this element as a String.
+	 */
+	public String getAsString(SvCharId key) {
 		Object value = getVal(key);
 		if (value instanceof Number) {
 			return getAsNumber(key).toString();
@@ -877,6 +932,16 @@ public class DbDataObject extends Jsonable {
 	 * @throws NumberFormatException if the value contained is not a valid double.
 	 */
 	public double getAsDouble(String key) {
+		return getAsDouble(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive double.
+	 *
+	 * @return get this element as a primitive double.
+	 * @throws NumberFormatException if the value contained is not a valid double.
+	 */
+	public double getAsDouble(SvCharId key) {
 		return isNumber(key) ? getAsNumber(key).doubleValue() : Double.parseDouble(getAsString(key));
 	}
 
@@ -888,6 +953,17 @@ public class DbDataObject extends Jsonable {
 	 *                               {@link BigDecimal}.
 	 */
 	public BigDecimal getAsBigDecimal(String key) {
+		return getAsBigDecimal(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a {@link BigDecimal}.
+	 *
+	 * @return get this element as a {@link BigDecimal}.
+	 * @throws NumberFormatException if the value contained is not a valid
+	 *                               {@link BigDecimal}.
+	 */
+	public BigDecimal getAsBigDecimal(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof BigDecimal ? (BigDecimal) value : new BigDecimal(value.toString());
 	}
@@ -900,6 +976,17 @@ public class DbDataObject extends Jsonable {
 	 *                               {@link BigInteger}.
 	 */
 	public BigInteger getAsBigInteger(String key) {
+		return getAsBigInteger(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a {@link BigInteger}.
+	 *
+	 * @return get this element as a {@link BigInteger}.
+	 * @throws NumberFormatException if the value contained is not a valid
+	 *                               {@link BigInteger}.
+	 */
+	public BigInteger getAsBigInteger(SvCharId key) {
 		Object value = getVal(key);
 		return value instanceof BigInteger ? (BigInteger) value : new BigInteger(value.toString());
 	}
@@ -911,6 +998,16 @@ public class DbDataObject extends Jsonable {
 	 * @throws NumberFormatException if the value contained is not a valid float.
 	 */
 	public float getAsFloat(String key) {
+		return getAsFloat(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a float.
+	 *
+	 * @return get this element as a float.
+	 * @throws NumberFormatException if the value contained is not a valid float.
+	 */
+	public float getAsFloat(SvCharId key) {
 		return isNumber(key) ? getAsNumber(key).floatValue() : Float.parseFloat(getAsString(key));
 	}
 
@@ -921,6 +1018,16 @@ public class DbDataObject extends Jsonable {
 	 * @throws NumberFormatException if the value contained is not a valid long.
 	 */
 	public long getAsLong(String key) {
+		return getAsLong(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive long.
+	 *
+	 * @return get this element as a primitive long.
+	 * @throws NumberFormatException if the value contained is not a valid long.
+	 */
+	public long getAsLong(SvCharId key) {
 		return isNumber(key) ? getAsNumber(key).longValue() : Long.parseLong(getAsString(key));
 	}
 
@@ -932,6 +1039,17 @@ public class DbDataObject extends Jsonable {
 	 *                               value.
 	 */
 	public short getAsShort(String key) {
+		return getAsShort(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive short.
+	 *
+	 * @return get this element as a primitive short.
+	 * @throws NumberFormatException if the value contained is not a valid short
+	 *                               value.
+	 */
+	public short getAsShort(SvCharId key) {
 		return isNumber(key) ? getAsNumber(key).shortValue() : Short.parseShort(getAsString(key));
 	}
 
@@ -943,15 +1061,34 @@ public class DbDataObject extends Jsonable {
 	 */
 
 	public int getAsInt(String key) {
+		return getAsInt(new SvCharId(key));
+	}
+
+	/**
+	 * convenience method to get this element as a primitive integer.
+	 *
+	 * @return get this element as a primitive integer.
+	 * @throws NumberFormatException if the value contained is not a valid integer.
+	 */
+
+	public int getAsInt(SvCharId key) {
 		return isNumber(key) ? getAsNumber(key).intValue() : Integer.parseInt(getAsString(key));
 	}
 
 	public byte getAsByte(String key) {
+		return getAsByte(new SvCharId(key));
+	}
+
+	public byte getAsByte(SvCharId key) {
 		Object value = getVal(key);
 		return isNumber(key) ? getAsNumber(key).byteValue() : Byte.parseByte(getAsString(key));
 	}
 
 	public char getAsCharacter(String key) {
+		return getAsCharacter(new SvCharId(key));
+	}
+
+	public char getAsCharacter(SvCharId key) {
 		Object value = getVal(key);
 		return getAsString(key).charAt(0);
 	}

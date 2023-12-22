@@ -42,6 +42,7 @@ public class GeoJsonConstants {
 
   public static final String NAME_GEOMETRIES = "geometries";
   public static final String NAME_CRS = "crs";
+  public static final String NAME_EPSG = "EPSG";
   public static final String NAME_PROPERTIES = "properties";
   public static final String NAME_NAME = "name";
   public static final String NAME_TYPE = "type";
