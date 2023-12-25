@@ -123,6 +123,7 @@ public class Sv {
 	public static final SvCharId FIELD_NAME = new SvCharId("FIELD_NAME");
 	public static final String FIELDS = "FIELDS";
 	public static final String DOT = ".";
+	public static final Long ROOT_CODELIST = 0L;
 
 	public static final String TABLE_META_PKID = "table_meta_pkid";
 	public static final String LABEL_CODE_LC = "label_code";
