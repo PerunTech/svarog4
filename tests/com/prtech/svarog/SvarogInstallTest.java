@@ -60,6 +60,7 @@ public class SvarogInstallTest {
 			dbf6.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf6.setDbFieldSize(200);
 			dbf6.setIsNull(true);
+			dbf6.setSort_order(200);
 			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "rule_label200");
 			testExt.addDbDataField(dbf6);
 
@@ -67,6 +68,7 @@ public class SvarogInstallTest {
 			dbf7.setDbFieldName("RULE_LABEL_EXT");
 			dbf7.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf7.setDbFieldSize(200);
+			dbf7.setSort_order(200);
 			dbf7.setIsNull(true);
 			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "rule_label_ext");
 			testExt.addDbDataField(dbf7);

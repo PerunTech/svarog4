@@ -735,6 +735,7 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 			}
 		return retField;
 	}
+
 	/**
 	 * Method to get the link types between two object regardless of the link code.
 	 * 
@@ -864,7 +865,7 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 	public static List<DbDataObject> getTypes() {
 		return new ArrayList<DbDataObject>(dbtMap.values());
 	}
-	
+
 	/**
 	 * A method to return the type descriptor of an object according to the object
 	 * name.
@@ -1278,6 +1279,10 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 				DboFactory.makeDboReadOnly(dbo);
 				if (dbo.getVal(Sv.FIELD_TYPE).equals(Sv.GEOMETRY) && !geometryTypes.contains(dbo.getParentId()))
 					geometryTypes.add(dbo.getParentId());
+				if (dbo.getVal(Sv.SORT_ORDER) == null)
+					throw new SvException(
+							"Base configuration error, field " + dbo.getAsString(Sv.FIELD_NAME) + ". must have sort order!",
+							svCONST.systemUser, dbo, null);
 				DbCache.addObject(dbo, null, true);
 			}
 		}
