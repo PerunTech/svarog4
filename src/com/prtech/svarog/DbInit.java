@@ -6875,7 +6875,7 @@ public class DbInit {
 		String retval = "";
 		addDefaultLinkTypes(defaultObjests);
 		dbObjects.put(SVAROG_JAR, defaultObjests.getItems());
-		
+
 		// load custom objects as well as from the OSGI bundles dir
 		// if svarog installed, otherwhise skip
 		saveDbInitToJson(svObjectId, defaultCodes, customObjests, dbTables, dbObjects);
@@ -7304,8 +7304,9 @@ public class DbInit {
 	 *                  DbDataTableExtensions
 	 * @return Filtered list of all DbDataTables objects WITHOUT
 	 *         DbDataTableExtensions, after they were applied to the original
+	 * @throws SvException 
 	 */
-	public static Map<String, List<DbDataTable>> applyDbDataTableExtensions(Map<String, List<DbDataTable>> allTables) {
+	public static Map<String, List<DbDataTable>> applyDbDataTableExtensions(Map<String, List<DbDataTable>> allTables) throws SvException {
 		List<DbDataTableExtension> extensions = new ArrayList<>();
 		// first lets extract all DbDataTableExtensions into a list "extensions"
 		for (List<DbDataTable> dbts : allTables.values()) {
@@ -7342,8 +7343,9 @@ public class DbInit {
 	 * 
 	 * @param dbt  the original table definition
 	 * @param dbte the extension of the table
+	 * @throws SvException 
 	 */
-	private static void applyExtension(DbDataTable dbt, DbDataTableExtension dbte) {
+	private static void applyExtension(DbDataTable dbt, DbDataTableExtension dbte) throws SvException {
 		for (DbDataField dbf : dbte.getDbDataFields()) {
 			DbDataField[] fields = dbt.getDbTableFields();
 			boolean applied = false;
@@ -7351,6 +7353,9 @@ public class DbInit {
 				DbDataField field = fields[i];
 				// if we find a matching field, then replace the original with the extension
 				if (field != null && field.getDbFieldName().equalsIgnoreCase(dbf.getDbFieldName())) {
+					if (dbf.getSort_order() == null)
+						throw new SvException("DbDataTableExtension, field " + dbt.getDbTableName() + "."
+								+ dbf.getDbFieldName() + " must have sort order!", svCONST.systemUser, dbf, null);
 					fields[i] = dbf;
 					applied = true;
 					break;

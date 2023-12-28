@@ -1151,8 +1151,9 @@ public class SvarogInstall {
 	 * 3. Generate DbDataObjects for the Labels loaded from all OSGi bundles
 	 * 
 	 * @return 0 if success, -1 if failed
+	 * @throws SvException 
 	 */
-	private static int generateJsonCfg() {
+	private static int generateJsonCfg() throws SvException {
 		// we should not connect to database at all and check if svarog is
 		// installed therefore we fix the mIsAlreadyInstalled to false
 		// mIsAlreadyInstalled = false;
