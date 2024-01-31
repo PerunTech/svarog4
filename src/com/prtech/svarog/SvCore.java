@@ -1280,9 +1280,8 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 				if (dbo.getVal(Sv.FIELD_TYPE).equals(Sv.GEOMETRY) && !geometryTypes.contains(dbo.getParentId()))
 					geometryTypes.add(dbo.getParentId());
 				if (dbo.getVal(Sv.SORT_ORDER) == null)
-					throw new SvException(
-							"Base configuration error, field " + dbo.getAsString(Sv.FIELD_NAME) + ". must have sort order!",
-							svCONST.systemUser, dbo, null);
+					throw new SvException("Base configuration error, field " + dbo.getAsString(Sv.FIELD_NAME)
+							+ ". must have sort order!", svCONST.systemUser, dbo, null);
 				DbCache.addObject(dbo, null, true);
 			}
 		}
@@ -2708,7 +2707,7 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 	 * specific object type descriptor.
 	 * 
 	 * @param dbt         The object type descriptor
-	 * @param
+	 * @param unqConfigId The unique code to identify the objects
 	 * @param accessLevel The required access level
 	 * @return True if the instance has the required permissions
 	 * @throws SvException Throw any underlying exception

@@ -223,10 +223,9 @@ public class SvFileStore extends SvCore {
 
 	/**
 	 * 
-	 * @param dbo        DbDataObject describing the file (File Metadata)
-	 * @param objectId   ID of the object to which the file is associated
-	 * @param objectType Type Id of the objectId (can be null)
-	 * @param fileData   Binary array (file content)
+	 * @param fileDescriptor DbDataObject describing the file (File Metadata)
+	 * @param linkedObject   Object to which the file is associated
+	 * @param fileData       Binary array (file content)
 	 * @throws SvException Throws system.error.cant_save_empty_file if the file data
 	 *                     is null, or system.error.filedata_type_err if data is
 	 *                     anything else than byte array or InputStream
@@ -316,7 +315,7 @@ public class SvFileStore extends SvCore {
 	 * Method to get list of file descriptors based on search criteria
 	 * 
 	 * @param objectTypeId The object type of the linked object
-	 * @param objectId    The object identifier to which files are linked
+	 * @param objectId     The object identifier to which files are linked
 	 * @param refDate      The reference date on which the list of file descriptors
 	 *                     should be retrieved * @param fileSearch
 	 * @param fileSearch   A DbSearch object which contains the search parameters
@@ -359,8 +358,8 @@ public class SvFileStore extends SvCore {
 			DbSearch dbs = new DbSearchCriterion(Sv.OBJECT_ID, DbCompareOperand.EQUAL, linkedObject.getObjectId());
 			DbQueryObject qObjects = new DbQueryObject(dbt, dbs, DbJoinType.INNER, dbl, LinkType.DBLINK, null, null);
 
-			DbQueryObject qFiles = new DbQueryObject(dbtFiles, fileSearch, DbJoinType.INNER, null, LinkType.PARENT, null,
-					null);
+			DbQueryObject qFiles = new DbQueryObject(dbtFiles, fileSearch, DbJoinType.INNER, null, LinkType.PARENT,
+					null, null);
 			qFiles.setIsReturnType(true);
 			DbQueryExpression q = new DbQueryExpression();
 

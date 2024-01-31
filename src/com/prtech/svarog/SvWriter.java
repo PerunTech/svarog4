@@ -477,11 +477,14 @@ public class SvWriter extends SvCore {
 	/**
 	 * Method to cache the prebuilt queries
 	 * 
-	 * @param dbt          The type of object for which we want to built a query
-	 * @param objectFields The list of fields which we plan to insert
-	 * @param oldPKID      The old PKID of the object in case of update
-	 * @return
-	 * @throws SvException
+	 * @param dbt             The type of object for which we want to built a query
+	 * @param objectFields    The list of fields which we plan to insert
+	 * @param isUpdate        Flag if true in case of update
+	 * @param hasPKID         flag if we have an existing PKID
+	 * @param hasNullGeometry if the Insert shall allow empty geometries
+	 * @return String with the SQL insert statement
+	 * 
+	 * @throws SvException any underlying exception
 	 */
 	protected String getQryInsertTableData(DbDataObject dbt, DbDataArray objectFields, Boolean isUpdate,
 			Boolean hasPKID, boolean hasNullGeometry) throws SvException {
@@ -1300,7 +1303,7 @@ public class SvWriter extends SvCore {
 	 * 
 	 * @param dba               The array of objects which needs to be saved.
 	 * @param skipPreSaveChecks Flag to enable skipping of pre-save checks
-	 * @throws Exception
+	 * @throws SvException
 	 */
 	protected void saveObjectImpl(DbDataArray dba, Boolean skipPreSaveChecks) throws SvException {
 
@@ -1498,9 +1501,7 @@ public class SvWriter extends SvCore {
 	 * Method for deleting an object from database. The delete method acts depending
 	 * on the deletion type of the reference type of the object which is deleted
 	 * 
-	 * @param dbo  The object which should be deleted
-	 * @param conn The database connection which is used for the operation
-	 * @throws SQLException
+	 * @param dbo The object which should be deleted
 	 * @throws SvException
 	 */
 	protected void deleteObjectImpl(DbDataObject dbo) throws SvException {
@@ -1744,14 +1745,12 @@ public class SvWriter extends SvCore {
 	/**
 	 * Method for mass deletion of objects according to their parent object.
 	 * 
-	 * All objects and their children which have a system object id ( see
-	 * {@link svCONST.MAX_SYS_OBJECT_ID}) can not be deleted nor affected by this
-	 * method.
+	 * All objects and their children which have a system object id (less than
+	 * svCONST.MAX_SYS_OBJECT_ID) can not be deleted nor affected by this method.
 	 * 
 	 * @param parentDbo          The parent object for which we want to delete the
 	 *                           children
 	 * @param childrenObjectType The object type ID of the children
-	 * @throws SQLException
 	 */
 	protected void deleteObjectsByParentImpl(DbDataObject parentDbo, Long childrenObjectType) throws SvException {
 		if (parentDbo.getObjectId().compareTo(svCONST.MAX_SYS_OBJECT_ID) < 0)
@@ -2162,7 +2161,7 @@ public class SvWriter extends SvCore {
 					dbo.setVal("LINK_TYPE_ID", rs.getLong("LINK_TYPE_ID"));
 					Long oid2 = rs.getLong("LINK_OBJ_ID_2");
 					Long oid1 = rs.getLong("LINK_OBJ_ID_1");
-					
+
 					if (oid1 != null && oldNewOIDPairs.containsKey(oid1)) {
 						dbo.setVal("LINK_OBJ_ID_1", oldNewOIDPairs.get(oid1));
 						dbo.setVal("LINK_OBJ_ID_2", oid2);
