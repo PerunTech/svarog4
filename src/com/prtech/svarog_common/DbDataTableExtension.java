@@ -47,7 +47,6 @@ public class DbDataTableExtension extends DbDataTable {
 	/**
 	 * Setter of name of the base table which should be extended
 	 * 
-	 * @return
 	 */
 	public void setBaseTableName(String baseTableName) {
 		this.baseTableName = baseTableName;
@@ -65,7 +64,6 @@ public class DbDataTableExtension extends DbDataTable {
 	/**
 	 * Setter of name of the schema of base table which should be extended
 	 * 
-	 * @return
 	 */
 	public void setBaseSchema(String baseSchema) {
 		this.baseSchema = baseSchema;

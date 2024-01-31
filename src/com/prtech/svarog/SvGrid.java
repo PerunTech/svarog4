@@ -70,7 +70,6 @@ public class SvGrid extends SvSDITile {
 	 * specified by the internal geometry collection {@link #grid}
 	 * 
 	 * @param gridName the code name of the grid.
-	 * @return
 	 * @throws SvException
 	 */
 	public SvGrid(String gridName) throws SvException {

@@ -177,6 +177,7 @@ public class DbCache {
 	 * 
 	 * @param objectDescriptor The object type from which the cache should be
 	 *                         configured
+	 * @return Configured CacheBuilder
 	 */
 	@SuppressWarnings("rawtypes")
 	public static CacheBuilder createBuilder(DbDataObject objectDescriptor) {

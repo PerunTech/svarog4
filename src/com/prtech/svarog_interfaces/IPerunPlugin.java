@@ -90,7 +90,7 @@ public interface IPerunPlugin {
 
 	/**
 	 * If this flag is set to true, svarog use the return value of the
-	 * {@link #getMenu(JsonObject)} method to update the menu configuration in
+	 * {@link #getMenu(JsonObject, ISvCore)} method to update the menu configuration in
 	 * the database (if version update is needed)
 	 * 
 	 * @return
@@ -115,7 +115,7 @@ public interface IPerunPlugin {
 
 	/**
 	 * If this flag is set to true, svarog use the return value of the
-	 * {@link #getContextMenu(HashMap, JsonObject)} method to update the menu
+	 * {@link #getContextMenu(HashMap, JsonObject, ISvCore)} method to update the menu
 	 * configuration in the database (if version update is needed)
 	 * 
 	 * @return

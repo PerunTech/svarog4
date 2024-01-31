@@ -1199,10 +1199,10 @@ public class SvParameter extends SvCore {
 	 * Method to get a system system parameter under the specified name, and parse
 	 * it using the assigned date format.
 	 * 
-	 * @param paramName  The param name to be
-	 * @param dateFormat
+	 * @param paramName    The param name to be
+	 * @param defaultValue The default value to be used for method overloading
 	 * @return
-	 * @throws Exception
+	 * @throws SvException Pass-thru of underlying raised SvExceptions
 	 */
 	public static Integer getSysParam(String paramName, Integer defaultValue) throws SvException {
 		return (Integer) getSysParamImpl(paramName, defaultValue, Integer.class);
@@ -1212,10 +1212,11 @@ public class SvParameter extends SvCore {
 	 * Method to get a system system parameter under the specified name, and parse
 	 * it as Doubles.
 	 * 
-	 * @param paramName  The param name to be
-	 * @param dateFormat
-	 * @return
-	 * @throws Exception
+	 * @param paramName    The param name to be
+	 * @param defaultValue The default value to be stored in the database in case
+	 *                     there's no parameter.
+	 * @return the value of parameter in the database
+	 * @throws SvException Any underlying exception
 	 */
 
 	public static Double getSysParam(String paramName, Double defaultValue) throws SvException {
@@ -1324,9 +1325,9 @@ public class SvParameter extends SvCore {
 	 * it using the assigned date format.
 	 * 
 	 * @param paramName  The param name to be
-	 * @param dateFormat
-	 * @return
-	 * @throws Exception
+	 * @param defaultValue The default value to be stored in the database in case there's no parameter.
+	 * @return the value of parameter in the database
+	 * @throws SvException Any underlying exception
 	 */
 	public static Integer getUserParam(String paramName, Integer defaultValue, Long parentId) throws SvException {
 		return (Integer) getUserParamImpl(paramName, defaultValue, Integer.class, parentId);
@@ -1337,9 +1338,9 @@ public class SvParameter extends SvCore {
 	 * it as Doubles.
 	 * 
 	 * @param paramName  The param name to be
-	 * @param dateFormat
-	 * @return
-	 * @throws Exception
+	 * @param defaultValue The default value to be stored in the database in case there's no parameter.
+	 * @return the value of parameter in the database
+	 * @throws SvException Any underlying exception
 	 */
 
 	public static Double getUserParam(String paramName, Double defaultValue, Long parentId) throws SvException {

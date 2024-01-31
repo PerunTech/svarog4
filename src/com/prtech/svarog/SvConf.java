@@ -929,7 +929,7 @@ public class SvConf {
 	/**
 	 * Method to set the core idle time out in Minutes
 	 * 
-	 * @param timeout The number of minutes, before the core is considered as idle
+	 * @param timeoutMilis The number of minutes, before the core is considered as idle
 	 */
 	public static void setCoreIdleTimeoutMilis(int timeoutMilis) {
 		coreIdleTimeout = timeoutMilis;

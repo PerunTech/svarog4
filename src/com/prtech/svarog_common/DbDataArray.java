@@ -533,12 +533,11 @@ public class DbDataArray extends Jsonable {
 	 * Method for getting distinct values for some DbDataArray for appropriate
 	 * columns
 	 * 
-	 * @param items   The data set for evaluation
-	 * @param columns List of column/field names for which the distinct count should
+	 * @param listOfColumns List of column/field names for which the distinct count should
 	 *                be done
-	 * @return HashMap<String, List<Object>> where key is the field name and value
+	 * @return fieldsPerObjectType where key is the field name and value
 	 *         is the list of the distinct-ed object by the appropriate key
-	 * @throws SvException
+	 * @throws SvException Pass-thru of any underlying SvException
 	 */
 	public Map<String, List<Object>> getDistinctValuesPerColumns(List<String> listOfColumns,
 			DbDataArray fieldsPerObjectType) throws SvException {

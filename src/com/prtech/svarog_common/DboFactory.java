@@ -27,8 +27,7 @@ public class DboFactory {
 	/**
 	 * Set the protected member DbDataObject.isReadOnly to true
 	 * 
-	 * @param dbo
-	 *            The DbDataObject instance which will be flagged as read-only
+	 * @param dbo The DbDataObject instance which will be flagged as read-only
 	 */
 	public static void makeDboReadOnly(DbDataObject dbo) {
 		dbo.isReadOnly = true;
@@ -37,8 +36,7 @@ public class DboFactory {
 	/**
 	 * Set the protected member DbDataObject.hasGeometry to true
 	 * 
-	 * @param dbo
-	 *            The DbDataObject instance which will be flagged as
+	 * @param dbo The DbDataObject instance which will be flagged as
 	 *            hasGeometry=true
 	 */
 	public static void dboHasGeometry(DbDataObject dbo) {
@@ -48,20 +46,19 @@ public class DboFactory {
 	/**
 	 * Set the protected member DbDataObject.isGeometryType to true
 	 * 
-	 * @param dbo
-	 *            The DbDataObject instance which will be flagged as
+	 * @param dbo The DbDataObject instance which will be flagged as
 	 *            isGeometryType=true
 	 */
 	public static void dboIsGeometryType(DbDataObject dbo) {
 		dbo.setGeometryType(true);
 	}
+
 	/**
 	 * Revert the protected member DbDataObject.isReadOnly to true
 	 * 
-	 * @param dbo
-	 *            The DbDataObject instance which will be flagged as read-only
+	 * @param dtMax The DbDataObject instance max date
 	 */
 	static public void setInitialMaxDate(DateTime dtMax) {
-			DbDataObject.MAX_DATE = dtMax;
+		DbDataObject.MAX_DATE = dtMax;
 	}
 }

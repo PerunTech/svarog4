@@ -251,10 +251,10 @@ public class SvLock {
 	 * Method to get a cluster wide, distributed lock for a specific key in the
 	 * Svarog cluster. The distributed locks are by default non-blocking.
 	 * 
-	 * @param key The key to identify the lock with
+	 * @param lockKey The key to identify the lock with
 	 * @return hash code of the acquired lock. If the value is 0, the lock wasn't
 	 *         acquired
-	 * @throws SvException 
+	 * @throws SvException Pass-thru of underlying raised SvExceptions 
 	 * 
 	 */
 	public static int getDistributedLock(String lockKey) throws SvException {
@@ -322,9 +322,9 @@ public class SvLock {
 	 * Method to get a cluster wide, distributed lock for a specific key in the
 	 * Svarog cluster. The distributed locks are by default non-blocking.
 	 * 
-	 * @param key The key to identify the lock with
+	 * @param lockHash The hash to identify the lock with
 	 * @return False if the lock wasn't acquired
-	 * @throws SvException 
+	 * @throws SvException Pass-thru of underlying raised SvExceptions
 	 * 
 	 */
 	public static boolean releaseDistributedLock(int lockHash) throws SvException {

@@ -370,9 +370,11 @@ public class SvClusterNotifierClient implements Runnable {
 	}
 
 	/**
-	 * Method to publish a logoff notification to the other nodes in the cluster
+	 * Method to publish a ACK notification to the other nodes in the cluster
 	 * 
-	 * @param sessionId String representation of the user session/token
+	 * @param ackValue   the acknowledgement value
+	 * @param successMsg Success of Failure message
+	 * 
 	 * @throws SvException
 	 */
 	static public void publishAck(Integer ackValue, byte successMsg) throws SvException {

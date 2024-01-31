@@ -118,6 +118,7 @@ public class CodeList extends SvCore implements ISvCodeList {
 	 * of the child codes for a specified code list id. The method does not perform
 	 * any sort of translation
 	 * 
+	 * @param codeListObjectId the id of the code list
 	 * @return Key/value map with categorie Id and user code
 	 */
 	public HashMap<Long, String> getCodeListIdValues(Long codeListObjectId) {
@@ -127,6 +128,7 @@ public class CodeList extends SvCore implements ISvCodeList {
 	/**
 	 * Method to return the key/value map containig the object ids and codes
 	 * 
+	 * @param codeListObjectId The object id of the list
 	 * @return Key/value map with categorie Id and label text
 	 */
 	public HashMap<String, Long> getCodeListValues(Long codeListObjectId) {
@@ -145,7 +147,7 @@ public class CodeList extends SvCore implements ISvCodeList {
 	 * @param codeListObjectId The Parent ID of the code list. Special case is 0
 	 *                         which returns the root level
 	 * @param traslateLabels   Flag used to translate labels or return codes.
-	 * @return
+	 * @return A map of ObjectId/String pairs (code or translated label)
 	 */
 	public HashMap<Long, String> getCodeListId(String languageId, Long codeListObjectId, boolean traslateLabels) {
 		String langId = languageId != null ? languageId : SvConf.getDefaultLocale();
@@ -167,7 +169,11 @@ public class CodeList extends SvCore implements ISvCodeList {
 	}
 
 	/**
+	 * 
 	 * Method to return sorted list of codes based on the parent code name.
+	 * 
+	 * @param codeListName The code of the list
+	 * @return data array containing the code list
 	 */
 	public DbDataArray getCodeListBase(String codeListName) {
 		HashMap<String, Long> lists = null;
@@ -175,7 +181,7 @@ public class CodeList extends SvCore implements ISvCodeList {
 		lists = getCodeListValues(Sv.ROOT_CODELIST);
 		// find the crop codes
 		codeListObjectId = lists.get(codeListName);
-		
+
 		SvReader svr = null;
 		DbDataArray object = null;
 		try {
@@ -191,9 +197,11 @@ public class CodeList extends SvCore implements ISvCodeList {
 		return object;
 
 	}
-	
+
 	/**
 	 * Method to return sorted list of codes based on the parent code object Id.
+	 * 
+	 * @param codeListObjectId the Id of the list
 	 */
 	public DbDataArray getCodeListBase(Long codeListObjectId) {
 		SvReader svr = null;
@@ -236,10 +244,11 @@ public class CodeList extends SvCore implements ISvCodeList {
 	/**
 	 * Method to return a configured Code List within the Svarog system.
 	 * 
-	 * @param languageId the Id of the locale, as available in Svarog System Locales
-	 * @param the        object Id of the code list
-	 * @param Flag       if the list items should be translated according to the
-	 *                   locale labels
+	 * @param languageId       the Id of the locale, as available in Svarog System
+	 *                         Locales
+	 * @param codeListObjectId the object Id of the code list
+	 * @param includeLabels    Flag if the list items should be translated according
+	 *                         to the locale labels
 	 * @return Map of User Code/Label pairs
 	 */
 	public HashMap<String, String> getCodeList(String languageId, Long codeListObjectId, Boolean includeLabels) {

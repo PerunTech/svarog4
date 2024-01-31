@@ -52,15 +52,16 @@ public abstract class Jsonable {
 	 * Quick access functions for populating the Object from JSON a wrapper for
 	 * this.memberJson.setMembersFromJson("", this, obj);
 	 * 
-	 * @return 
+	 * @param obj The JsonObject from which we should set the members via reflection
+	 * @return true if it was successful
 	 */
 	public Boolean fromJson(JsonObject obj) {
 		return this.jsonIO.setMembersFromJson("", this, obj);
 	}
 
 	/**
-	 * Quick access functions for creating a JsonObject from the implementing
-	 * class instance a wrapper for this.memberJson.getMembersToJson("", this);
+	 * Quick access functions for creating a JsonObject from the implementing class
+	 * instance a wrapper for this.memberJson.getMembersToJson("", this);
 	 */
 	public JsonObject toJson() {
 		return this.jsonIO.getMembersToJson("", this, null);
@@ -70,15 +71,16 @@ public abstract class Jsonable {
 	 * Quick access functions for populating the Object from JSON a wrapper for
 	 * this.memberJson.setMembersFromJson("", this, obj);
 	 * 
-	 * @return TODO
+	 * @param obj The JsonObject from which we should set the members via reflection
+	 * @return true if it was successful
 	 */
 	public Boolean fromSimpleJson(JsonObject obj) {
 		return jsonIO.setMembersFromJson("", this, obj, true);
 	}
 
 	/**
-	 * Quick access functions for creating a JsonObject from the implementing
-	 * class instance a wrapper for this.memberJson.getMembersToJson("", this);
+	 * Quick access functions for creating a JsonObject from the implementing class
+	 * instance a wrapper for this.memberJson.getMembersToJson("", this);
 	 */
 	public JsonObject toSimpleJson() {
 		return jsonIO.getMembersToJson("", this, null, true);

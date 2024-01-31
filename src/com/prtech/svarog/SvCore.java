@@ -901,7 +901,7 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 	 * Method to return the currently configured ISvDatabaseIO instance
 	 * 
 	 * @return ISvDatabaseIO instance
-	 * @throws SvException
+	 * @throws SvException Pass-thru of any underlying SvException
 	 */
 	public static ISvDatabaseIO getDbHandler() throws SvException {
 		return SvConf.getDbHandler();

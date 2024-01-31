@@ -63,7 +63,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -85,7 +85,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -107,7 +107,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -131,7 +131,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -154,7 +154,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -177,7 +177,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -185,10 +185,10 @@ public interface ISvConfiguration {
 	String beforeAclUpdate(Connection conn, ISvCore core, String schema) throws Exception;
 
 	/**
-	 * After the ACL updates have finished, the update of Sid<->ACL
+	 * After the ACL updates have finished, the update of Sid/ACL
 	 * configuration is performed based on records generated in the JSON. This
 	 * method allows to execute custom code <b>after the ACL updates</b> and
-	 * <b>before the update SID<->ACL pairs</b> takes place. After the SID<->ACL
+	 * <b>before the update SID/ACL pairs</b> takes place. After the SID/ACL
 	 * upgrade, the Svarog upgrade is finalized.
 	 * 
 	 * @param conn
@@ -199,7 +199,7 @@ public interface ISvConfiguration {
 	 *            available)            
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -219,7 +219,7 @@ public interface ISvConfiguration {
 	 *            available)
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted

@@ -243,7 +243,7 @@ public interface ISvDatabaseIO {
 	 *            executed
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 * @throws Exception
 	 *             If exception is thrown, the installation is aborted
@@ -260,7 +260,7 @@ public interface ISvDatabaseIO {
 	 *            executed
 	 * @param schema
 	 *            The default schema name as configured in the svarog.parameters
-	 * @returns A string message that will be printed as INFO in the install
+	 * @return A string message that will be printed as INFO in the install
 	 *          process
 	 */
 	String afterInstall(Connection conn, String schema);

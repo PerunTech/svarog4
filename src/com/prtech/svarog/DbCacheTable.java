@@ -32,6 +32,9 @@ import com.google.common.cache.RemovalNotification;
 import com.prtech.svarog_common.DbDataArray;
 import com.prtech.svarog_common.DbDataObject;
 
+/**
+ * A class holding the cache of a specific Svarog ObjecType (Table)
+ */
 public class DbCacheTable {
 
 	// private final String[] uqFields;
@@ -471,6 +474,9 @@ public class DbCacheTable {
 		}
 	}
 
+	/**
+	 * Comparator of DbDataObjects
+	 */
 	public class DboComparator implements Comparator<Long> {
 
 		String keyName;

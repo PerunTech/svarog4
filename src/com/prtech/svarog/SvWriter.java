@@ -1515,8 +1515,7 @@ public class SvWriter extends SvCore {
 	 * deleted
 	 * 
 	 * @param dba The list of objects object which should be deleted
-	 * @throws SQLException
-	 * @throws SvException
+	 * @throws SvException Pass-thru of underlying raised SvExceptions
 	 */
 	public void deleteObjects(DbDataArray dba) throws SvException {
 		deleteImpl(dba, false, false, null, null);

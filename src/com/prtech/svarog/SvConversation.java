@@ -83,12 +83,12 @@ public class SvConversation extends DbDataObject {
 	 * @return DbDataArray
 	 * @throws SvException
 	 */
-	public DbDataArray getAssignedConversations(SvReader svr, Boolean isUnread, DbDataObject dbUSer)
+	public DbDataArray getAssignedConversations(SvReader svr, Boolean isUnread, DbDataObject dbUser)
 			throws SvException {
-		if (dbUSer == null)
-			dbUSer = svr.getInstanceUser();
+		if (dbUser == null)
+			dbUser = svr.getInstanceUser();
 		DbSearchExpression expr = new DbSearchExpression();
-		DbSearchCriterion crit1 = new DbSearchCriterion("ASSIGNED_TO", DbCompareOperand.EQUAL, dbUSer.getObject_id());
+		DbSearchCriterion crit1 = new DbSearchCriterion("ASSIGNED_TO", DbCompareOperand.EQUAL, dbUser.getObjectId());
 		expr.addDbSearchItem(crit1);
 		if (isUnread) {
 			DbSearchCriterion crit2 = new DbSearchCriterion("IS_READ", DbCompareOperand.EQUAL, !isUnread);
@@ -96,11 +96,11 @@ public class SvConversation extends DbDataObject {
 		}
 		DbDataArray myAssignedConv = svr.getObjects(expr, svCONST.OBJECT_TYPE_CONVERSATION, null, 0, 0);
 		// also get messages that are assigned to the group user belongs to
-		DbDataArray userGroups = SvCore.getUserGroups(dbUSer, false);
+		DbDataArray userGroups = SvCore.getUserGroups(dbUser, false);
 		if (userGroups != null && !userGroups.getItems().isEmpty())
 			for (DbDataObject groupObject : userGroups.getItems()) {
 				expr = new DbSearchExpression();
-				crit1 = new DbSearchCriterion("ASSIGNED_TO", DbCompareOperand.EQUAL, groupObject.getObject_id());
+				crit1 = new DbSearchCriterion("ASSIGNED_TO", DbCompareOperand.EQUAL, groupObject.getObjectId());
 				expr.addDbSearchItem(crit1);
 				if (isUnread) {
 					DbSearchCriterion crit2 = new DbSearchCriterion("IS_READ", DbCompareOperand.EQUAL, !isUnread);
@@ -125,11 +125,11 @@ public class SvConversation extends DbDataObject {
 	 * @return DbDataArray
 	 * @throws SvException
 	 */
-	public DbDataArray getConversationsWithMyMessage(SvReader svr, DbDataObject dbUSer) throws SvException {
-		if (dbUSer == null)
-			dbUSer = svr.getInstanceUser();
+	public DbDataArray getConversationsWithMyMessage(SvReader svr, DbDataObject dbUser) throws SvException {
+		if (dbUser == null)
+			dbUser = svr.getInstanceUser();
 		DbDataArray myCreatedMess = new DbDataArray();
-		DbSearchCriterion search = new DbSearchCriterion("CREATED_BY", DbCompareOperand.EQUAL, dbUSer.getObject_id());
+		DbSearchCriterion search = new DbSearchCriterion("CREATED_BY", DbCompareOperand.EQUAL, dbUser.getObjectId());
 		DbDataObject databaseTypeConversation = svr.getObjectById(svCONST.OBJECT_TYPE_CONVERSATION,
 				svCONST.OBJECT_TYPE_TABLE, null);
 		DbDataObject databaseTypeMessage = svr.getObjectById(svCONST.OBJECT_TYPE_MESSAGE, svCONST.OBJECT_TYPE_TABLE,

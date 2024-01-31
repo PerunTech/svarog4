@@ -134,8 +134,8 @@ public class DbQueryObject extends DbQuery {
 		this.repo = SvCore.getRepoDbt(dbt.getObjectId());
 		this.repoFields = SvCore.getFields(repo.getObjectId());
 		assert (dbtFields != null);
-		assert (repoFields  != null);
-		assert (repo  != null);
+		assert (repoFields != null);
+		assert (repo != null);
 	}
 
 	/**
@@ -144,8 +144,8 @@ public class DbQueryObject extends DbQuery {
 	 * @param dbt           The object descriptor for the table based on which DQO
 	 *                      will generate a query
 	 * @param search        Search criteria
-	 * @param linkToNext    The link descriptor for joining by link
 	 * @param referenceDate The reference date for which we'll fetch the dataset
+	 * @param joinToNext    The next object join type
 	 * @throws SvException If mandatory parameters are omitted an Exception is
 	 *                     thrown
 	 */
@@ -363,8 +363,11 @@ public class DbQueryObject extends DbQuery {
 	/**
 	 * Method returning a list of DB fields with their appropriate aliases
 	 * 
-	 * @param repoDbt The config object for the repository of the object
-	 * @param dbt     The config object for the object type
+	 * @param sqlTblAlias       The alias to be used in the query
+	 * @param repoFields        The config object for the repo fields
+	 * @param dbtFields         The config object for the fields
+	 * @param includeGeometries flag if geometries should be included in the
+	 *                          returning dataset
 	 * @return A string containing list of fields split by comma
 	 * @throws SvException
 	 */
@@ -376,7 +379,12 @@ public class DbQueryObject extends DbQuery {
 	/**
 	 * Method returning a list of DB fields with their appropriate aliases
 	 * 
-	 * @param dbt     The config object for the object type
+	 * @param sqlTblAlias       The alias to be used in the query
+	 * @param repoFields        The config object for the repo fields
+	 * @param dbtFields         The config object for the fields
+	 * @param includeGeometries flag if geometries should be included in the
+	 *                          returning dataset
+	 * @param useColumnPrefix   flag if the query should be built using a prefix
 	 * @return A string containing list of fields split by comma
 	 * @throws SvException
 	 */

@@ -163,8 +163,8 @@ public class SvMessage extends DbDataObject {
 	/**
 	 * 
 	 * @param svr        SvReader connected to database
-	 * @param formVals
-	 * @param oldMessage DbDataObject of the old message if we are doing changes ,
+	 * @param formVals	JsonObject containing the form values (key-value pairs)
+	 * @param messageObj DbDataObject of the old message if we are doing changes ,
 	 *                   null if it is a new message
 	 * @return DbDataObject of the new message
 	 * @throws SvException

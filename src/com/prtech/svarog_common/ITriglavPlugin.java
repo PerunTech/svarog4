@@ -35,32 +35,32 @@ public interface ITriglavPlugin {
 	/**
 	 * Method which returns all the @Produces annotations for all the webservice methods that need to be generated from this class.
 	 * 
-	 * @return LinkedHashMap<String,String> - All the @Produces annotations for all the webservice
+	 * @return LinkedHashMap - All the Produces annotations for all the webservice
 	 */
-	public LinkedHashMap<String,String> getMethodProduces();
+	public LinkedHashMap getMethodProduces();
 	/**
-	 * Method which returns all the @Consumes annotations for all the webservice methods that need to be generated from this class.
+	 * Method which returns all the Consumes annotations for all the webservice methods that need to be generated from this class.
 	 * 
-	 * @return LinkedHashMap<String,String> - All the @Consumes annotations for all the webservice
+	 * @return LinkedHashMap - All the Consumes annotations for all the webservice
 	 */
-	public LinkedHashMap<String,String> getMethodConsumes();
+	public LinkedHashMap getMethodConsumes();
 	/**
 	 * Method which returns all the representational web service names for the methods. The pair should be {String methodName,String WebserviceName}. 
 	 * If a name is found here for a method that is the name that is used henceforth.
 	 * 
-	 * @return LinkedHashMap<String,String> - All the Webservice name combinations for the methods in this class
+	 * @return LinkedHashMap - All the Webservice name combinations for the methods in this class
 	 */
-	public LinkedHashMap<String,String> getMethodWebServiceNames();
+	public LinkedHashMap getMethodWebServiceNames();
 	/**
 	 * Method which returns all the httpMethods for the methods in this class.
 	 * 
-	 * @return LinkedHashMap<String,String> - All the httpMethods for the methods in this class.
+	 * @return LinkedHashMap - All the httpMethods for the methods in this class.
 	 */
-	public LinkedHashMap<String,String> getMethodHttpMethods();
+	public LinkedHashMap getMethodHttpMethods();
 	/**
 	 * Method which returns all the default paramValues per method if they exist
 	 * The first String is the methodName,  while the HashMap contains the ParamName/ParamValue combinations
-	 * @return LinkedHashMap<String,String> - All the default paramValues for the methods in this class.
+	 * @return LinkedHashMap - All the default paramValues for the methods in this class.
 	 */
 	public LinkedHashMap<String,LinkedHashMap<String,Object>> getDefaultMethodParams();
 	

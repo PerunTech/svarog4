@@ -33,7 +33,7 @@ public abstract class DbQuery extends Jsonable {
 	 * against the DB
 	 * 
 	 * @return String containing the SQL query
-	 * @throws Exception
+	 * @throws SvException Pass-thru of any underlying SvException
 	 */
 
 	public abstract String getSQLExpression() throws SvException;
@@ -42,12 +42,12 @@ public abstract class DbQuery extends Jsonable {
 	 * The method generates a ready to use SQL expression which will be executed
 	 * against the DB
 	 * 
-	 * @param Setting
-	 *            forcePhysicalTables to true will render query based on joins
-	 *            between physical tables rather than views Should be used with
-	 *            care, especially when dealing with complex joins
+	 * @param forcePhysicalTables SettingforcePhysicalTables to true will render
+	 *                            query based on joins between physical tables
+	 *                            rather than views Should be used with care,
+	 *                            especially when dealing with complex joins
 	 * @return String containing the SQL query
-	 * @throws Exception
+	 * @throws SvException
 	 */
 	public abstract StringBuilder getSQLExpression(Boolean forcePhysicalTables) throws SvException;
 
@@ -55,22 +55,21 @@ public abstract class DbQuery extends Jsonable {
 	 * The method generates a ready to use SQL expression which will be executed
 	 * against the DB
 	 * 
-	 * @param forcePhysicalTables
-	 *            Setting this param to true will render query based on joins
-	 *            between physical tables rather than views Should be used with
-	 *            care, especially when dealing with complex joins
-	 * @param includeGeometries
-	 *            This parameter controls the inclusion/exclusion of any
-	 *            GEOMETRY fields
+	 * @param forcePhysicalTables Setting this param to true will render query based
+	 *                            on joins between physical tables rather than views
+	 *                            Should be used with care, especially when dealing
+	 *                            with complex joins
+	 * @param includeGeometries   This parameter controls the inclusion/exclusion of
+	 *                            any GEOMETRY fields
 	 * @return String containing the SQL query
-	 * @throws Exception
+	 * @throws SvException Pass-thru of any underlying SvException
 	 */
 	public abstract StringBuilder getSQLExpression(Boolean forcePhysicalTables, Boolean includeGeometries)
 			throws SvException;
 
 	/**
-	 * The method generates an array of objects which are used as values to be
-	 * bind to query parameters
+	 * The method generates an array of objects which are used as values to be bind
+	 * to query parameters
 	 * 
 	 * @return
 	 * @throws SvException
@@ -84,15 +83,15 @@ public abstract class DbQuery extends Jsonable {
 	protected ArrayList<Integer> returnTypeSequences = new ArrayList<Integer>();
 
 	/*********************
-	 * NOTICE ****************************** All methods and variables bellow
-	 * are the legacy methods for Svarog versions which do not support multiple
-	 * return types.
+	 * NOTICE ****************************** All methods and variables bellow are
+	 * the legacy methods for Svarog versions which do not support multiple return
+	 * types.
 	 ***********************************************************/
 
 	/**
-	 * The variable holding the type of object which should be returned to by
-	 * the query. If the returnType is null the query will return a complex type
-	 * of object containing all columns in tabular form
+	 * The variable holding the type of object which should be returned to by the
+	 * query. If the returnType is null the query will return a complex type of
+	 * object containing all columns in tabular form
 	 */
 	// protected DbDataObject returnType=null;
 	/**
@@ -105,7 +104,7 @@ public abstract class DbQuery extends Jsonable {
 	/**
 	 * Method to set the return type of DbQuery
 	 * 
-	 * @param returnType
+	 * @return A DbDataObject describing the return type
 	 */
 	// public abstract void setReturnType(DbDataObject returnType);
 	public DbDataObject getReturnType() {

@@ -33,7 +33,6 @@ public interface II18n {
 	 * @param labelCode
 	 *            the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	public String getI18nLongText(String labelCode);
 
@@ -58,7 +57,6 @@ public interface II18n {
 	 * @param labelCode
 	 *            the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	public String getI18nLongText(String languageId, String labelCode);
 

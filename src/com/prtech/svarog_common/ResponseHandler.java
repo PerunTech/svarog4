@@ -3,6 +3,7 @@ package com.prtech.svarog_common;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.prtech.svarog.Sv.Link;
 import com.prtech.svarog.SvException;
 import com.prtech.svarog.svCONST;
 import com.prtech.svarog_common.Jsonable;
@@ -33,10 +34,10 @@ public class ResponseHandler extends Jsonable {
 
 	/**
 	 * Constructor to create a handler by type, locale and label code
-	 * @param type The message type of the handler
-	 * @param labelCode The label code used for localisation
+	 * 
+	 * @param type       The message type of the handler
+	 * @param labelCode  The label code used for localisation
 	 * @param userLocale The user locale to be used for translation
-	 * @throws SvException 
 	 */
 	public ResponseHandler(MessageType type, String labelCode, String userLocale) {
 		this.userLocale = userLocale;
@@ -64,18 +65,16 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to create response handler in case of SvException but when is
-	 * returned as JsonObject , we read the error_message and error_id and
-	 * create error handler, we can also overwrite the error message if we
-	 * specify svarog.label_code as parameter that will be DB translated
+	 * method to create response handler in case of SvException but when is returned
+	 * as JsonObject , we read the error_message and error_id and create error
+	 * handler, we can also overwrite the error message if we specify
+	 * svarog.label_code as parameter that will be DB translated
 	 * 
-	 * @param e
-	 *            SvException
-	 * @param str
-	 *            String if we want to overwrite the message we put label_code,
-	 *            else we can use null or ""
-	 * @return ResponseHandler "EXCEPTION" with formated title and message and
-	 *         no data
+	 * @param afterJson      The JsonObject containing the returning data
+	 * @param titleOverwrite String if we want to overwrite the message we put
+	 *                       label_code, else we can use null or ""
+	 * @return ResponseHandler "EXCEPTION" with formated title and message and no
+	 *         data
 	 */
 	public static ResponseHandler responseHandlerByException(JsonObject afterJson, String titleOverwrite) {
 		ResponseHandler jrh = new ResponseHandler();
@@ -98,17 +97,15 @@ public class ResponseHandler extends Jsonable {
 
 	/**
 	 * method to create response handler in case of SvException, we read the
-	 * error_message and error_id and create error handler, we can also
-	 * overwrite the error message if we specify svarog.label_code as parameter
-	 * that will be DB translated
+	 * error_message and error_id and create error handler, we can also overwrite
+	 * the error message if we specify svarog.label_code as parameter that will be
+	 * DB translated
 	 * 
-	 * @param e
-	 *            SvException
-	 * @param str
-	 *            String if we want to overwrite the message we put label_code,
-	 *            else we can use null or ""
-	 * @return ResponseHandler "EXCEPTION" with formated title and message and
-	 *         no data
+	 * @param e              SvException
+	 * @param titleOverwrite String if we want to overwrite the message we put
+	 *                       label_code, else we can use null or ""
+	 * @return ResponseHandler "EXCEPTION" with formated title and message and no
+	 *         data
 	 */
 	public static ResponseHandler responseHandlerByException(SvException e, String titleOverwrite) {
 		Gson gs = new Gson();
@@ -121,10 +118,9 @@ public class ResponseHandler extends Jsonable {
 	 * method to create response handler in case of SvException, we read the
 	 * error_message and error_id and create error handler,
 	 * 
-	 * @param e
-	 *            SvException
-	 * @return ResponseHandler "EXCEPTION" with formated title and message and
-	 *         no data
+	 * @param e SvException
+	 * @return ResponseHandler "EXCEPTION" with formated title and message and no
+	 *         data
 	 */
 	public static ResponseHandler responseHandlerByException(SvException e) {
 
@@ -133,8 +129,8 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to return the values from the response handles as an JsonObject,
-	 * this one will just return the responseObject
+	 * method to return the values from the response handles as an JsonObject, this
+	 * one will just return the responseObject
 	 * 
 	 * @return JsonObject value that is internally saved in responseObject
 	 */
@@ -143,10 +139,9 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to return the values from the response handles as an JsonObject,
-	 * this one will generate the response Object from all the values like:
-	 * responseType, responseMessage , rsponseTitle , and data that we are
-	 * returning back
+	 * method to return the values from the response handles as an JsonObject, this
+	 * one will generate the response Object from all the values like: responseType,
+	 * responseMessage , rsponseTitle , and data that we are returning back
 	 * 
 	 * @return JsonObject created in time of calling this method
 	 */
@@ -168,20 +163,16 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to create response handler , this is standard response , with type
-	 * of the response, messages, and data if execution was success, data to be
+	 * method to create response handler , this is standard response , with type of
+	 * the response, messages, and data if execution was success, data to be
 	 * returned is String
 	 * 
-	 * @param typee
-	 *            String type of the response, values are: SUCCESS, ERROR,
-	 *            WARNING, INFO, EXCEPTION
-	 * @param title
-	 *            String short title that will be shown on the response
-	 * @param message
-	 *            String long message like exception dump
-	 * @param data
-	 *            String if the response was expected to be String we add that
-	 *            data here
+	 * @param typee   String type of the response, values are: SUCCESS, ERROR,
+	 *                WARNING, INFO, EXCEPTION
+	 * @param title   String short title that will be shown on the response
+	 * @param message String long message like exception dump
+	 * @param data    String if the response was expected to be String we add that
+	 *                data here
 	 */
 	public void create(String typee, String title, String message, String data) {
 		responseObject = createBasicData(typee, title, message);
@@ -200,11 +191,11 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * Method to create a response with Type and Label code. Based on the label
-	 * code and the locale the system shall translate it.
+	 * Method to create a response with Type and Label code. Based on the label code
+	 * and the locale the system shall translate it.
 	 * 
-	 * @param typee
-	 * @param labelCode
+	 * @param type      The {@link MessageType}
+	 * @param labelCode Standard Svarog label code
 	 */
 	public void create(MessageType type, String labelCode) {
 
@@ -214,20 +205,16 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to create response handler , this is standard response , with type
-	 * of the response, messages, and data if execution was success, data to be
+	 * method to create response handler , this is standard response , with type of
+	 * the response, messages, and data if execution was success, data to be
 	 * returned is JsonObject
 	 * 
-	 * @param typee
-	 *            String type of the response, values are: SUCCESS, ERROR,
-	 *            WARNING, INFO, EXCEPTION
-	 * @param title
-	 *            String short title that will be shown on the response
-	 * @param message
-	 *            String long message like exception dump
-	 * @param data
-	 *            JsonElement if the response was expected to be JsonObject we
-	 *            add that data here
+	 * @param typee   String type of the response, values are: SUCCESS, ERROR,
+	 *                WARNING, INFO, EXCEPTION
+	 * @param title   String short title that will be shown on the response
+	 * @param message String long message like exception dump
+	 * @param data    JsonElement if the response was expected to be JsonObject we
+	 *                add that data here
 	 */
 	public JsonObject create(String typee, String title, String message, JsonElement data) {
 		responseObject = createBasicData(typee, title, message);
@@ -239,12 +226,14 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * Method to create a Json response with the predefined message type, title and text.
-	 * @param type The type of the message {@link} MessageType 
-	 * @param title The title of the message
+	 * Method to create a Json response with the predefined message type, title and
+	 * text.
+	 * 
+	 * @param type    The type of the message {@link} MessageType
+	 * @param title   The title of the message
 	 * @param message The message itself
-	 * @param data Any additional data required by the front end.
-	 * @return a predefined JsonObject 
+	 * @param data    Any additional data required by the front end.
+	 * @return a predefined JsonObject
 	 */
 	public JsonObject create(MessageType type, String title, String message, JsonElement data) {
 		responseObject = createBasicData(type, title, message);
@@ -256,16 +245,13 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to create response handler basic data that is shared between
-	 * String JsonArray and JsonObject
+	 * method to create response handler basic data that is shared between String
+	 * JsonArray and JsonObject
 	 * 
-	 * @param typee
-	 *            String type of the response, values are: SUCCESS, ERROR,
-	 *            WARNING, INFO, EXCEPTION
-	 * @param title
-	 *            String short title that will be shown on the response
-	 * @param message
-	 *            String long message like exception dump
+	 * @param typee   String type of the response, values are: SUCCESS, ERROR,
+	 *                WARNING, INFO, EXCEPTION
+	 * @param title   String short title that will be shown on the response
+	 * @param message String long message like exception dump
 	 * @return JsonObject
 	 */
 	private JsonObject createBasicData(String typee, String title, String message) {
@@ -322,20 +308,14 @@ public class ResponseHandler extends Jsonable {
 	}
 
 	/**
-	 * method to create response handler , this is standard response , with type
-	 * of the response, messages, and data if execution was success, data to be
+	 * method to create response handler , this is standard response , with type of
+	 * the response, messages, and data if execution was success, data to be
 	 * returned is empty String
 	 * 
-	 * @param typee
-	 *            String type of the response, values are: SUCCESS, ERROR,
-	 *            WARNING, INFO, EXCEPTION
-	 * @param title
-	 *            String short title that will be shown on the response
-	 * @param message
-	 *            String long message like exception dump
-	 * @param data
-	 *            String if the response was expected to be String we add that
-	 *            data here
+	 * @param typee   String type of the response, values are: SUCCESS, ERROR,
+	 *                WARNING, INFO, EXCEPTION
+	 * @param title   String short title that will be shown on the response
+	 * @param message String long message like exception dump
 	 */
 	public void create(String typee, String title, String message) {
 		create(typee, title, message, "");

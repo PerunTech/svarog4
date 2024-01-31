@@ -209,7 +209,7 @@ public interface ISvCore {
 	/**
 	 * Method to get a {@link DbDataArray} holding all permissions (ACLs) for
 	 * the current user
-	 * 
+	 * @param sessionToken String containing the UUID of the user sessions
 	 * @return Reference to the {@link DbDataArray} holding the permissions.
 	 *         Null if the user is system
 	 * @throws SvException

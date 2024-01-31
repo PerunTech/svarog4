@@ -40,7 +40,7 @@ public interface ISvExecutor {
 	/**
 	 * Method to describe the resulting class
 	 * 
-	 * @return Returns the Class<?> type of the object returned by the execute
+	 * @return Returns the Class type of the object returned by the execute
 	 *         method
 	 */
 	public Class<?> getReturningType();

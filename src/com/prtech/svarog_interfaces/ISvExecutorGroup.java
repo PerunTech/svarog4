@@ -41,7 +41,7 @@ public interface ISvExecutorGroup {
 	/**
 	 * Method to get the map resulting classes for each call name
 	 * 
-	 * @return Returns map with key/value pairs the name of method and Class<?>
+	 * @return Returns map with key/value pairs the name of method and Class
 	 *         type of the object returned by the execution of the method
 	 *         specified by the key method
 	 */
@@ -69,7 +69,7 @@ public interface ISvExecutorGroup {
 	 * will contain name/description pairs for each executor name returned by
 	 * {@link #getNames()}
 	 * 
-	 * @return Map<String,String> containing the key/value pairs of
+	 * @return Map containing the key/value pairs of
 	 *         name/description of the executor.
 	 */
 	public Map<String, String> getDescriptions();
@@ -105,7 +105,7 @@ public interface ISvExecutorGroup {
 	 *            Map holding the params to be passed
 	 * @param svCore
 	 *            Instance of ISvCore which is executing the request
-	 * @return Object of type described by {@link #getReturningType()}
+	 * @return Object of type described by {@link #getReturningTypes()}
 	 * @throws SvException
 	 *             Throws any underlying exception
 	 */

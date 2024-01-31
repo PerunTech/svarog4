@@ -200,9 +200,6 @@ public class SvFileStore extends SvCore {
 	 * @param linkedObject   The object to which this file will be linked
 	 * @param fileData       The file data it self. It can be byte[] or InputStream.
 	 *                       Svarog will not close the stream after successful save.
-	 * @param fileStoreId    The file store in which the data should be stored
-	 *                       {@link svCONST.SYSTEM_FILESTORE_ID} means it will be
-	 *                       stored in the DB
 	 * @param autoCommit     If svarog should commit on success or rollback on
 	 *                       exception
 	 * @throws SvException
@@ -319,13 +316,13 @@ public class SvFileStore extends SvCore {
 	 * Method to get list of file descriptors based on search criteria
 	 * 
 	 * @param objectTypeId The object type of the linked object
-	 * @param fileTypes    The file types
+	 * @param objectId    The object identifier to which files are linked
 	 * @param refDate      The reference date on which the list of file descriptors
 	 *                     should be retrieved * @param fileSearch
 	 * @param fileSearch   A DbSearch object which contains the search parameters
 	 * @return The list of file objects associated with the object identified by
 	 *         objectId and objectTypeId filtered by the fileSearch parameter
-	 * @throws SvException
+	 * @throws SvException Pass-thru of underlying raised SvExceptions
 	 */
 	public DbDataArray getFilesBySearch(Long objectId, Long objectTypeId, DateTime refDate, DbSearch fileSearch)
 			throws SvException {

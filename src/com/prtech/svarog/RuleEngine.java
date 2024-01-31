@@ -64,7 +64,7 @@ public class RuleEngine extends SvCore {
 	 * is the default constructor available to the public, in order to enforce
 	 * the svarog security mechanisms based on the logged on user.
 	 * 
-	 * @throws Exception
+	 * @throws SvException Pass-thru of any underlying SvException
 	 */
 	public RuleEngine(String session_id, SvCore sharedSvCore) throws SvException {
 		super(session_id, sharedSvCore);

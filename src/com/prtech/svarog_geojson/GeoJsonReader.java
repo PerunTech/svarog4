@@ -72,16 +72,15 @@ public class GeoJsonReader {
 	private GeometryFactory gf;
 
 	private boolean useFeatureType = false;
-	
+
 	private boolean usePropertiesAsUserData = false;
 
 	/**
-	 * The default constructor uses the SRID from the Geojson CRS and the
-	 * default <code>PrecisionModel</code> to create a
-	 * <code>GeometryFactory</code>. If there is no CRS specified then the
-	 * default CRS is a geographic coordinate reference system, using the WGS84
-	 * datum, and with longitude and latitude units of decimal degrees (SRID =
-	 * 4326)
+	 * The default constructor uses the SRID from the Geojson CRS and the default
+	 * <code>PrecisionModel</code> to create a <code>GeometryFactory</code>. If
+	 * there is no CRS specified then the default CRS is a geographic coordinate
+	 * reference system, using the WGS84 datum, and with longitude and latitude
+	 * units of decimal degrees (SRID = 4326)
 	 */
 	public GeoJsonReader() {
 		// do nothing
@@ -89,51 +88,50 @@ public class GeoJsonReader {
 
 	/**
 	 * Configures the reader to expect Features as container for geometries
+	 * 
 	 * @param useFeatureType
 	 */
 	public void setUseFeatureType(boolean useFeatureType) {
 		this.useFeatureType = useFeatureType;
 	}
 
-
 	/**
 	 * Configures the reader to expect Features as container for geometries
+	 * 
 	 * @param usePropertiesAsUserData
 	 */
 	public void setUsePropertiesAsUserData(boolean usePropertiesAsUserData) {
 		this.usePropertiesAsUserData = usePropertiesAsUserData;
 	}
-	
+
 	/**
 	 * Configures the reader to expect Features as container for geometries
-	 * @param usePropertiesAsUserData
+	 * 
+	 * @return boolean value of field usePropertiesAsUserData
 	 */
 	public boolean getUsePropertiesAsUserData() {
 		return this.usePropertiesAsUserData;
 	}
-	
+
 	/**
 	 * This constructor accepts a <code>GeometryFactory</code> that is used to
 	 * create the output geometries and to override the GeoJson CRS.
 	 * 
-	 * @param geometryFactory
-	 *            a GeometryFactory
+	 * @param geometryFactory a GeometryFactory
 	 */
 	public GeoJsonReader(GeometryFactory geometryFactory) {
 		this.gf = geometryFactory;
 	}
 
 	/**
-	 * Reads a GeoJson Geometry from a <tt>String</tt> into a single
-	 * {@link Geometry}.
+	 * Reads a GeoJson Geometry from a String into a single {@link Geometry}.
 	 * 
 	 * 
-	 * @param json
-	 *            The GeoJson String to parse
+	 * @param json The GeoJson String to parse
 	 * @return the resulting JTS Geometry
 	 * 
-	 * @throws ParseException
-	 *             throws a ParseException if the JSON string cannot be parsed
+	 * @throws ParseException throws a ParseException if the JSON string cannot be
+	 *                        parsed
 	 */
 	public Geometry read(String json) throws ParseException {
 		Geometry result = read(new StringReader(json));
@@ -145,12 +143,11 @@ public class GeoJsonReader {
 	 * {@link Geometry}.
 	 * 
 	 * 
-	 * @param reader
-	 *            The input source
+	 * @param reader The input source
 	 * @return The resulting JTS Geometry
 	 * 
-	 * @throws ParseException
-	 *             throws a ParseException if the JSON string cannot be parsed
+	 * @throws ParseException throws a ParseException if the JSON string cannot be
+	 *                        parsed
 	 */
 	public Geometry read(Reader reader) throws ParseException {
 
@@ -182,16 +179,15 @@ public class GeoJsonReader {
 	@SuppressWarnings("unchecked")
 	private Geometry create(Map<String, Object> geometryMap, GeometryFactory geometryFactory) throws ParseException {
 
-		Map<String, Object> geometryMapImpl=geometryMap;
+		Map<String, Object> geometryMapImpl = geometryMap;
 		Geometry result = null;
 		Object userData = null;
 		String type = (String) geometryMapImpl.get(GeoJsonConstants.NAME_TYPE);
 		if (usePropertiesAsUserData && geometryMapImpl.get(GeoJsonConstants.NAME_PROPERTIES) != null)
 			userData = geometryMapImpl.get(GeoJsonConstants.NAME_PROPERTIES);
 
-		if(type != null && GeoJsonConstants.NAME_FEATURE.equals(type))
-		{
-			geometryMapImpl=(Map<String, Object>) geometryMap.get(GeoJsonConstants.NAME_GEOMETRY);
+		if (type != null && GeoJsonConstants.NAME_FEATURE.equals(type)) {
+			geometryMapImpl = (Map<String, Object>) geometryMap.get(GeoJsonConstants.NAME_GEOMETRY);
 			type = (String) geometryMapImpl.get(GeoJsonConstants.NAME_TYPE);
 		}
 		if (type == null) {
@@ -216,7 +212,8 @@ public class GeoJsonReader {
 			} else if (GeoJsonConstants.NAME_MULTIPOLYGON.equals(type)) {
 				result = createMultiPolygon(geometryMapImpl, geometryFactory);
 
-			} else if (GeoJsonConstants.NAME_GEOMETRYCOLLECTION.equals(type) || GeoJsonConstants.NAME_FEATURECOLLECTION.equals(type)) {
+			} else if (GeoJsonConstants.NAME_GEOMETRYCOLLECTION.equals(type)
+					|| GeoJsonConstants.NAME_FEATURECOLLECTION.equals(type)) {
 				result = createGeometryCollection(geometryMapImpl, geometryFactory);
 
 			} else {
@@ -224,8 +221,8 @@ public class GeoJsonReader {
 			}
 			if (geometryMapImpl.get(GeoJsonConstants.NAME_USERDATA) != null)
 				result.setUserData(geometryMapImpl.get(GeoJsonConstants.NAME_USERDATA));
-			else result.setUserData(userData);
-			
+			else
+				result.setUserData(userData);
 
 		}
 
@@ -241,12 +238,10 @@ public class GeoJsonReader {
 		try {
 			List<Map<String, Object>> geometriesList = null;
 			;
-			if(useFeatureType)
-				geometriesList = (List<Map<String, Object>>) geometryMap
-				.get(GeoJsonConstants.NAME_FEATURES);
+			if (useFeatureType)
+				geometriesList = (List<Map<String, Object>>) geometryMap.get(GeoJsonConstants.NAME_FEATURES);
 			else
-				geometriesList = (List<Map<String, Object>>) geometryMap
-					.get(GeoJsonConstants.NAME_GEOMETRIES);
+				geometriesList = (List<Map<String, Object>>) geometryMap.get(GeoJsonConstants.NAME_GEOMETRIES);
 
 			Geometry[] geometries = new Geometry[geometriesList.size()];
 
@@ -468,21 +463,17 @@ public class GeoJsonReader {
 				String name = (String) propertiesMap.get(GeoJsonConstants.NAME_NAME);
 				String[] split = name.split(":");
 				boolean epsgFound = false;
-				for(int i=0;i<split.length;i++)
-				{
-					if(GeoJsonConstants.NAME_EPSG.equalsIgnoreCase(split[i].trim()))
-					{
-						epsgFound=true;
+				for (int i = 0; i < split.length; i++) {
+					if (GeoJsonConstants.NAME_EPSG.equalsIgnoreCase(split[i].trim())) {
+						epsgFound = true;
 						continue;
 					}
-					if(epsgFound)
-					{
-					    try {
-					    	srid = Integer.parseInt( split[i].trim() );
-					        break;
-					    }
-					    catch( Exception e ) {
-					    }
+					if (epsgFound) {
+						try {
+							srid = Integer.parseInt(split[i].trim());
+							break;
+						} catch (Exception e) {
+						}
 					}
 				}
 			} catch (RuntimeException e) {

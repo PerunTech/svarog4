@@ -127,7 +127,7 @@ public final class SvClassLoader extends ClassLoader {
 	 * already loaded so we don't try to load it again if there is no need.
 	 * 
 	 * @param jarByteCode The byte[] array containing the jar file
-	 * @param jarUnqId    The unique identifier under which this jar is loaded. For
+	 * @param unqId    The unique identifier under which this jar is loaded. For
 	 *                    the rule engine it is ACTION ID
 	 * @throws SvException
 	 */

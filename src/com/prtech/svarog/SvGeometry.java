@@ -1019,7 +1019,7 @@ public class SvGeometry extends SvWriter {
 	 * Method that returns the all geometries from a specific layer within a
 	 * bounding box
 	 * 
-	 * @param layerTypeId the object id of the layer/object type from which to fetch
+	 * @param typeId the object id of the layer/object type from which to fetch
 	 *                    the geometries
 	 * @param envelope    The {@link Envelope} of the region we are interested in
 	 * @return Set of {@link Geometry} objects
@@ -1033,7 +1033,7 @@ public class SvGeometry extends SvWriter {
 	 * Method that returns the all geometries from a specific layer within a
 	 * bounding box
 	 * 
-	 * @param layerTypeId  the object id of the layer/object type from which to
+	 * @param typeId  the object id of the layer/object type from which to
 	 *                     fetch the geometries
 	 * @param selector     The {@link Geometry} which we want to use as selector
 	 * @param partialCover flag to notify if we want to include partially covered
@@ -1420,7 +1420,7 @@ public class SvGeometry extends SvWriter {
 	 * Method to deduplicate polygon geometries, line ring by line ring to ensure
 	 * that all vertices are within SDI_VERTEX_ALIGN_TOLERANCE parameter
 	 * 
-	 * @param oldG The existing polygon
+	 * @param poly The existing polygon
 	 * @return the new polygon with deduplicated vertices
 	 */
 	public Polygon deduplicatePolygon(Polygon poly) {
@@ -1501,7 +1501,7 @@ public class SvGeometry extends SvWriter {
 	 * tile 3. If the intersecting tile is a border tile then test if the geometry
 	 * intersects the system boundary
 	 * 
-	 * @param dbo The {@link DbDataObject} containing at least GEOMETRY column.
+	 * @param geom The geometry.
 	 * @throws SvException If the geometry is not valid throws
 	 *                     "system.error.sdi.invalid_geom". If the geometry is
 	 *                     outside of the system grid then
@@ -1880,7 +1880,7 @@ public class SvGeometry extends SvWriter {
 	 * Method to ensure that the geometry is not too close to another geometry. T
 	 * 
 	 * @param geom             The geometry to be tested for proximity
-	 * @param minPointDistance The distance between the geometry and another
+	 * @param distanceTolerance The distance between the geometry and another
 	 *                         geometry (in millimeters!!!). If the tolerance is 0,
 	 *                         the test is omitted
 	 * @param layerTypeId      The layer id which should be used to calculate the
@@ -1895,7 +1895,7 @@ public class SvGeometry extends SvWriter {
 	 * Method to ensure that the geometry is not too close to another geometry. T
 	 * 
 	 * @param geom             The geometry to be tested for proximity
-	 * @param minPointDistance The distance between the geometry and another
+	 * @param distanceTolerance The distance between the geometry and another
 	 *                         geometry (in millimeters!!!). If the tolerance is 0,
 	 *                         the test is omitted
 	 * @param layerTypeId      The layer id which should be used to calculate the

@@ -759,8 +759,8 @@ public class SvExecManager extends SvCore {
 	 * 
 	 * This version will not raise <code>system.err.wrong_return_type</code>.
 	 * 
-	 * @param executorKey   Key of the executor, category and name, concatenated
-	 *                      with a dot
+	 * @param executorPackCode   Code of the executor pack
+	 * @param executorPackItem	 Code of the item in the executor pack
 	 * @param params        Parameters which will be passed to the execution
 	 * @param referenceDate The reference date on which the Executor must be valid.
 	 * @return Object instance of class type described by return type

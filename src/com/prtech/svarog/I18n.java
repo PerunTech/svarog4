@@ -169,12 +169,12 @@ public class I18n implements II18n {
 	/**
 	 * This method is dead! Use getLabels(languageId, labelCategory)!!
 	 * 
-	 * The method returns a HashMap<String, String> with pairs of label codes and
+	 * The method returns a HashMap with pairs of label codes and
 	 * localised text for the requested locale
 	 * 
 	 * @param languageId the id of the locale for which we would like to get a table
 	 *                   of labels
-	 * @return HashMap<String, String> containing label/text pairs
+	 * @return HashMap containing label/text pairs
 	 */
 	@Deprecated
 	public static DbDataArray getLabels(String languageId) {
@@ -186,12 +186,12 @@ public class I18n implements II18n {
 	/**
 	 * This method is dead! Use getLabels(languageId, labelCategory)!!
 	 * 
-	 * The method returns a HashMap<String, String> with pairs of label codes and
+	 * The method returns a HashMap with pairs of label codes and
 	 * localised text for the requested locale
 	 * 
 	 * @param languageId the id of the locale for which we would like to get a table
 	 *                   of labels
-	 * @return HashMap<String, String> containing label/text pairs
+	 * @return HashMap containing label/text pairs
 	 */
 	@Deprecated
 	public static DbDataArray getLabels(Long languageId) {
@@ -204,7 +204,7 @@ public class I18n implements II18n {
 	 * 
 	 * @param languageId the string id of the locale for which we would like to get
 	 *                   a table of labels
-	 * @return HashMap<String, String> containing label/text pairs
+	 * @return HashMap containing label/text pairs
 	 */
 	public static DbDataObject getLocaleId(String languageId) {
 		return SvarogInstall.getLocaleList().getItemByIdx(languageId);
@@ -218,7 +218,6 @@ public class I18n implements II18n {
 	 * @param labelCode  the label code for which i18n will return a localised
 	 *                   string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 
 	public static String getText(String languageId, String labelCode) {
@@ -255,7 +254,6 @@ public class I18n implements II18n {
 	 * @param labelCode  the label code for which i18n will return a localised
 	 *                   string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	public static String getLongText(String languageId, String labelCode) {
 		try {
@@ -275,7 +273,6 @@ public class I18n implements II18n {
 	 * @param labelCode  the label code for which i18n will return a localised
 	 *                   string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	@Override
 	public String getI18nLongText(String languageId, String labelCode) {
@@ -324,7 +321,6 @@ public class I18n implements II18n {
 	 * 
 	 * @param labelCode the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	public static String getText(String labelCode) {
 		return getText(SvConf.getDefaultLocale(), labelCode);
@@ -335,7 +331,6 @@ public class I18n implements II18n {
 	 * 
 	 * @param labelCode the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	@Override
 	public String getI18nText(String labelCode) {
@@ -349,7 +344,6 @@ public class I18n implements II18n {
 	 * 
 	 * @param labelCode the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	public static String getLongText(String labelCode) {
 		return getLongText(SvConf.getDefaultLocale(), labelCode);
@@ -361,7 +355,6 @@ public class I18n implements II18n {
 	 * 
 	 * @param labelCode the label code for which i18n will return a localised string
 	 * @return String representation of the label
-	 * @throws SvException
 	 */
 	@Override
 	public String getI18nLongText(String labelCode) {

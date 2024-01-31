@@ -7,12 +7,11 @@ import com.prtech.svarog_common.ResponseHandler;
 
 public interface ISample {
 	/**
-	 * Constructor,
+	 * Method to get random sample
 	 * 
-	 * @param params
-	 * @param sample DbDataArray for the sample that we are getting items out of
+	 * @param svr A reference to an SvCore
+	 * @throws SvException Any underlying SvException
 	 */
-
 	public DbDataArray getRandomSample(ISvCore svr) throws SvException;
 
 	/**
@@ -21,7 +20,7 @@ public interface ISample {
 	 * 
 	 * @param svr SvReader connected to database
 	 * @return DbDataArray of all objects that are random extracted
-	 * @throws SvException
+	 * @throws SvException Any underlying SvException
 	 */
 	public DbDataArray getRandomSampleV1(ISvCore svr) throws SvException;
 
@@ -40,8 +39,7 @@ public interface ISample {
 
 	public DbDataArray getADHOCSample(ISvCore svr) throws SvException;
 
-	public DbDataObject createSampleObject(Long parent_id, Long batchId, String name, String note)
-			throws SvException;
+	public DbDataObject createSampleObject(Long parent_id, Long batchId, String name, String note) throws SvException;
 
 	public ResponseHandler changeStatus(Long scoreId, String toStatus, String token) throws SvException;
 

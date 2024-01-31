@@ -184,7 +184,11 @@ public class SvException extends Exception {
 	 * debugging.
 	 * 
 	 * @param svarogLabelCode
-	 * @param dbo
+	 * @param instanceUser    The user under which the svarog instance was running
+	 * @param userData        The user data which is related to the exception
+	 * @param configData      The configuration data related to the exception
+	 * @param cause           When theres underling exception also enable logging
+	 *                        the throwable cause
 	 */
 	public SvException(String svarogLabelCode, DbDataObject instanceUser, Jsonable userData, Object configData,
 			Throwable cause) {

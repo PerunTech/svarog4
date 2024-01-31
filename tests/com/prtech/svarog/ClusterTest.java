@@ -20,7 +20,9 @@ import org.junit.Test;
 import com.prtech.svarog_common.DbDataArray;
 import com.prtech.svarog_common.DbDataObject;
 import com.prtech.svarog_common.DboFactory;
-
+/**
+ * 
+ */
 public class ClusterTest {
 
 	@BeforeClass

@@ -242,7 +242,6 @@ public class DbDataObject extends Jsonable {
 	/**
 	 * Method to set the unique object id in the Svarog system.
 	 * 
-	 * @return The unique object ID in the database
 	 */
 	public void setObjectId(Long objectId) {
 		if (!isReadOnly) {
@@ -369,7 +368,7 @@ public class DbDataObject extends Jsonable {
 	 * @param dtDelete The timestamp value to be set
 	 */
 	@Deprecated
-	public void setDt_delete(DateTime dt_delete) {
+	public void setDt_delete(DateTime dtDelete) {
 		setDtDelete(dt_delete);
 	}
 
@@ -564,7 +563,6 @@ public class DbDataObject extends Jsonable {
 	/**
 	 * Return a flag is the object type is geometry type
 	 * 
-	 * @return Flag if the object is geometry type
 	 * @deprecated
 	 */
 	@Deprecated

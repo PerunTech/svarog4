@@ -270,12 +270,10 @@ public class SvClusterNotifierProxy implements Runnable {
 	/**
 	 * Method which awaits for MSG_ACK from set of nodes.
 	 * 
-	 * @param nodes    The set of nodes from which we shall wait for acknowledgment
 	 * @param ackValue The value which is acknowledged by the nodes
 	 * @param timeout  Milliseconds to wait for ackowledgement
 	 * @return true if the value has been acknowledged, false if the timeout has
 	 *         been reached
-	 * @throws SvException
 	 */
 	public static boolean waitForAck(int ackValue, long timeout) {
 		boolean result = true;

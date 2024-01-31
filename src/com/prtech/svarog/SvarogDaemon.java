@@ -118,10 +118,10 @@ public class SvarogDaemon {
 	 * properties passed into Felix.</li>
 	 * <li><i><b>Add shutdown hook.</b></i> To make sure the framework shutdowns
 	 * cleanly, the launcher installs a shutdown hook; this can be disabled with the
-	 * <tt>felix.shutdown.hook</tt> configuration property.</li>
+	 * felix.shutdown.hook configuration property.</li>
 	 * <li><i><b>Create and initialize a framework instance.</b></i> The OSGi
-	 * standard <tt>FrameworkFactory</tt> is retrieved from
-	 * <tt>META-INF/services</tt> and used to create a framework instance with the
+	 * standard FrameworkFactory is retrieved from
+	 * META-INF/services and used to create a framework instance with the
 	 * configuration properties.</li>
 	 * <li><i><b>Auto-deploy bundles.</b></i> All bundles in the auto-deploy
 	 * directory are deployed into the framework instance.</li>
@@ -140,39 +140,7 @@ public class SvarogDaemon {
 	 * just no way to interact with it.
 	 * </p>
 	 * <p>
-	 * The launcher provides two ways to deploy bundles into a framework at startup,
-	 * which have associated configuration properties:
-	 * </p>
-	 * <ul>
-	 * <li>Bundle auto-deploy - Automatically deploys all bundles from a specified
-	 * directory, controlled by the following configuration properties:
-	 * <ul>
-	 * <li><tt>felix.auto.deploy.dir</tt> - Specifies the auto-deploy directory from
-	 * which bundles are automatically deploy at framework startup. The default is
-	 * the <tt>bundle/</tt> directory of the current directory.</li>
-	 * <li><tt>felix.auto.deploy.action</tt> - Specifies the auto-deploy actions to
-	 * be found on bundle JAR files found in the auto-deploy directory. The possible
-	 * actions are <tt>install</tt>, <tt>update</tt>, <tt>start</tt>, and
-	 * <tt>uninstall</tt>. If no actions are specified, then the auto-deploy
-	 * directory is not processed. There is no default value for this property.</li>
-	 * </ul>
-	 * </li>
-	 * <li>Bundle auto-properties - Configuration properties which specify URLs to
-	 * bundles to install/start:
-	 * <ul>
-	 * <li><tt>felix.auto.install.N</tt> - Space-delimited list of bundle URLs to
-	 * automatically install when the framework is started, where <tt>N</tt> is the
-	 * start level into which the bundle will be installed (e.g.,
-	 * felix.auto.install.2).</li>
-	 * <li><tt>felix.auto.start.N</tt> - Space-delimited list of bundle URLs to
-	 * automatically install and start when the framework is started, where
-	 * <tt>N</tt> is the start level into which the bundle will be installed (e.g.,
-	 * felix.auto.start.2).</li>
-	 * </ul>
-	 * </li>
-	 * </ul>
-	 * <p>
-	 * These properties should be specified in the <tt>svarog.properties</tt> so
+	 * These properties should be specified in the svarog.properties so
 	 * that they can be processed by the launcher during the framework startup
 	 * process.
 	 * </p>
@@ -292,7 +260,7 @@ public class SvarogDaemon {
 	 * Currently, it assumes the first non-commented line is the class name of the
 	 * framework factory implementation.
 	 * 
-	 * @return The created <tt>FrameworkFactory</tt> instance.
+	 * @return The created FrameworkFactory instance.
 	 * @throws Exception if any errors occur.
 	 **/
 	static FrameworkFactory getFrameworkFactory() throws Exception {
@@ -320,14 +288,14 @@ public class SvarogDaemon {
 	/**
 	 * <p>
 	 * Loads the properties in the system property file associated with the
-	 * framework installation into <tt>System.setProperty()</tt>. These properties
+	 * framework installation into System.setProperty(). These properties
 	 * are not directly used by the framework in anyway. By default, the system
-	 * property file is located in the <tt>conf/</tt> directory of the Felix
-	 * installation directory and is called "<tt>system.properties</tt>". The
+	 * property file is located in the conf/ directory of the Felix
+	 * installation directory and is called "system.properties". The
 	 * installation directory of Felix is assumed to be the parent directory of the
-	 * <tt>felix.jar</tt> file as found on the system class path property. The
+	 * felix.jar file as found on the system class path property. The
 	 * precise file from which to load system properties can be set by initializing
-	 * the "<tt>felix.system.properties</tt>" system property to an arbitrary URL.
+	 * the "felix.system.properties" system property to an arbitrary URL.
 	 * </p>
 	 **/
 	public static void loadSystemProperties() {
@@ -405,15 +373,15 @@ public class SvarogDaemon {
 	 * associated with the Svarog framework installation; these properties are
 	 * accessible to the framework and to bundles and are intended for configuration
 	 * purposes. By default, the configuration property file is located in the
-	 * <tt>root</tt> directory of the Svarog installation directory and is called
-	 * "<tt>svarog.properties</tt>". The installation directory of Svarog is assumed
-	 * to be the parent directory of the <tt>svarog.jar</tt> file as found on the
+	 * root directory of the Svarog installation directory and is called
+	 * "svarog.properties". The installation directory of Svarog is assumed
+	 * to be the parent directory of the svarog.jar file as found on the
 	 * system class path property. The precise file from which to load configuration
-	 * properties can be set by initializing the "<tt>felix.config.properties</tt>"
+	 * properties can be set by initializing the "felix.config.properties"
 	 * system property to an arbitrary URL.
 	 * </p>
 	 * 
-	 * @return A <tt>Properties</tt> instance or <tt>null</tt> if there was an
+	 * @return A Properties instance or null if there was an
 	 *         error.
 	 **/
 	public static Map<String, Object> loadConfigProperties() {
