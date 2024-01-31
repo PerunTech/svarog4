@@ -137,6 +137,7 @@ public class CodeList extends SvCore implements ISvCodeList {
 		}
 		return catList;
 	}
+
 	/**
 	 * 
 	 * @param languageId       The ID of the locale into which the labels will be
@@ -165,6 +166,35 @@ public class CodeList extends SvCore implements ISvCodeList {
 		return getCodeListId(SvConf.getDefaultLocale(), codeListObjectId);
 	}
 
+	/**
+	 * Method to return sorted list of codes based on the parent code name.
+	 */
+	public DbDataArray getCodeListBase(String codeListName) {
+		HashMap<String, Long> lists = null;
+		Long codeListObjectId = 0L;
+		lists = getCodeListValues(Sv.ROOT_CODELIST);
+		// find the crop codes
+		codeListObjectId = lists.get(codeListName);
+		
+		SvReader svr = null;
+		DbDataArray object = null;
+		try {
+			svr = new SvReader(this);
+			object = svr.getObjectsByParentId(codeListObjectId, svCONST.OBJECT_TYPE_CODE, null, null, null,
+					"SORT_ORDER");
+		} catch (SvException e) {
+			log4j.error("Error loading the code list " + codeListObjectId + ":" + e.getFormattedMessage());
+		} finally {
+			if (svr != null)
+				svr.release();
+		}
+		return object;
+
+	}
+	
+	/**
+	 * Method to return sorted list of codes based on the parent code object Id.
+	 */
 	public DbDataArray getCodeListBase(Long codeListObjectId) {
 		SvReader svr = null;
 		DbDataArray object = null;
@@ -182,15 +212,36 @@ public class CodeList extends SvCore implements ISvCodeList {
 
 	}
 
+	/**
+	 * Method to return a list of all configured Code Lists within the Svarog system
+	 * (at ROOT level).
+	 * 
+	 * @param languageId the Id of the locale, as available in Svarog System Locales
+	 * @return Map of Code/Label pairs
+	 */
 	public HashMap<Long, String> getCodeCategoriesId(String languageId) {
 		return getCodeListId(languageId, 0L);
 	}
 
-	// od tuka za refaktor
+	/**
+	 * Method to return a list of all configured Code Lists within the Svarog system
+	 * (at ROOT level).
+	 * 
+	 * @return Map of Code/Label pairs
+	 */
 	public HashMap<String, String> getCodeCategories() {
 		return getCodeCategories(SvConf.getDefaultLocale(), true);
 	}
 
+	/**
+	 * Method to return a configured Code List within the Svarog system.
+	 * 
+	 * @param languageId the Id of the locale, as available in Svarog System Locales
+	 * @param the        object Id of the code list
+	 * @param Flag       if the list items should be translated according to the
+	 *                   locale labels
+	 * @return Map of User Code/Label pairs
+	 */
 	public HashMap<String, String> getCodeList(String languageId, Long codeListObjectId, Boolean includeLabels) {
 		String langId = languageId != null ? languageId : SvConf.getDefaultLocale();
 

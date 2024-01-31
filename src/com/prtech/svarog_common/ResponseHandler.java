@@ -238,8 +238,16 @@ public class ResponseHandler extends Jsonable {
 		return responseObject;
 	}
 
-	public JsonObject create(MessageType typee, String title, String message, JsonElement data) {
-		responseObject = createBasicData(typee, title, message);
+	/**
+	 * Method to create a Json response with the predefined message type, title and text.
+	 * @param type The type of the message {@link} MessageType 
+	 * @param title The title of the message
+	 * @param message The message itself
+	 * @param data Any additional data required by the front end.
+	 * @return a predefined JsonObject 
+	 */
+	public JsonObject create(MessageType type, String title, String message, JsonElement data) {
+		responseObject = createBasicData(type, title, message);
 		if (data != null) {
 			responseObject.add("data", data);
 			jData = data;
