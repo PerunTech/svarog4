@@ -97,8 +97,7 @@ Agreement
 											https://s01.oss.sonatype.org/service/local</url>
 										<closeRepository>false</closeRepository>
 										<releaseRepository>false</releaseRepository>
-										<stagingRepositories>
-											target/staging-deploy</stagingRepositories>
+										<stagingRepositories>target/staging-deploy</stagingRepositories>
 									</maven-central>
 								</nexus2>
 							</maven>
