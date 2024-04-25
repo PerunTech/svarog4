@@ -6812,7 +6812,11 @@ public class DbInit {
 			DbDataArray customObjests = new DbDataArray();
 			List<DbDataTable> dbts = e.getValue();
 			String jarName = e.getKey();
-			svObjectId = dbTables2DbDataArray(dbts, customObjests, defaultCodes, svObjectId, errMsg);
+			try {
+				svObjectId = dbTables2DbDataArray(dbts, customObjests, defaultCodes, svObjectId, errMsg);
+			} catch (Exception ee) {
+				errMsg.append("Error generating DbDataTables list. " + ee.getMessage());
+			}
 			if (!errMsg.toString().equals("")) {
 				log4j.error("Error creating DbDataArray from custom IDbInit:" + jarName + "." + errMsg.toString());
 				return svObjectId;
@@ -7304,9 +7308,10 @@ public class DbInit {
 	 *                  DbDataTableExtensions
 	 * @return Filtered list of all DbDataTables objects WITHOUT
 	 *         DbDataTableExtensions, after they were applied to the original
-	 * @throws SvException 
+	 * @throws SvException
 	 */
-	public static Map<String, List<DbDataTable>> applyDbDataTableExtensions(Map<String, List<DbDataTable>> allTables) throws SvException {
+	public static Map<String, List<DbDataTable>> applyDbDataTableExtensions(Map<String, List<DbDataTable>> allTables)
+			throws SvException {
 		List<DbDataTableExtension> extensions = new ArrayList<>();
 		// first lets extract all DbDataTableExtensions into a list "extensions"
 		for (List<DbDataTable> dbts : allTables.values()) {
@@ -7343,7 +7348,7 @@ public class DbInit {
 	 * 
 	 * @param dbt  the original table definition
 	 * @param dbte the extension of the table
-	 * @throws SvException 
+	 * @throws SvException
 	 */
 	private static void applyExtension(DbDataTable dbt, DbDataTableExtension dbte) throws SvException {
 		for (DbDataField dbf : dbte.getDbDataFields()) {
