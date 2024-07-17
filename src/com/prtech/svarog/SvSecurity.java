@@ -555,35 +555,51 @@ public class SvSecurity extends SvCore {
 
 			if (ret.getItems().size() > 0) {
 				userData = ret.getItems().get(0);
-				if (userData.getStatus().equals(SvWriter.getDefaultStatus(getDbt(userData.getObjectType())))) {
-
-					sessionToken = SvUtil.getUUID();
-
-					DbDataObject audit = new DbDataObject(svCONST.OBJECT_TYPE_SECURITY_LOG);
-					audit.setVal("session_id", sessionToken);
-					audit.setVal("user_object_id", userData.getObjectId());
-					audit.setVal("ACTIVITY_TYPE", "login");
-					svw.isInternal = true;
-					svw.saveObject(audit);
-					audit.setVal("last_refresh", DateTime.now());
-
-					userData.setIsDirty(false);
-					audit.setIsDirty(false);
-					DboFactory.makeDboReadOnly(userData);
-					DboFactory.makeDboReadOnly(audit);
-					DbCache.addObject(userData);
-					DbCache.addObject(audit, sessionToken);
-					// distribute the token to the cluster
-					if (SvCluster.getIsActive().get() && !SvCluster.isCoordinator())
-						SvClusterClient.putToken(audit);
-				} else
-					throw (new SvException("system.error.user_status_invalid", instanceUser, userData, expr));
+				sessionToken = SvUtil.getUUID();
+				saveSessionToken(userData, svw, sessionToken);
 			} else {
 				throw (new SvException("system.error.no_user_found", instanceUser, ret, expr));
 			}
 			return sessionToken;
 		}
 
+	}
+
+	/**
+	 * Method to save a session token in the database which finally grants access.
+	 * 
+	 * @param userData     The user data to which the token is related
+	 * @param svw          The SvWriter instance with appropriate Server/System
+	 *                     privileges
+	 * @param sessionToken The session token identifying the session.
+	 * @throws SvException forwards any underlying exception
+	 */
+	public void saveSessionToken(DbDataObject userData, SvWriter svw, String sessionToken) throws SvException {
+
+		if (!svw.isSystem() && !this.isService() && !SvConf.isServiceClass(SvUtil.getCallerClassName(this.getClass())))
+			throw (new SvException(Sv.Exceptions.NOT_AUTHORISED, instanceUser));
+
+		if (userData.getStatus().equals(SvWriter.getDefaultStatus(getDbt(userData.getObjectType())))) {
+
+			DbDataObject audit = new DbDataObject(svCONST.OBJECT_TYPE_SECURITY_LOG);
+			audit.setVal(Sv.SESSION_ID, sessionToken);
+			audit.setVal(Sv.USER_OBJECT_ID, userData.getObjectId());
+			audit.setVal(Sv.ACTIVITY_TYPE, Sv.LOGIN);
+			svw.isInternal = true;
+			svw.saveObject(audit);
+			audit.setVal(Sv.LAST_REFRESH, DateTime.now());
+
+			userData.setIsDirty(false);
+			audit.setIsDirty(false);
+			DboFactory.makeDboReadOnly(userData);
+			DboFactory.makeDboReadOnly(audit);
+			DbCache.addObject(userData);
+			DbCache.addObject(audit, sessionToken);
+			// distribute the token to the cluster
+			if (SvCluster.getIsActive().get() && !SvCluster.isCoordinator())
+				SvClusterClient.putToken(audit);
+		} else
+			throw (new SvException("system.error.user_status_invalid", instanceUser, userData, null));
 	}
 
 	/**

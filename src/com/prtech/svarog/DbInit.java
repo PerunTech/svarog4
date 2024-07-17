@@ -3262,7 +3262,7 @@ public class DbInit {
 
 			// f1
 			DbDataField dbf1 = new DbDataField();
-			dbf1.setDbFieldName("PKID");
+			dbf1.setDbFieldName(Sv.PKID);
 			dbf1.setIsPrimaryKey(true);
 			dbf1.setDbFieldType(DbFieldType.NUMERIC);
 			dbf1.setDbFieldSize(18);
@@ -3272,7 +3272,7 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf2 = new DbDataField();
-			dbf2.setDbFieldName("USER_OBJECT_ID");
+			dbf2.setDbFieldName(Sv.USER_OBJECT_ID);
 			// dbf2.setIsPrimaryKey(true);
 			dbf2.setDbFieldType(DbFieldType.NUMERIC);
 			dbf2.setDbFieldSize(18);
@@ -3282,7 +3282,7 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf2_0 = new DbDataField();
-			dbf2_0.setDbFieldName("SESSION_ID");
+			dbf2_0.setDbFieldName(Sv.SESSION_ID);
 			dbf2_0.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf2_0.setDbFieldSize(50);
 			dbf2_0.setIsNull(false);
@@ -3291,7 +3291,7 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf2_1 = new DbDataField();
-			dbf2_1.setDbFieldName("ACTIVITY_TYPE");
+			dbf2_1.setDbFieldName(Sv.ACTIVITY_TYPE);
 			dbf2_1.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf2_1.setDbFieldSize(100);
 			dbf2_1.setIsNull(false);

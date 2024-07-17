@@ -273,5 +273,9 @@ public class Sv {
 	public static final String GEOMETRY_TYPE = "GEOMETRY_TYPE";
 	public static final String POLYGON = "POLYGON";
 	public static final String KEY_TOO_LONG = "KEY_TOO_LONG";
+	public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
+	public static final String SESSION_ID = "SESSION_ID";
+	public static final String USER_OBJECT_ID = "USER_OBJECT_ID";
+	public static final Object LOGIN = "LOGIN";
 
 }
