@@ -52,6 +52,7 @@ public class Sv {
 		public static final String SDI_TYPE_LIMIT = "system.error.sdi.sdi_type_limit";
 		public static final String NOT_AUTHORISED = "system.error.not_authorised";
 		public static final String SWITCH_USER_SYSTEM ="system.error.cant_switch_system_user";
+		public static final String NO_USER_FOUND = "system.error.no_user_found";
 		private Exceptions() {
 		}
 

@@ -335,7 +335,7 @@ public class SvSecurity extends SvCore {
 		}
 
 		if (sid == null)
-			throw (new SvException("system.error.no_user_found", instanceUser, null, expr));
+			throw (new SvException(Sv.Exceptions.NO_USER_FOUND, instanceUser, null, expr));
 
 		return sid;
 
