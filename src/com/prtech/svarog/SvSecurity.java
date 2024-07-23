@@ -556,7 +556,7 @@ public class SvSecurity extends SvCore {
 			if (ret.getItems().size() > 0) {
 				userData = ret.getItems().get(0);
 				sessionToken = SvUtil.getUUID();
-				saveSessionToken(userData, svw, sessionToken);
+				saveSessionToken(userData, svw, sessionToken, null);
 			} else {
 				throw (new SvException("system.error.no_user_found", instanceUser, ret, expr));
 			}
@@ -576,6 +576,21 @@ public class SvSecurity extends SvCore {
 	 */
 	public void saveSessionToken(DbDataObject userData, SvWriter svw, String sessionToken) throws SvException {
 
+	}
+
+	/**
+	 * Method to save a session token in the database which finally grants access.
+	 * 
+	 * @param userData     The user data to which the token is related
+	 * @param svw          The SvWriter instance with appropriate Server/System
+	 *                     privileges
+	 * @param sessionToken The session token identifying the session.
+	 * @param tokenSource  The session token origin system
+	 * @throws SvException forwards any underlying exception
+	 */
+	public void saveSessionToken(DbDataObject userData, SvWriter svw, String sessionToken, String tokenSource)
+			throws SvException {
+
 		if (!svw.isSystem() && !this.isService() && !SvConf.isServiceClass(SvUtil.getCallerClassName(this.getClass())))
 			throw (new SvException(Sv.Exceptions.NOT_AUTHORISED, instanceUser));
 
@@ -586,8 +601,17 @@ public class SvSecurity extends SvCore {
 			audit.setVal(Sv.USER_OBJECT_ID, userData.getObjectId());
 			audit.setVal(Sv.ACTIVITY_TYPE, Sv.LOGIN);
 			svw.isInternal = true;
-			svw.saveObject(audit);
+			try {
+				svw.saveObject(audit);
+			} catch (SvException e) {
+				if (!(e.getLabelCode().equalsIgnoreCase("system.error.unq_constraint_violated")
+						&& tokenSource.startsWith("SSO")))
+					throw (e);
+			}
+
 			audit.setVal(Sv.LAST_REFRESH, DateTime.now());
+			if (tokenSource != null)
+				audit.setVal(Sv.TOKEN_SOURCE, tokenSource);
 
 			userData.setIsDirty(false);
 			audit.setIsDirty(false);

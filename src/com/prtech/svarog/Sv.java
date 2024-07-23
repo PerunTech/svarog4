@@ -278,5 +278,7 @@ public class Sv {
 	public static final String SESSION_ID = "SESSION_ID";
 	public static final String USER_OBJECT_ID = "USER_OBJECT_ID";
 	public static final Object LOGIN = "LOGIN";
+	public static final String TOKEN_SOURCE = "TOKEN_SOURCE";
+	public static final String SSO_SAML = null;
 
 }
