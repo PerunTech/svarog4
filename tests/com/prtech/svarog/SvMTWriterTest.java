@@ -57,9 +57,13 @@ public class SvMTWriterTest {
 
 			// test if the result is good
 			DbDataArray dba = svr.getObjectsByParentId(50L, svCONST.OBJECT_TYPE_SYS_PARAMS, null, null, null);
-			if (dba.size() != 112 && !dba.get(0).getVal("LOCALE_ID").toString().startsWith("MTST")) {
-				fail("Multithreaded save failed");
+			int resultSize = 0;
+			for (DbDataObject dbo : dba.getItems()) {
+				if (dbo.getAsString(Sv.PARAM_NAME).startsWith("MTST"))
+					resultSize++;
 			}
+			if (a.size() != resultSize)
+				fail("Test failed");
 
 		} catch (SvException | InterruptedException e) {
 			// TODO Auto-generated catch block
