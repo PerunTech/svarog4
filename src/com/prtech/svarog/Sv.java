@@ -280,5 +280,9 @@ public class Sv {
 	public static final Object LOGIN = "LOGIN";
 	public static final String TOKEN_SOURCE = "TOKEN_SOURCE";
 	public static final String SSO_SAML = null;
+	// SVAROG_MENU table
+	public static final String MENU_CODE = "MENU_CODE"; 	//menu table field
+	public static final String MENU_TYPE = "MENU_TYPE"; 	//menu table field
+	public static final String MENU_CONF = "MENU_CONF"; 	//menu table field
 
 }

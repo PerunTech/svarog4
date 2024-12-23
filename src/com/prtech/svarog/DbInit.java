@@ -1505,6 +1505,78 @@ public class DbInit {
 		dbe.setDbTableFields(dbTableFields);
 		return dbe;
 	}
+	
+	// svarog table for dynamic menus
+	private static DbDataTable createMenuTable() {
+		DbDataTable dbe = new DbDataTable();
+		dbe.setDbTableName(Sv.REPO_TABLE_NAME + "_MENU");
+		dbe.setDbRepoName(Sv.MASTER_REPO_NAME);
+		dbe.setDbSchema(Sv.DEFAULT_SCHEMA);
+		dbe.setIsSystemTable(true);
+		dbe.setIsRepoTable(false);
+		dbe.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "menu");
+		dbe.setUse_cache(false);
+		dbe.setIsConfigTable(true);
+		dbe.setConfigColumnName(Sv.MENU_CODE);
+		
+
+		DbDataField dbf1 = new DbDataField();
+		dbf1.setDbFieldName(Sv.PKID);
+		dbf1.setIsPrimaryKey(true);
+		dbf1.setDbFieldType(DbFieldType.NUMERIC);
+		dbf1.setDbFieldSize(18);
+		dbf1.setDbFieldScale(0);
+		dbf1.setIsNull(false);
+		dbf1.setLabel_code("menu.pkid");
+		
+		DbDataField dbf2 = new DbDataField();
+		dbf2.setDbFieldName(Sv.MENU_CODE);
+		dbf2.setDbFieldType(DbFieldType.NVARCHAR);
+		dbf2.setDbFieldSize(50);
+		dbf2.setIsUnique(true);
+		dbf2.setIsNull(false);
+		dbf2.setLabel_code("menu.menu_code");
+
+		DbDataField dbf3 = new DbDataField();
+		dbf3.setDbFieldName(Sv.LABEL_CODE.toString());
+		dbf3.setDbFieldType(DbFieldType.NVARCHAR);
+		dbf3.setDbFieldSize(50);
+		dbf3.setIsUnique(true);
+		dbf3.setIsNull(false);
+		dbf3.setLabel_code("menu.label_code");
+
+		DbDataField dbf4 = new DbDataField();
+		dbf4.setDbFieldName(Sv.MENU_TYPE);
+		dbf4.setDbFieldType(DbFieldType.NVARCHAR);
+		dbf4.setDbFieldSize(50);
+		dbf4.setIsNull(true);
+		dbf4.setCode_list_user_code("MENU_TYPES");
+		dbf4.setLabel_code("menu.menu_type");
+
+		DbDataField dbf5 = new DbDataField();
+		dbf5.setDbFieldName(Sv.MENU_CONF);
+		dbf5.setDbFieldType(DbFieldType.TEXT);
+		dbf5.setIsNull(true);
+		dbf5.setLabel_code("menu.menu_conf");
+
+		DbDataField dbf6 = new DbDataField();
+		dbf6.setDbFieldName(Sv.VERSION);
+		dbf6.setDbFieldType(DbFieldType.NUMERIC);
+		dbf6.setDbFieldSize(3);
+		dbf6.setDbFieldScale(0);
+		dbf6.setIsNull(true);
+		dbf6.setLabel_code("menu.version");
+
+		DbDataField[] dbTableFields = new DbDataField[5];
+		dbTableFields[0] = dbf1;
+		dbTableFields[1] = dbf2;
+		dbTableFields[2] = dbf3;
+		dbTableFields[3] = dbf4;
+		dbTableFields[4] = dbf5;
+		dbTableFields[5] = dbf6;
+		dbe.setDbTableFields(dbTableFields);
+		return dbe;
+	}
 
 	// JOB_TYPE
 	private static DbDataTable createJobType() {
@@ -5613,6 +5685,10 @@ public class DbInit {
 		dbtt = createFormField();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = createFftScore();
+		dbtList.add(addSortOrder(dbtt));
+		
+		// create table for dynamic menus
+		dbtt = createMenuTable();
 		dbtList.add(addSortOrder(dbtt));
 
 		// RULE ENGINE
