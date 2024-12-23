@@ -1567,7 +1567,7 @@ public class DbInit {
 		dbf6.setIsNull(true);
 		dbf6.setLabel_code("menu.version");
 
-		DbDataField[] dbTableFields = new DbDataField[5];
+		DbDataField[] dbTableFields = new DbDataField[6];
 		dbTableFields[0] = dbf1;
 		dbTableFields[1] = dbf2;
 		dbTableFields[2] = dbf3;
