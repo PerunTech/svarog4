@@ -1518,6 +1518,7 @@ public class DbInit {
 		dbe.setUse_cache(false);
 		dbe.setIsConfigTable(true);
 		dbe.setConfigColumnName(Sv.MENU_CODE);
+		dbe.setObjectId(svCONST.OBJECT_TYPE_MENU);
 		
 
 		DbDataField dbf1 = new DbDataField();
