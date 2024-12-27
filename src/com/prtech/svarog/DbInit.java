@@ -3940,35 +3940,52 @@ public class DbInit {
 			dbf7.setCode_list_user_code("OBJ_STATUS");
 			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
 			dbf7.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
-
+			
 			DbDataField dbf8 = new DbDataField();
-			dbf8.setDbFieldName("CHECKIN_RULE");
-			dbf8.setDbFieldType(DbFieldType.NUMERIC);
-			dbf8.setDbFieldSize(18);
-			dbf8.setDbFieldScale(0);
-			dbf8.setIsNull(true);
-			dbf8.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkin_rule");
+			dbf8.setDbFieldName("FAILED_STATUS");
+			dbf8.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf8.setDbFieldSize(10);
+			dbf8.setIsNull(false);
+			dbf8.setCode_list_user_code("OBJ_STATUS");
+			dbf8.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf8.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
 
 			DbDataField dbf9 = new DbDataField();
-			dbf9.setDbFieldName("CHECKOUT_RULE");
+			dbf9.setDbFieldName("CHECKIN_RULE");
 			dbf9.setDbFieldType(DbFieldType.NUMERIC);
 			dbf9.setDbFieldSize(18);
 			dbf9.setDbFieldScale(0);
 			dbf9.setIsNull(true);
-			dbf9.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkout_rule");
+			dbf9.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkin_rule");
 
 			DbDataField dbf10 = new DbDataField();
-			dbf10.setDbFieldName("IS_DEFAULT_WF_ROUTE");
-			dbf10.setDbFieldType(DbFieldType.BOOLEAN);
+			dbf10.setDbFieldName("CHECKOUT_RULE");
+			dbf10.setDbFieldType(DbFieldType.NUMERIC);
+			dbf10.setDbFieldSize(18);
+			dbf10.setDbFieldScale(0);
 			dbf10.setIsNull(true);
-			dbf10.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "is_default_route");
+			dbf10.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkout_rule");
+			
+			DbDataField dbf11 = new DbDataField();
+			dbf11.setDbFieldName("FAILED_RULE");
+			dbf11.setDbFieldType(DbFieldType.NUMERIC);
+			dbf11.setDbFieldSize(18);
+			dbf11.setDbFieldScale(0);
+			dbf11.setIsNull(true);
+			dbf11.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "failed_rule");
 
 			DbDataField dbf12 = new DbDataField();
-			dbf12.setDbFieldName("PERMISSION_CODE");
-			dbf12.setDbFieldType(DbFieldType.NVARCHAR);
-			dbf12.setDbFieldSize(150);
+			dbf12.setDbFieldName("IS_DEFAULT_WF_ROUTE");
+			dbf12.setDbFieldType(DbFieldType.BOOLEAN);
 			dbf12.setIsNull(true);
-			dbf12.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
+			dbf12.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "is_default_route");
+
+			DbDataField dbf13 = new DbDataField();
+			dbf13.setDbFieldName("PERMISSION_CODE");
+			dbf13.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf13.setDbFieldSize(150);
+			dbf13.setIsNull(true);
+			dbf13.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
 
 			dbt.setDbTableFields(new DbDataField[8]);
 			dbt.getDbTableFields()[0] = dbf1;
@@ -3978,7 +3995,9 @@ public class DbInit {
 			dbt.getDbTableFields()[4] = dbf8;
 			dbt.getDbTableFields()[5] = dbf9;
 			dbt.getDbTableFields()[6] = dbf10;
-			dbt.getDbTableFields()[7] = dbf12;
+			dbt.getDbTableFields()[7] = dbf11;
+			dbt.getDbTableFields()[8] = dbf12;
+			dbt.getDbTableFields()[9] = dbf13;
 			return dbt;
 		}
 	}
