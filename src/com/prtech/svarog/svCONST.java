@@ -207,6 +207,10 @@ public final class svCONST {
 	
 	public static final long OBJECT_TYPE_MENU = MIN_WRITEABLE_OBJID + 62;
 	
+	public static final long OBJECT_TYPE_WORKFLOW_AUTOMATON = MIN_WRITEABLE_OBJID + 63;
+	
+	public static final long OBJECT_TYPE_WORKFLOW_ITEM = MIN_WRITEABLE_OBJID + 64;
+	
 	/* SVAROG WELL KNOWN SECURITY IDs */
 	public static final String SID_NOBODY_UID = "S-1-0-0";
 	public static final String SID_EVERYONE_UID = "S-1-1-0";
