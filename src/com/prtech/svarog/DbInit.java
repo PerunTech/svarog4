@@ -3951,26 +3951,23 @@ public class DbInit {
 			dbf8.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
 
 			DbDataField dbf9 = new DbDataField();
-			dbf9.setDbFieldName("CHECKIN_RULE");
-			dbf9.setDbFieldType(DbFieldType.NUMERIC);
-			dbf9.setDbFieldSize(18);
-			dbf9.setDbFieldScale(0);
+			dbf9.setDbFieldName("DEFAULT_RULE");
+			dbf9.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf9.setDbFieldSize(100);
 			dbf9.setIsNull(true);
-			dbf9.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkin_rule");
+			dbf9.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "default_rule");
 
 			DbDataField dbf10 = new DbDataField();
-			dbf10.setDbFieldName("CHECKOUT_RULE");
-			dbf10.setDbFieldType(DbFieldType.NUMERIC);
-			dbf10.setDbFieldSize(18);
-			dbf10.setDbFieldScale(0);
+			dbf10.setDbFieldName("SUCCESS_RULE");
+			dbf10.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf10.setDbFieldSize(100);
 			dbf10.setIsNull(true);
-			dbf10.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "checkout_rule");
-			
+			dbf10.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "success_rule");
+
 			DbDataField dbf11 = new DbDataField();
 			dbf11.setDbFieldName("FAILED_RULE");
-			dbf11.setDbFieldType(DbFieldType.NUMERIC);
-			dbf11.setDbFieldSize(18);
-			dbf11.setDbFieldScale(0);
+			dbf11.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf11.setDbFieldSize(100);
 			dbf11.setIsNull(true);
 			dbf11.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "failed_rule");
 
