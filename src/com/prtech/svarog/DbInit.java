@@ -3423,7 +3423,7 @@ public class DbInit {
 			dbf2_0.setIndexName("user_uid");
 			// dbf2_0.setCode_list_user_code("USER_UID");
 			dbf2_0.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "user_uid");
-			dbf2_0.setGui_metadata(getDefaultUiMeta(true, true, false, false).toString());
+			dbf2_0.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editoptions\":{\"readonly\":true}}");
 
 			// f2
 			DbDataField dbf2_1 = new DbDataField();
@@ -3471,7 +3471,7 @@ public class DbInit {
 			dbf6.setIsNull(false);
 			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "password_hash");
 			dbf6.setIndexName("unq_usr_pass");
-			dbf6.setGui_metadata(getDefaultUiMeta(false, true, false, true).toString());
+			dbf6.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
 
 			DbDataField dbf7 = new DbDataField();
 			dbf7.setDbFieldName("CONFIRM_PASSWORD_HASH");
@@ -3479,7 +3479,7 @@ public class DbInit {
 			dbf7.setDbFieldSize(200);
 			dbf7.setIsNull(true);
 			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "confirm_password_hash");
-			dbf7.setGui_metadata(getDefaultUiMeta(false, true, false, true).toString());
+			dbf7.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
 
 			DbDataField dbf8 = new DbDataField();
 			dbf8.setDbFieldName("PIN");
