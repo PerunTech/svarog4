@@ -47,7 +47,6 @@ import com.prtech.svarog_common.DbQueryObject.LinkType;
 import com.prtech.svarog_common.DbSearchCriterion;
 import com.prtech.svarog_common.DbSearchCriterion.DbCompareOperand;
 import com.prtech.svarog_common.DbSearchExpression;
-import com.prtech.svarog_common.ExtendedDbQueryObject;
 import com.prtech.svarog_common.IDbFilter;
 import com.prtech.svarog_common.ISvOnSave;
 import com.prtech.svarog_common.SvCharId;
@@ -2626,8 +2625,8 @@ public class SvarogTest {
 				DbDataObject dbtField = SvReader.getDbtByName("SVAROG_FIELDS");
 
 				String havingCondition = "COUNT(*) > 5";
-				ExtendedDbQueryObject edqo = new ExtendedDbQueryObject(dbtField, null, null, null,
-						Arrays.asList(Sv.PARENT_ID), havingCondition);
+				DbQueryObject edqo = new DbQueryObject(dbtField, null, null, null, Arrays.asList(Sv.PARENT_ID),
+						havingCondition);
 				edqo.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.PARENT_ID)));
 
 				DbSearchCriterion dbc = new DbSearchCriterion(Sv.OBJECT_ID, DbCompareOperand.IN_SUBQUERY);
