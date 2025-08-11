@@ -15,16 +15,12 @@
 
 package com.prtech.svarog;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,11 +44,10 @@ import com.prtech.svarog_common.DbQueryExpression;
 import com.prtech.svarog_common.DbQueryObject;
 import com.prtech.svarog_common.DbQueryObject.DbJoinType;
 import com.prtech.svarog_common.DbQueryObject.LinkType;
-import com.prtech.svarog_common.DbSearch.DbLogicOperand;
 import com.prtech.svarog_common.DbSearchCriterion;
 import com.prtech.svarog_common.DbSearchCriterion.DbCompareOperand;
-
 import com.prtech.svarog_common.DbSearchExpression;
+import com.prtech.svarog_common.ExtendedDbQueryObject;
 import com.prtech.svarog_common.IDbFilter;
 import com.prtech.svarog_common.ISvOnSave;
 import com.prtech.svarog_common.SvCharId;
@@ -134,7 +129,6 @@ public class SvarogTest {
 			if (SvReader.getTypeIdByName("APPLICATION") == 0L)
 				return;
 
-			
 			DbDataArray arrLinkedApp = svr.getObjectsByLinkedId(20516159L, SvReader.getTypeIdByName("APPLICATION"),
 					SvLink.getLinkType("LINK NEW APPLICATION WITH OLD ONE", SvReader.getTypeIdByName("APPLICATION"),
 							SvReader.getTypeIdByName("APPLICATION")),
@@ -2617,6 +2611,48 @@ public class SvarogTest {
 				db.release();
 		}
 
+	}
+
+	@Test
+	public void testExtendedDbQueryObject() throws Exception {
+		try {
+			SvSecurity svSec = new SvSecurity();
+			String token = svSec.logon("ADMIN", SvUtil.getMD5("welcome"));
+
+			try (SvReader db = new SvReader(token)) {
+				db.dbSetAutoCommit(false);
+
+				DbDataObject dbtTable = SvReader.getDbtByName("SVAROG_TABLES");
+				DbDataObject dbtField = SvReader.getDbtByName("SVAROG_FIELDS");
+
+				String havingCondition = "COUNT(*) > 5";
+				ExtendedDbQueryObject edqo = new ExtendedDbQueryObject(dbtField, null, null, null,
+						Arrays.asList(Sv.PARENT_ID), havingCondition);
+				edqo.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.PARENT_ID)));
+
+				DbSearchCriterion dbc = new DbSearchCriterion(Sv.OBJECT_ID, DbCompareOperand.IN_SUBQUERY);
+				dbc.setInSubQuery(edqo);
+				DbQueryObject dqoTable = new DbQueryObject(dbtTable, dbc, DbJoinType.INNER, null, LinkType.CUSTOM, null,
+						null);
+				dqoTable.addCustomJoinLeft("OBJECT_ID");
+				dqoTable.addCustomJoinRight("PARENT_ID");
+				DbQueryObject dqoField = new DbQueryObject(dbtField, null, DbJoinType.INNER, null, null, null, null);
+
+				DbQueryExpression qe = new DbQueryExpression();
+				qe.addItem(dqoTable);
+				qe.addItem(dqoField);
+
+				DbDataArray dba = db.getObjects(qe, 0, 0);
+				assertTrue(dba != null);
+			}
+		} catch (SvException e) {
+			if (e.getLabelCode().equals("system.error.sql_statement_err"))
+				fail("Error with the SQL query");
+			else {
+				e.printStackTrace();
+				fail("Generic svarog error");
+			}
+		}
 	}
 
 	@Test
