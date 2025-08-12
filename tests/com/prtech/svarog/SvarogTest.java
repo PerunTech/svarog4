@@ -2613,37 +2613,106 @@ public class SvarogTest {
 	}
 
 	@Test
-	public void testExtendedDbQueryObject() throws Exception {
-		try {
-			SvSecurity svSec = new SvSecurity();
-			String token = svSec.logon("ADMIN", SvUtil.getMD5("welcome"));
+	public void testCustomFreeTextJoinExt() throws Exception {
+		try (SvReader db = new SvReader()) {
+			db.dbSetAutoCommit(false);
 
-			try (SvReader db = new SvReader(token)) {
-				db.dbSetAutoCommit(false);
+			DbDataObject repoDbt = SvReader.getRepoDbt();
 
-				DbDataObject dbtTable = SvReader.getDbtByName("SVAROG_TABLES");
-				DbDataObject dbtField = SvReader.getDbtByName("SVAROG_FIELDS");
+			DbDataObject dbtParamType = db.getObjectById(SvReader.getTypeIdByName("PARAM_TYPE"),
+					svCONST.OBJECT_TYPE_TABLE, null);
 
-				String havingCondition = "COUNT(*) > 5";
-				DbQueryObject edqo = new DbQueryObject(dbtField, null, null, null, Arrays.asList(Sv.PARENT_ID),
-						havingCondition);
-				edqo.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.PARENT_ID)));
+			DbDataObject dbtParam = db.getObjectById(SvReader.getTypeIdByName("PARAM"), svCONST.OBJECT_TYPE_TABLE,
+					null);
 
-				DbSearchCriterion dbc = new DbSearchCriterion(Sv.OBJECT_ID, DbCompareOperand.IN_SUBQUERY);
-				dbc.setInSubQuery(edqo);
-				DbQueryObject dqoTable = new DbQueryObject(dbtTable, dbc, DbJoinType.INNER, null, LinkType.CUSTOM, null,
-						null);
-				dqoTable.addCustomJoinLeft("OBJECT_ID");
-				dqoTable.addCustomJoinRight("PARENT_ID");
-				DbQueryObject dqoField = new DbQueryObject(dbtField, null, DbJoinType.INNER, null, null, null, null);
+			DbDataObject dbtParamValue = db.getObjectById(svCONST.OBJECT_TYPE_PARAM_VALUE, svCONST.OBJECT_TYPE_TABLE,
+					null);
 
-				DbQueryExpression qe = new DbQueryExpression();
-				qe.addItem(dqoTable);
-				qe.addItem(dqoField);
+			// FIELDS CONFIG FOR EACH OBJECT
 
-				DbDataArray dba = db.getObjects(qe, 0, 0);
-				assertTrue(dba != null);
+			DbDataArray paramTypeRepoFLD = new DbDataArray();
+			DbDataArray paramTypeObjFLD = new DbDataArray();
+
+			DbDataArray paramRepoFLD = new DbDataArray();
+			DbDataArray paramObjFLD = new DbDataArray();
+
+			DbDataArray paramValueRepoFLD = new DbDataArray();
+			DbDataArray paramValueObjFLD = new DbDataArray();
+
+			// FILLING FIELDS FOR EACH OBJECT
+			paramTypeRepoFLD = SvReader.getFields(repoDbt.getObject_id());
+			paramTypeObjFLD = SvReader.getFields(dbtParamType.getObject_id());
+
+			paramRepoFLD = SvReader.getFields(repoDbt.getObject_id());
+			paramObjFLD = SvReader.getFields(dbtParam.getObject_id());
+
+			paramValueRepoFLD = SvReader.getFields(repoDbt.getObject_id());
+			paramValueObjFLD = SvReader.getFields(dbtParamValue.getObject_id());
+
+			DbQueryObject dqo_itJob = new DbQueryObject(repoDbt, paramTypeRepoFLD, dbtParamType, paramTypeObjFLD, null,
+					DbJoinType.INNER, null, LinkType.CUSTOM_FREETEXT, null);
+			dqo_itJob.setCustomFreeTextJoin("	on tbl0.object_id = tbl1.PARAM_TYPE_ID");
+			dqo_itJob.setOrderByFields(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+			dqo_itJob.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+			dqo_itJob.setGroupByFields(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+
+			DbQueryObject dqo_itJobTask = new DbQueryObject(repoDbt, paramRepoFLD, dbtParam, paramObjFLD, null,
+					DbJoinType.INNER, null, LinkType.CHILD, null);
+			dqo_itJobTask.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+			dqo_itJobTask.setGroupByFields(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+
+			DbQueryObject dqo_itTask = new DbQueryObject(repoDbt, paramValueRepoFLD, dbtParamValue, paramValueObjFLD,
+					null, null, null, null, null, null);
+			dqo_itTask.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+			dqo_itTask.setGroupByFields(new ArrayList<String>(Arrays.asList(Sv.OBJECT_ID)));
+
+			DbQueryExpression q = new DbQueryExpression();
+			q.addItem(dqo_itJob);
+			q.addItem(dqo_itJobTask);
+			q.addItem(dqo_itTask);
+
+			DbDataArray ar = db.getObjects(q, 0, 0);
+			System.out.println(q.getSQLExpression());
+
+			System.out.println(q.toJson().toString());
+		} catch (SvException e) {
+			if (e.getLabelCode().equals("system.error.sql_statement_err"))
+				fail("Free text join failed");
+			else {
+				fail("Generic svarog error");
+				e.printStackTrace();
 			}
+		}
+
+	}
+
+	@Test
+	public void testExtendedDbQueryObject() throws Exception {
+		try (SvReader db = new SvReader()) {
+			db.dbSetAutoCommit(false);
+
+			DbDataObject dbtTable = SvReader.getDbtByName("SVAROG_TABLES");
+			DbDataObject dbtField = SvReader.getDbtByName("SVAROG_FIELDS");
+
+			String havingCondition = "COUNT(*) > 5";
+			DbQueryObject edqo = new DbQueryObject(dbtField, null, null, null, Arrays.asList(Sv.PARENT_ID),
+					havingCondition);
+			edqo.setCustomFieldsList(new ArrayList<String>(Arrays.asList(Sv.PARENT_ID)));
+
+			DbSearchCriterion dbc = new DbSearchCriterion(Sv.OBJECT_ID, DbCompareOperand.IN_SUBQUERY);
+			dbc.setInSubQuery(edqo);
+			DbQueryObject dqoTable = new DbQueryObject(dbtTable, dbc, DbJoinType.INNER, null, LinkType.CUSTOM, null,
+					null);
+			dqoTable.addCustomJoinLeft("OBJECT_ID");
+			dqoTable.addCustomJoinRight("PARENT_ID");
+			DbQueryObject dqoField = new DbQueryObject(dbtField, null, DbJoinType.INNER, null, null, null, null);
+
+			DbQueryExpression qe = new DbQueryExpression();
+			qe.addItem(dqoTable);
+			qe.addItem(dqoField);
+
+			DbDataArray dba = db.getObjects(qe, 0, 0);
+			assertTrue(dba != null);
 		} catch (SvException e) {
 			if (e.getLabelCode().equals("system.error.sql_statement_err"))
 				fail("Error with the SQL query");

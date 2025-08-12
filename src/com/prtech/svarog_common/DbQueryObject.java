@@ -313,8 +313,8 @@ public class DbQueryObject extends DbQuery {
 	}
 
 	/**
-	 * Constructor to construct a ExtendedDbQueryObject based on dbt with
-	 * groupByFields and havingCondition.
+	 * Constructor to construct a DbQueryObject based on dbt with groupByFields and
+	 * havingCondition.
 	 * 
 	 * @param dbt             The Object Type descriptor for which this DQO will
 	 *                        generate a query
@@ -694,6 +694,22 @@ public class DbQueryObject extends DbQuery {
 
 	public void setOrderByFields(ArrayList<String> orderByFields) {
 		this.orderByFields = orderByFields;
+	}
+
+	public List<String> getGroupByFields() {
+		return groupByFields;
+	}
+
+	public void setGroupByFields(List<String> groupByFields) {
+		this.groupByFields = groupByFields;
+	}
+
+	public String getHavingCondition() {
+		return havingCondition;
+	}
+
+	public void setHavingCondition(String havingCondition) {
+		this.havingCondition = havingCondition;
 	}
 
 	/**
