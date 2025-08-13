@@ -22,7 +22,6 @@ import com.prtech.svarog.SvConf;
 import com.prtech.svarog.SvCore;
 import com.prtech.svarog.SvException;
 import com.prtech.svarog.svCONST;
-import com.prtech.svarog_common.DbDataObject;
 import com.prtech.svarog_common.DbQueryObject.DbJoinType;
 import com.prtech.svarog_common.DbQueryObject.LinkType;
 
@@ -316,6 +315,8 @@ public class DbQueryExpression extends DbQuery {
 		StringBuilder whereCriteria = new StringBuilder();
 
 		ArrayList<String> orderByFields = new ArrayList<String>();
+		ArrayList<String> groupByFields = new ArrayList<String>();
+		ArrayList<String> havingCriteria = new ArrayList<String>();
 		String currentRepoPrefix = null;
 		String currentTblPrefix = null;
 
@@ -330,8 +331,21 @@ public class DbQueryExpression extends DbQuery {
 					: "TBL" + itemSeq;
 
 			// if there's orderBy fields then store them away
-			if (currentDqo.getOrderByFields() != null)
-				orderByFields.addAll(currentDqo.getOrderByFields());
+			if (currentDqo.getOrderByFields() != null) {
+				for (String fieldName : currentDqo.getOrderByFields()) {
+					orderByFields.add(currentTblPrefix + "_" + fieldName);
+				}
+			}
+
+			if (currentDqo.getGroupByFields() != null) {
+				for (String fieldName : currentDqo.getGroupByFields()) {
+					groupByFields.add(currentTblPrefix + "_" + fieldName);
+				}
+			}
+
+			if (currentDqo.getHavingCondition() != null) {
+				havingCriteria.add(currentDqo.getHavingCondition());
+			}
 
 			// if there is no return type, just return all columns
 			// TODO update this to handle objects which has set isReturnType
@@ -402,7 +416,25 @@ public class DbQueryExpression extends DbQuery {
 		if (strWhere.endsWith("AND"))
 			whereCriteria.setLength(whereCriteria.length() - 4);
 		queryString.append(" FROM ").append(tblList).append(" WHERE ").append(whereCriteria);
-		// if()
+
+		if (groupByFields != null && groupByFields.size() > 0) {
+			queryString.append(" GROUP BY ");
+			for (String fldName : groupByFields) {
+				queryString.append(fldName + ",");
+			}
+			queryString.setLength(queryString.length() - 1);
+		}
+
+		if (havingCriteria != null && havingCriteria.size() > 0) {
+			queryString.append(" HAVING ");
+			for (int i = 0; i < havingCriteria.size(); ++i) {
+				queryString.append(havingCriteria.get(i));
+				if (i < havingCriteria.size() - 1) {
+					queryString.append(" AND ");
+				}
+			}
+		}
+
 		if (orderByFields != null && orderByFields.size() > 0) {
 			queryString.append(" ORDER BY ");
 			for (String fldName : orderByFields) {
