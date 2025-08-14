@@ -562,7 +562,8 @@ public class DbQueryObject extends DbQuery {
 		if (groupByFields != null && groupByFields.size() > 0) {
 			sqlQry.append(" GROUP BY ");
 			for (String fldName : groupByFields) {
-				sqlQry.append(fldName + ",");
+				String fldPrefix = prefix + "." + fldName;
+				sqlQry.append(fldPrefix + ",");
 			}
 			sqlQry.deleteCharAt(sqlQry.length() - 1);
 		}
@@ -574,7 +575,8 @@ public class DbQueryObject extends DbQuery {
 		if (orderByFields != null && orderByFields.size() > 0) {
 			sqlQry.append(" ORDER BY ");
 			for (String fldName : orderByFields) {
-				sqlQry.append(fldName + ",");
+				String fldPrefix = prefix + "." + fldName;
+				sqlQry.append(fldPrefix + ",");
 			}
 			sqlQry.deleteCharAt(sqlQry.length() - 1);
 		}
