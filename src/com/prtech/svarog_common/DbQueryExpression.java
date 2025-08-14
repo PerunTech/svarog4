@@ -333,13 +333,13 @@ public class DbQueryExpression extends DbQuery {
 			// if there's orderBy fields then store them away
 			if (currentDqo.getOrderByFields() != null) {
 				for (String fieldName : currentDqo.getOrderByFields()) {
-					orderByFields.add(currentTblPrefix + "_" + fieldName);
+					orderByFields.add(currentTblPrefix + "." + fieldName);
 				}
 			}
 
 			if (currentDqo.getGroupByFields() != null) {
 				for (String fieldName : currentDqo.getGroupByFields()) {
-					groupByFields.add(currentTblPrefix + "_" + fieldName);
+					groupByFields.add(currentTblPrefix + "." + fieldName);
 				}
 			}
 
