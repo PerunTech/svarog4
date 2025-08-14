@@ -461,9 +461,9 @@ Agreement
 					<version>19.3.0.0</version>
 				</dependency>
 				<dependency>
-					<groupId>svarog</groupId>
+					<groupId>org.peruntech</groupId>
 					<artifactId>svarog-io</artifactId>
-					<version>1.1.0</version>
+					<version>4.0.0</version>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.logging.log4j</groupId>
