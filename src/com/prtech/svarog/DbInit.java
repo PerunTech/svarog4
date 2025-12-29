@@ -3808,6 +3808,197 @@ public class DbInit {
 		}
 	}
 
+	/**
+	 * DataTable for storing workflow configurations This table should store all
+	 * finite automaton workflow types for workflow items objects in the Svarog eco-system
+	 * 
+	 * @return A DbDataTable descriptor
+	 */
+	private static DbDataTable getMasterWorkflowAutomaton() {
+		{
+			DbDataTable dbt = new DbDataTable();
+			dbt.setDbTableName(Sv.REPO_TABLE_NAME + "_workflow_automaton");
+			dbt.setDbRepoName(Sv.MASTER_REPO_NAME);
+			dbt.setDbSchema(Sv.DEFAULT_SCHEMA);
+			dbt.setIsSystemTable(true);
+			dbt.setObjectId(svCONST.OBJECT_TYPE_WORKFLOW_AUTOMATON);
+			dbt.setIsRepoTable(false);
+			dbt.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_automaton");
+			dbt.setUse_cache(true);
+			dbt.setIsConfigTable(false);
+			dbt.setParentName("TABLES");
+
+			// f1
+			DbDataField dbf1 = new DbDataField();
+			dbf1.setDbFieldName("PKID");
+			dbf1.setIsPrimaryKey(true);
+			dbf1.setDbFieldType(DbFieldType.NUMERIC);
+			dbf1.setDbFieldSize(18);
+			dbf1.setDbFieldScale(0);
+			dbf1.setIsNull(false);
+
+			// dbf1.setSort_order(900);
+			dbf1.setLabel_code(Sv.MASTER_REPO + Sv.DOT + Sv.TABLE_META_PKID);
+
+			// f2
+			DbDataField dbf2 = new DbDataField();
+			dbf2.setDbFieldName("WORKFLOW_TYPE");
+			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf2.setDbFieldSize(50);
+			dbf2.setIsNull(true);
+			dbf2.setIsUnique(true);
+			dbf2.setCode_list_user_code("WORKFLOW_TYPE");
+			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
+
+			// f2
+			DbDataField dbf3 = new DbDataField();
+			dbf3.setDbFieldName("WORKFLOW_" + Sv.LABEL_CODE.toString());
+			dbf3.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf3.setDbFieldSize(100);
+			dbf3.setIsNull(false);
+			dbf3.setIsUnique(true);
+			dbf3.setUnique_constraint_name("uq_object_from_to_status");
+			dbf3.setUnique_level(Sv.PARENT);
+			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_name");
+			dbf3.setIs_updateable(false);
+
+			DbDataField dbf4 = new DbDataField();
+			dbf4.setDbFieldName("PERMISSION_CODE");
+			dbf4.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf4.setDbFieldSize(150);
+			dbf4.setIsNull(true);
+			dbf4.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
+
+			dbt.setDbTableFields(new DbDataField[9]);
+			dbt.getDbTableFields()[0] = dbf1;
+			dbt.getDbTableFields()[1] = dbf2;
+			dbt.getDbTableFields()[2] = dbf3;
+			dbt.getDbTableFields()[8] = dbf4;
+			return dbt;
+		}
+	}
+	
+
+
+	/**
+	 * DataTable for storing workflow items configurations This table should store all
+	 * workflow items for objects in the Svarog eco-system
+	 * 
+	 * @return A DbDataTable descriptor
+	 */
+	private static DbDataTable getMasterWorkflowItem() {
+		{
+			DbDataTable dbt = new DbDataTable();
+			dbt.setDbTableName(Sv.REPO_TABLE_NAME + "_workflow_item");
+			dbt.setDbRepoName(Sv.MASTER_REPO_NAME);
+			dbt.setDbSchema(Sv.DEFAULT_SCHEMA);
+			dbt.setIsSystemTable(true);
+			dbt.setObjectId(svCONST.OBJECT_TYPE_WORKFLOW_ITEM);
+			dbt.setIsRepoTable(false);
+			dbt.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_item");
+			dbt.setUse_cache(true);
+			dbt.setIsConfigTable(false);
+			dbt.setParentName(Sv.REPO_TABLE_NAME + "_workflow_automaton");
+
+			// f1
+			DbDataField dbf1 = new DbDataField();
+			dbf1.setDbFieldName("PKID");
+			dbf1.setIsPrimaryKey(true);
+			dbf1.setDbFieldType(DbFieldType.NUMERIC);
+			dbf1.setDbFieldSize(18);
+			dbf1.setDbFieldScale(0);
+			dbf1.setIsNull(false);
+
+			// dbf1.setSort_order(900);
+			dbf1.setLabel_code(Sv.MASTER_REPO + Sv.DOT + Sv.TABLE_META_PKID);
+
+			// f2
+			DbDataField dbf2 = new DbDataField();
+			dbf2.setDbFieldName("WORKFLOW_" + Sv.LABEL_CODE.toString());
+			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf2.setDbFieldSize(100);
+			dbf2.setIsNull(false);
+			dbf2.setIsUnique(true);
+			dbf2.setUnique_constraint_name("uq_object_from_to_status");
+			dbf2.setUnique_level(Sv.PARENT);
+			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_name");
+			dbf2.setIs_updateable(false);
+
+			DbDataField dbf6 = new DbDataField();
+			dbf6.setDbFieldName("ORIGINATING_STATUS");
+			dbf6.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf6.setDbFieldSize(10);
+			dbf6.setIsNull(false);
+			dbf6.setCode_list_user_code("OBJ_STATUS");
+			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "from_status");
+
+			DbDataField dbf7 = new DbDataField();
+			dbf7.setDbFieldName("DESTINATION_STATUS");
+			dbf7.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf7.setDbFieldSize(10);
+			dbf7.setIsNull(false);
+			dbf7.setCode_list_user_code("OBJ_STATUS");
+			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf7.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
+			
+			DbDataField dbf8 = new DbDataField();
+			dbf8.setDbFieldName("FAILED_STATUS");
+			dbf8.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf8.setDbFieldSize(10);
+			dbf8.setIsNull(false);
+			dbf8.setCode_list_user_code("OBJ_STATUS");
+			dbf8.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf8.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
+
+			DbDataField dbf9 = new DbDataField();
+			dbf9.setDbFieldName("DEFAULT_RULE");
+			dbf9.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf9.setDbFieldSize(100);
+			dbf9.setIsNull(true);
+			dbf9.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "default_rule");
+
+			DbDataField dbf10 = new DbDataField();
+			dbf10.setDbFieldName("SUCCESS_RULE");
+			dbf10.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf10.setDbFieldSize(100);
+			dbf10.setIsNull(true);
+			dbf10.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "success_rule");
+
+			DbDataField dbf11 = new DbDataField();
+			dbf11.setDbFieldName("FAILED_RULE");
+			dbf11.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf11.setDbFieldSize(100);
+			dbf11.setIsNull(true);
+			dbf11.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "failed_rule");
+
+			DbDataField dbf12 = new DbDataField();
+			dbf12.setDbFieldName("IS_DEFAULT_WF_ROUTE");
+			dbf12.setDbFieldType(DbFieldType.BOOLEAN);
+			dbf12.setIsNull(true);
+			dbf12.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "is_default_route");
+
+			DbDataField dbf13 = new DbDataField();
+			dbf13.setDbFieldName("PERMISSION_CODE");
+			dbf13.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf13.setDbFieldSize(150);
+			dbf13.setIsNull(true);
+			dbf13.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
+
+			dbt.setDbTableFields(new DbDataField[8]);
+			dbt.getDbTableFields()[0] = dbf1;
+			dbt.getDbTableFields()[1] = dbf2;
+			dbt.getDbTableFields()[2] = dbf6;
+			dbt.getDbTableFields()[3] = dbf7;
+			dbt.getDbTableFields()[4] = dbf8;
+			dbt.getDbTableFields()[5] = dbf9;
+			dbt.getDbTableFields()[6] = dbf10;
+			dbt.getDbTableFields()[7] = dbf11;
+			dbt.getDbTableFields()[8] = dbf12;
+			dbt.getDbTableFields()[9] = dbf13;
+			return dbt;
+		}
+	}
+
 	private static DbDataTable getMasterACL() {
 		{
 			DbDataTable dbt = new DbDataTable();
@@ -5664,6 +5855,10 @@ public class DbInit {
 		dbtt = getMasterUsers();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getMasterWorkflow();
+		dbtList.add(addSortOrder(dbtt));
+		dbtt = getMasterWorkflowAutomaton();
+		dbtList.add(addSortOrder(dbtt));
+		dbtt = getMasterWorkflowItem();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getMasterACL();
 		dbtList.add(addSortOrder(dbtt));
