@@ -3869,11 +3869,11 @@ public class DbInit {
 			dbf4.setIsNull(true);
 			dbf4.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
 
-			dbt.setDbTableFields(new DbDataField[9]);
+			dbt.setDbTableFields(new DbDataField[4]);
 			dbt.getDbTableFields()[0] = dbf1;
 			dbt.getDbTableFields()[1] = dbf2;
 			dbt.getDbTableFields()[2] = dbf3;
-			dbt.getDbTableFields()[8] = dbf4;
+			dbt.getDbTableFields()[3] = dbf4;
 			return dbt;
 		}
 	}
@@ -3984,7 +3984,7 @@ public class DbInit {
 			dbf13.setIsNull(true);
 			dbf13.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
 
-			dbt.setDbTableFields(new DbDataField[8]);
+			dbt.setDbTableFields(new DbDataField[10]);
 			dbt.getDbTableFields()[0] = dbf1;
 			dbt.getDbTableFields()[1] = dbf2;
 			dbt.getDbTableFields()[2] = dbf6;
