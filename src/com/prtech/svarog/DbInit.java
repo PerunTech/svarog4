@@ -3857,7 +3857,6 @@ public class DbInit {
 			dbf3.setDbFieldSize(100);
 			dbf3.setIsNull(false);
 			dbf3.setIsUnique(true);
-			dbf3.setUnique_constraint_name("uq_object_from_to_status");
 			dbf3.setUnique_level(Sv.PARENT);
 			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_name");
 			dbf3.setIs_updateable(false);
@@ -3930,6 +3929,9 @@ public class DbInit {
 			dbf6.setDbFieldSize(10);
 			dbf6.setIsNull(false);
 			dbf6.setCode_list_user_code("OBJ_STATUS");
+			dbf6.setIsUnique(true);
+			dbf6.setUnique_constraint_name("uq_object_from_to_status");
+			dbf6.setUnique_level(Sv.PARENT);
 			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "from_status");
 
 			DbDataField dbf7 = new DbDataField();
@@ -3939,6 +3941,9 @@ public class DbInit {
 			dbf7.setIsNull(false);
 			dbf7.setCode_list_user_code("OBJ_STATUS");
 			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf7.setIsUnique(true);
+			dbf7.setUnique_constraint_name("uq_object_from_to_status");
+			dbf7.setUnique_level(Sv.PARENT);
 			dbf7.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
 			
 			DbDataField dbf8 = new DbDataField();
