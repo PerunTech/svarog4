@@ -4003,6 +4003,73 @@ public class DbInit {
 			return dbt;
 		}
 	}
+	
+	private static DbDataTable getMasterWorkflowItemParams() {
+		{
+			DbDataTable dbt = new DbDataTable();
+			dbt.setDbTableName(Sv.REPO_TABLE_NAME + "_workflow_params");
+			dbt.setDbRepoName(Sv.MASTER_REPO_NAME);
+			dbt.setDbSchema(Sv.DEFAULT_SCHEMA);
+			dbt.setObjectId(svCONST.OBJECT_TYPE_WORKFLOW_PARAMS);
+			dbt.setIsSystemTable(true);
+			dbt.setIsRepoTable(false);
+			dbt.setUse_cache(true);
+			dbt.setIsConfigTable(false);
+			dbt.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_params");
+			dbt.setParentName(Sv.REPO_TABLE_NAME + "_workflow_item");
+
+			// F1
+			DbDataField dbf1 = new DbDataField();
+			dbf1.setDbFieldName("PKID");
+			dbf1.setIsPrimaryKey(true);
+			dbf1.setDbFieldType(DbFieldType.NUMERIC);
+			dbf1.setDbFieldSize(18);
+			dbf1.setDbFieldScale(0);
+			dbf1.setIsNull(false);
+			dbf1.setLabel_code(Sv.MASTER_REPO + Sv.DOT + Sv.TABLE_META_PKID);
+
+			// F2
+			DbDataField dbf2 = new DbDataField();
+			dbf2.setDbFieldName("TABLE_NAME");
+			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf2.setDbFieldSize(25);
+			dbf2.setIsNull(false);
+			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "table_name");
+						
+			// F3
+			DbDataField dbf3 = new DbDataField();
+			dbf3.setDbFieldName("RELATIONSHIP");
+			dbf3.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf3.setDbFieldSize(10);
+			dbf3.setIsNull(false);
+			dbf3.setCode_list_user_code("WORKFLOW_PARAMS_RELATIONSHIP");
+			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_param_relationship");
+
+			// F4
+			DbDataField dbf4 = new DbDataField();
+			dbf4.setDbFieldName("DENORMALIZED_FIELD_NAME");
+			dbf4.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf4.setDbFieldSize(25);
+			dbf4.setIsNull(true);
+			dbf4.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "denormalized_field_name");
+
+			// F5
+			DbDataField dbf5 = new DbDataField();
+			dbf5.setDbFieldName("LINK_TYPE");
+			dbf5.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf5.setDbFieldSize(50);
+			dbf5.setIsNull(true);
+			dbf5.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "link_type");
+
+			dbt.setDbTableFields(new DbDataField[5]);
+			dbt.getDbTableFields()[0] = dbf1;
+			dbt.getDbTableFields()[1] = dbf2;
+			dbt.getDbTableFields()[2] = dbf3;
+			dbt.getDbTableFields()[3] = dbf4;
+			dbt.getDbTableFields()[4] = dbf5;
+			return dbt;
+		}
+	}
 
 	private static DbDataTable getMasterACL() {
 		{
@@ -5864,6 +5931,8 @@ public class DbInit {
 		dbtt = getMasterWorkflowAutomaton();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getMasterWorkflowItem();
+		dbtList.add(addSortOrder(dbtt));
+		dbtt = getMasterWorkflowItemParams();
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = getMasterACL();
 		dbtList.add(addSortOrder(dbtt));
