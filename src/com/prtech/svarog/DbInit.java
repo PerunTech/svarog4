@@ -3932,7 +3932,7 @@ public class DbInit {
 			dbf6.setIsUnique(true);
 			dbf6.setUnique_constraint_name("uq_object_from_to_status");
 			dbf6.setUnique_level(Sv.PARENT);
-			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "from_status");
+			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "originating_status");
 
 			DbDataField dbf7 = new DbDataField();
 			dbf7.setDbFieldName("DESTINATION_STATUS");
@@ -3940,7 +3940,7 @@ public class DbInit {
 			dbf7.setDbFieldSize(10);
 			dbf7.setIsNull(false);
 			dbf7.setCode_list_user_code("OBJ_STATUS");
-			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "destination_status");
 			dbf7.setIsUnique(true);
 			dbf7.setUnique_constraint_name("uq_object_from_to_status");
 			dbf7.setUnique_level(Sv.PARENT);
@@ -3952,7 +3952,7 @@ public class DbInit {
 			dbf8.setDbFieldSize(10);
 			dbf8.setIsNull(false);
 			dbf8.setCode_list_user_code("OBJ_STATUS");
-			dbf8.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "object_status");
+			dbf8.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "failed_status");
 			dbf8.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
 
 			DbDataField dbf9 = new DbDataField();
