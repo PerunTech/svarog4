@@ -4042,7 +4042,7 @@ public class DbInit {
 			dbf3.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf3.setDbFieldSize(10);
 			dbf3.setIsNull(false);
-			dbf3.setCode_list_user_code("WORKFLOW_PARAMS_RELATIONSHIP");
+			dbf3.setCode_list_user_code("WORKFLOW_PARAMS_RELATIONSHIP_TYPES");
 			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_param_relationship");
 
 			// F4
