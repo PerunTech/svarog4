@@ -284,5 +284,6 @@ public class Sv {
 	public static final String MENU_CODE = "MENU_CODE"; 	//menu table field
 	public static final String MENU_TYPE = "MENU_TYPE"; 	//menu table field
 	public static final String MENU_CONF = "MENU_CONF"; 	//menu table field
+	public static final String NAME = "NAME";
 
 }

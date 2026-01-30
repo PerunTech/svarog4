@@ -3852,13 +3852,13 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf3 = new DbDataField();
-			dbf3.setDbFieldName("WORKFLOW_" + Sv.LABEL_CODE.toString());
+			dbf3.setDbFieldName("WORKFLOW_AUTOMATON_" + Sv.LABEL_CODE.toString());
 			dbf3.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf3.setDbFieldSize(100);
 			dbf3.setIsNull(false);
 			dbf3.setIsUnique(true);
 			dbf3.setUnique_level(Sv.PARENT);
-			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_name");
+			dbf3.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_automaton_name");
 			dbf3.setIs_updateable(false);
 
 			DbDataField dbf4 = new DbDataField();
@@ -3913,14 +3913,14 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf2 = new DbDataField();
-			dbf2.setDbFieldName("WORKFLOW_" + Sv.LABEL_CODE.toString());
+			dbf2.setDbFieldName("WORKFLOW_ITEM_" + Sv.NAME.toString());
 			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf2.setDbFieldSize(100);
 			dbf2.setIsNull(false);
 			dbf2.setIsUnique(true);
 			dbf2.setUnique_constraint_name("uq_object_from_to_status");
 			dbf2.setUnique_level(Sv.PARENT);
-			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_name");
+			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_item_name");
 			dbf2.setIs_updateable(false);
 
 			DbDataField dbf6 = new DbDataField();
