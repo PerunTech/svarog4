@@ -3852,7 +3852,7 @@ public class DbInit {
 
 			// f2
 			DbDataField dbf3 = new DbDataField();
-			dbf3.setDbFieldName("WORKFLOW_AUTOMATON_" + Sv.LABEL_CODE.toString());
+			dbf3.setDbFieldName("WORKFLOW_AUTOMATON_LABEL");
 			dbf3.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf3.setDbFieldSize(100);
 			dbf3.setIsNull(false);
