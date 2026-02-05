@@ -8,7 +8,6 @@
  *   Unless required by applicable law or agreed to in writing, software
  *   distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See LICENSE file in the project root for the specific language governing 
  *   permissions and limitations under the License.
  *  
  *******************************************************************************/
@@ -3926,7 +3925,7 @@ public class DbInit {
 			dbf2.setDbFieldName("WORKFLOW_ITEM_" + Sv.NAME.toString());
 			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf2.setDbFieldSize(100);
-			dbf2.setIsNull(false);
+			//dbf2.setIsNull(false);
 			dbf2.setIsUnique(true);
 			dbf2.setUnique_constraint_name("uq_object_from_to_status");
 			dbf2.setUnique_level(Sv.PARENT);
