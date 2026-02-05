@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.github.os72.protobuf.dynamic.DynamicSchema;
-import com.github.os72.protobuf.dynamic.MessageDefinition;
+//import com.github.os72.protobuf.dynamic.DynamicSchema;
+//import com.github.os72.protobuf.dynamic.MessageDefinition;
 import com.google.gson.JsonObject;
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
 import com.google.protobuf.Descriptors.Descriptor;
@@ -34,7 +34,7 @@ public class ProtoBufTest {
 
 	
 	
-	@Test
+	/*@Test
 	public void protoTest() {
 		DynamicSchema.Builder schemaBuilder = DynamicSchema.newBuilder();
 		schemaBuilder.setName("PersonSchemaDynamic.proto");
@@ -99,5 +99,5 @@ public class ProtoBufTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 }

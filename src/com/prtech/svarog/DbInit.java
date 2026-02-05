@@ -3849,6 +3849,15 @@ public class DbInit {
 			dbf2.setIsUnique(true);
 			dbf2.setCode_list_user_code("WORKFLOW_TYPE");
 			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
+			
+			// f2
+			DbDataField dbf31 = new DbDataField();
+			dbf31.setDbFieldName("WORKFLOW_DENORMALSD_FIELD");
+			dbf31.setDbFieldType(DbFieldType.NVARCHAR);
+			dbf31.setDbFieldSize(50);
+			dbf31.setIsNull(false);
+			dbf31.setIsUnique(false);
+			dbf31.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
 
 			// f2
 			DbDataField dbf3 = new DbDataField();
@@ -3868,11 +3877,12 @@ public class DbInit {
 			dbf4.setIsNull(true);
 			dbf4.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "permission_code");
 
-			dbt.setDbTableFields(new DbDataField[4]);
+			dbt.setDbTableFields(new DbDataField[5]);
 			dbt.getDbTableFields()[0] = dbf1;
 			dbt.getDbTableFields()[1] = dbf2;
 			dbt.getDbTableFields()[2] = dbf3;
 			dbt.getDbTableFields()[3] = dbf4;
+			dbt.getDbTableFields()[4] = dbf31;
 			return dbt;
 		}
 	}
