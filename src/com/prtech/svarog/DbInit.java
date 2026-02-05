@@ -3846,7 +3846,7 @@ public class DbInit {
 			dbf2.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf2.setDbFieldSize(50);
 			dbf2.setIsNull(true);
-			dbf2.setIsUnique(true);
+			dbf2.setIsUnique(false);
 			dbf2.setCode_list_user_code("WORKFLOW_TYPE");
 			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
 			
@@ -3855,7 +3855,7 @@ public class DbInit {
 			dbf31.setDbFieldName("WORKFLOW_DENORMALSD_FIELD");
 			dbf31.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf31.setDbFieldSize(50);
-			dbf31.setIsNull(false);
+			dbf31.setIsNull(true);
 			dbf31.setIsUnique(false);
 			dbf31.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
 
