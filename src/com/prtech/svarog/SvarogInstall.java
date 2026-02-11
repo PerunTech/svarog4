@@ -143,6 +143,7 @@ public class SvarogInstall {
 	public static final String masterSDIPath = "sdi/";
 	public static final String masterLabelsPath = "labels/";
 	public static final String masterSecurityPath = "security/";
+	public static final String jsonTablesPath = "tables/";
 	public static final String masterCodesPath = "com/prtech/svarog/codes/";
 	public static final String fileListName = "file_list.txt";
 	public static final String sdiGridFile = "grid.json";
@@ -1171,11 +1172,17 @@ public class SvarogInstall {
 		} catch (IOException e) {
 			log4j.error("Error deleting conf resources ", e);
 		}
+
+		Map<String, String> jsonTables = DbInit.loadTextFilesFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY), jsonTablesPath, "json");
+
+		Map<String, List<DbDataTable>> allJsonTables = DbInit.getJsonTableList(jsonTables);
+
 		// first get map of all available dbInit instances
 		Map<IDbInit, String> dbInits = DbInit.loadDbInitFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
-		
 		// Load all available table configurations
 		Map<String, List<DbDataTable>> allTables = DbInit.getDbInitTableList(dbInits);
+		
+		allTables.putAll(allJsonTables);
 
 		// Load all available table configurations
 		allTables = DbInit.applyDbDataTableExtensions(allTables);

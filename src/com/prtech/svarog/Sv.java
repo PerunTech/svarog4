@@ -51,12 +51,14 @@ public class Sv {
 		public static final String BATCH_SIZE_ERR = "system.error.batch_size_err";
 		public static final String SDI_TYPE_LIMIT = "system.error.sdi.sdi_type_limit";
 		public static final String NOT_AUTHORISED = "system.error.not_authorised";
-		public static final String SWITCH_USER_SYSTEM ="system.error.cant_switch_system_user";
+		public static final String SWITCH_USER_SYSTEM = "system.error.cant_switch_system_user";
 		public static final String NO_USER_FOUND = "system.error.no_user_found";
+
 		private Exceptions() {
 		}
 
 	}
+
 	public static class SQL {
 
 		public static final String SEQ_NEXTVAL_SELECT = "SEQ_NEXTVAL_SELECT";
@@ -67,7 +69,7 @@ public class Sv {
 		public static final String SQL_DEBUG = "SQL QUERY DEBUG: ";
 		public static final String INSERT_FILESTORE = "insert into %s.%s (pkid, data) values(%s,?)";
 		public static final String GEOMETRY_STRUCT_TYPE = "GEOMETRY_STRUCT_TYPE";
-		
+
 	}
 
 	public static class Link {
@@ -173,6 +175,7 @@ public class Sv {
 	public static final String STACK_TRACE = "getStackTrace";
 	public static final String INIT = "<init>";
 	public static final SvCharId SCHEMA = new SvCharId("SCHEMA");
+	//public static final String SCHEMA = ("SCHEMA");
 	public static final String FIELD = "FIELD";
 	public static final SvCharId CONFIG_TYPE_ID = new SvCharId("config_type_id");
 	public static final SvCharId REPO_TABLE = new SvCharId("REPO_TABLE");
@@ -236,7 +239,7 @@ public class Sv {
 
 	public static final String SDI_VERTEX_ALIGN_TOLERANCE = "SDI_VERTEX_ALIGN_TOLERANCE";
 	public static final Double DEFAULT_VERTEX_ALIGN_TOLERANCE = 0.05;
-	
+
 	public static final String SDI_MIN_GEOM_DISTANCE = "SDI_MIN_GEOM_DISTANCE";
 	public static final Integer DEFAULT_MIN_GEOM_DISTANCE = 0;
 	public static final String ERROR = "ERROR:";
@@ -281,9 +284,25 @@ public class Sv {
 	public static final String TOKEN_SOURCE = "TOKEN_SOURCE";
 	public static final String SSO_SAML = null;
 	// SVAROG_MENU table
-	public static final String MENU_CODE = "MENU_CODE"; 	//menu table field
-	public static final String MENU_TYPE = "MENU_TYPE"; 	//menu table field
-	public static final String MENU_CONF = "MENU_CONF"; 	//menu table field
+	public static final String MENU_CODE = "MENU_CODE"; // menu table field
+	public static final String MENU_TYPE = "MENU_TYPE"; // menu table field
+	public static final String MENU_CONF = "MENU_CONF"; // menu table field
 	public static final String NAME = "NAME";
+	public static final String PARENT_NAME = "PARENT_NAME";
+
+	public static final String FIELD_SIZE = "FIELD_SIZE";
+	public static final String SEQUENCE_NAME = "SEQUENCE_NAME";
+	public static final String IS_UNIQUE = "IS_UNIQUE";
+	public static final String UNQ_CONSTRAINT_NAME = "UNQ_CONSTRAINT_NAME";
+	public static final String IS_PRIMARY_KEY = "IS_PRIMARY_KEY";
+	public static final String INDEX_NAME = "INDEX_NAME";
+	public static final String REFERENTIAL_TABLE = "REFERENTIAL_TABLE";
+	public static final String REFERENTIAL_FIELD = "REFERENTIAL_FIELD";
+	public static final String CODE_LIST_MNEMONIC = "CODE_LIST_MNEMONIC";
+	public static final String IS_UPDATEABLE = "IS_UPDATEABLE";
+	// Table-specific constants (from previous step)
+	public static final String SYSTEM_TABLE = "SYSTEM_TABLE";
+	public static final String USE_CACHE = "USE_CACHE";
+	public static final String CONFIG_RELATION_ID = "CONFIG_RELATION_ID";
 
 }

@@ -1505,7 +1505,7 @@ public class DbInit {
 		dbe.setDbTableFields(dbTableFields);
 		return dbe;
 	}
-	
+
 	// svarog table for dynamic menus
 	private static DbDataTable createMenuTable() {
 		DbDataTable dbe = new DbDataTable();
@@ -1519,7 +1519,6 @@ public class DbInit {
 		dbe.setIsConfigTable(true);
 		dbe.setConfigColumnName(Sv.MENU_CODE);
 		dbe.setObjectId(svCONST.OBJECT_TYPE_MENU);
-		
 
 		DbDataField dbf1 = new DbDataField();
 		dbf1.setDbFieldName(Sv.PKID);
@@ -1529,7 +1528,7 @@ public class DbInit {
 		dbf1.setDbFieldScale(0);
 		dbf1.setIsNull(false);
 		dbf1.setLabel_code("menu.pkid");
-		
+
 		DbDataField dbf2 = new DbDataField();
 		dbf2.setDbFieldName(Sv.MENU_CODE);
 		dbf2.setDbFieldType(DbFieldType.NVARCHAR);
@@ -3423,7 +3422,8 @@ public class DbInit {
 			dbf2_0.setIndexName("user_uid");
 			// dbf2_0.setCode_list_user_code("USER_UID");
 			dbf2_0.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "user_uid");
-			dbf2_0.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editoptions\":{\"readonly\":true}}");
+			dbf2_0.setGui_metadata(
+					"{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editoptions\":{\"readonly\":true}}");
 
 			// f2
 			DbDataField dbf2_1 = new DbDataField();
@@ -3471,7 +3471,8 @@ public class DbInit {
 			dbf6.setIsNull(false);
 			dbf6.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "password_hash");
 			dbf6.setIndexName("unq_usr_pass");
-			dbf6.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
+			dbf6.setGui_metadata(
+					"{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
 
 			DbDataField dbf7 = new DbDataField();
 			dbf7.setDbFieldName("CONFIRM_PASSWORD_HASH");
@@ -3479,7 +3480,8 @@ public class DbInit {
 			dbf7.setDbFieldSize(200);
 			dbf7.setIsNull(true);
 			dbf7.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "confirm_password_hash");
-			dbf7.setGui_metadata("{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
+			dbf7.setGui_metadata(
+					"{\"hidden\":true, \"react\":{\"visible\":false,\"uischema\":{\"ui:widget\":\"hidden\"}}, \"editrules\":{\"edithidden\":true,\"required\":true}}");
 
 			DbDataField dbf8 = new DbDataField();
 			dbf8.setDbFieldName("PIN");
@@ -3810,7 +3812,8 @@ public class DbInit {
 
 	/**
 	 * DataTable for storing workflow configurations This table should store all
-	 * finite automaton workflow types for workflow items objects in the Svarog eco-system
+	 * finite automaton workflow types for workflow items objects in the Svarog
+	 * eco-system
 	 * 
 	 * @return A DbDataTable descriptor
 	 */
@@ -3849,7 +3852,7 @@ public class DbInit {
 			dbf2.setIsUnique(false);
 			dbf2.setCode_list_user_code("WORKFLOW_TYPE");
 			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "workflow_type");
-			
+
 			// f2
 			DbDataField dbf31 = new DbDataField();
 			dbf31.setDbFieldName("WORKFLOW_DENORMALSD_FIELD");
@@ -3886,12 +3889,10 @@ public class DbInit {
 			return dbt;
 		}
 	}
-	
-
 
 	/**
-	 * DataTable for storing workflow items configurations This table should store all
-	 * workflow items for objects in the Svarog eco-system
+	 * DataTable for storing workflow items configurations This table should store
+	 * all workflow items for objects in the Svarog eco-system
 	 * 
 	 * @return A DbDataTable descriptor
 	 */
@@ -3955,7 +3956,7 @@ public class DbInit {
 			dbf7.setUnique_constraint_name("uq_object_from_to_status");
 			dbf7.setUnique_level(Sv.PARENT);
 			dbf7.setGui_metadata(getUiWidth(getDefaultUiMeta(true, false, false, false), 72).toString());
-			
+
 			DbDataField dbf8 = new DbDataField();
 			dbf8.setDbFieldName("FAILED_STATUS");
 			dbf8.setDbFieldType(DbFieldType.NVARCHAR);
@@ -4013,7 +4014,7 @@ public class DbInit {
 			return dbt;
 		}
 	}
-	
+
 	private static DbDataTable getMasterWorkflowItemParams() {
 		{
 			DbDataTable dbt = new DbDataTable();
@@ -4045,7 +4046,7 @@ public class DbInit {
 			dbf2.setDbFieldSize(25);
 			dbf2.setIsNull(false);
 			dbf2.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "table_name");
-						
+
 			// F3
 			DbDataField dbf3 = new DbDataField();
 			dbf3.setDbFieldName("RELATIONSHIP");
@@ -4811,7 +4812,7 @@ public class DbInit {
 
 			// f4
 			DbDataField dbf4 = new DbDataField();
-			dbf4.setDbFieldName("SCHEMA");
+			dbf4.setDbFieldName(Sv.SCHEMA.toString());
 			dbf4.setIsUnique(true);
 			dbf4.setDbFieldType(DbFieldType.NVARCHAR);
 			dbf4.setDbFieldSize(50);
@@ -4821,10 +4822,10 @@ public class DbInit {
 
 			// f5
 			DbDataField dbf5 = new DbDataField();
-			dbf5.setDbFieldName("SYSTEM_TABLE");
+			dbf5.setDbFieldName(Sv.SYSTEM_TABLE);
 			dbf5.setDbFieldType(DbFieldType.BOOLEAN);
 			dbf5.setIsNull(false);
-			dbf5.setLabel_code(Sv.MASTER_REPO + Sv.DOT + "system_table");
+			dbf5.setLabel_code(Sv.MASTER_REPO + Sv.DOT + Sv.SYSTEM_TABLE);
 
 			// f5
 			DbDataField dbf6 = new DbDataField();
@@ -5966,7 +5967,7 @@ public class DbInit {
 		dbtList.add(addSortOrder(dbtt));
 		dbtt = createFftScore();
 		dbtList.add(addSortOrder(dbtt));
-		
+
 		// create table for dynamic menus
 		dbtt = createMenuTable();
 		dbtList.add(addSortOrder(dbtt));
@@ -6099,12 +6100,43 @@ public class DbInit {
 	}
 
 	/**
-	 * Method to load a cpecific class type from all jar files available in the
+	 * Method to load all text files from a specific path in the Jar, having the
+	 * specified extension
+	 * 
+	 * @param jarsDir   The directory from which the JAR files will be processed
+	 * @param pathInJar The path prefix of the file in the JAR
+	 * @param extension The file extension to match the file name
+	 * @return Map using filenames as keys an content as value
+	 */
+	static Map<String, String> loadTextFilesFromDir(String jarsDir, String pathInJar, String extension) {
+		File customFolder;
+		Map<String, String> resultMap = new HashMap<String, String>();
+		// load labels from the svarog OSG bundles dir
+		customFolder = new File(jarsDir);
+		if (customFolder != null) {
+			File[] customJars = customFolder.listFiles();
+			if (customJars != null) {
+				for (int i = 0; i < customJars.length; i++) {
+					if (customJars[i].getName().endsWith(".jar")) {
+						Map<String, String> files = loadCustomResourcesFromJar(customJars[i].getAbsolutePath(),
+								pathInJar, extension);
+						resultMap.putAll(files);
+					}
+				}
+			}
+		}
+
+		return resultMap;
+	}
+
+	/**
+	 * Method to load a specific class type from all jar files available in the
 	 * specified directory
 	 * 
 	 * @param subDir Directory containing the jar's
 	 * @param clazz  The class type
-	 * @return Object instances of the specified class type
+	 * @return Map containing the object instances of the specified class type and
+	 *         the JAR file name
 	 */
 	static Map<Object, String> loadClassFromDir(String subDir, Class<?> clazz) {
 		File dir = new File(subDir);
@@ -6135,7 +6167,8 @@ public class DbInit {
 	 * instances available in the OSGi plugin bundles
 	 * 
 	 * 
-	 * @return List of all available DbDataTable objects
+	 * @return Map of all JAR filenames with List of all available DbDataTable
+	 *         objects
 	 */
 	static Map<String, List<DbDataTable>> getDbInitTableList(Map<IDbInit, String> dbInits) {
 		Map<String, List<DbDataTable>> result = new HashMap<>();
@@ -6147,6 +6180,9 @@ public class DbInit {
 		// for each identified DbInit load the custom types
 		for (Entry<IDbInit, String> m : dbInits.entrySet()) {
 			jarName = m.getValue();
+			if (log4j.isDebugEnabled())
+				log4j.trace("Processing DbInit from: " + jarName);
+
 			List<DbDataTable> tmpList;
 			if (result.containsKey(jarName))
 				tmpList = result.get(jarName);
@@ -6789,10 +6825,10 @@ public class DbInit {
 			dbo.setStatus(svCONST.STATUS_VALID);
 			dbo.setDtInsert(new DateTime(Sv.Y2K_START_DATE));
 			dbo.setDtDelete(SvConf.MAX_DATE);
-			dbo.setVal("system_table", dbt.getIsSystemTable());
-			dbo.setVal("repo_table", dbt.getIsRepoTable());
+			dbo.setVal(Sv.SYSTEM_TABLE, dbt.getIsSystemTable());
+			dbo.setVal(Sv.REPO_TABLE, dbt.getIsRepoTable());
 			dbo.setVal(Sv.TABLE_NAME, dbt.getDbTableName().toUpperCase());
-			dbo.setVal("schema", dbt.getDbSchema());
+			dbo.setVal(Sv.SCHEMA, dbt.getDbSchema());
 			dbo.setVal("repo_name", dbt.getDbRepoName().toUpperCase());
 			dbo.setVal(Sv.LABEL_CODE, dbt.getLabel_code());
 			dbo.setVal("use_cache", true);
@@ -6913,7 +6949,7 @@ public class DbInit {
 		for (DbDataObject dbo : defaultObjests.getItems()) {
 			if (dbo.getObjectType().equals(svCONST.OBJECT_TYPE_TABLE)) {
 				dbo.setVal(Sv.TABLE_NAME, ((String) dbo.getVal(Sv.TABLE_NAME)).toUpperCase());
-				dbo.setVal("SCHEMA", ((String) dbo.getVal("SCHEMA")).toUpperCase());
+				dbo.setVal(Sv.SCHEMA, ((String) dbo.getVal(Sv.SCHEMA)).toUpperCase());
 			}
 			dbo.setIsDirty(false);
 		}
@@ -7635,6 +7671,15 @@ public class DbInit {
 		return svExec;
 	}
 
+	/**
+	 * Method to load single textual file from a path specified in parameter
+	 * resource Returns a string with the content
+	 * 
+	 * @param pathToJar    The Jar file from which the directory shall be extracted
+	 * @param resourceName The directory/path name containing full path with the
+	 *                     file name
+	 * @return String containing the contents of the file
+	 */
 	public static String loadCustomResources(String pathToJar, String resourceName) {
 		String retVal = null;
 		if (pathToJar != null && !pathToJar.equals("")) {
@@ -7645,6 +7690,44 @@ public class DbInit {
 					if (je.getName().equals(resourceName)) {
 						try (InputStream is = jarFile.getInputStream(je)) {
 							retVal = IOUtils.toString(is, "UTF-8");
+						}
+					}
+				}
+
+			} catch (Exception e) {
+				log4j.trace("Error loading resources", e);
+			}
+		}
+		return retVal;
+	}
+
+	/**
+	 * Method to load all textual files from a path specified in parameter resource
+	 * name, and having extension/suffix as specified in the parameter suffix.
+	 * Returns a map of all files with the content
+	 * 
+	 * @param pathToJar    The Jar file from which the directory shall be extracted
+	 * @param resourceName The directory/path name ending with trailing slash /
+	 * @param suffix       The suffix/extension of the file
+	 * @return Map containing the contents of the files using the name as key in the
+	 *         map
+	 */
+	public static Map<String, String> loadCustomResourcesFromJar(String pathToJar, String resourceName, String suffix) {
+		Map<String, String> retVal = new HashMap<String, String>();
+		resourceName = resourceName.toLowerCase();
+		suffix = suffix.toLowerCase();
+		Gson g = new Gson();
+		if (pathToJar != null && !pathToJar.equals("")) {
+			try (JarFile jarFile = new JarFile(pathToJar)) {
+				Enumeration<JarEntry> e = jarFile.entries();
+				while (e.hasMoreElements() || retVal != null) {
+					JarEntry je = (JarEntry) e.nextElement();
+					String fileName = je.getName().toLowerCase();
+					if (fileName.startsWith(resourceName) && fileName.endsWith(suffix)) {
+						try (InputStream is = jarFile.getInputStream(je)) {
+							retVal.put(fileName.replace(resourceName, ""), IOUtils.toString(is, "UTF-8"));
+						} catch (Exception e2) {
+							log4j.error("Error loading resource: " + pathToJar + "!" + fileName, e);
 						}
 					}
 				}
@@ -7760,6 +7843,161 @@ public class DbInit {
 			}
 		}
 		return null;
+
+	}
+
+	/**
+	 * Method to convert a legacy DbDataTable object to DbDataArray. FFS please
+	 * remove DbDataTable in Svarog v3!!!
+	 * 
+	 * @param dbaIn        The output DbDataArray with DbDataObjects
+	 * @param dbtList      The list of DbDataTable objects to convert
+	 * @param defaultCodes The default set of codes
+	 * @param svObjectId   The object ID index
+	 * @param errMsg       Error string describing the errors
+	 * @return The object id which should be used after generating the dbo style
+	 *         objects
+	 * @throws Exception
+	 */
+	public static DbDataTable dbDataArray2DbDataTable(DbDataArray dbaIn) throws Exception {
+		DbDataTable dbt = null;
+		for (DbDataObject dbo : dbaIn.getItems()) {
+			if (!dbo.getObjectType().equals(svCONST.OBJECT_TYPE_TABLE))
+				continue;
+
+			// if more than one table is found, fail by returning null
+			if (dbt != null)
+				throw new Exception("More than one table found");
+
+			dbt = new DbDataTable();
+			// dbo.setObjectType(svCONST.OBJECT_TYPE_TABLE);
+			// dbt.setObjectId(dbo.getObjectId());
+			// dbo.setStatus(svCONST.STATUS_VALID);
+			// dbo.setDtInsert(new DateTime(Sv.Y2K_START_DATE));
+			// dbo.setDtDelete(SvConf.MAX_DATE);
+			dbt.setIsSystemTable(dbo.getAsBoolean(Sv.SYSTEM_TABLE));
+			dbt.setIsRepoTable(dbo.getAsBoolean(Sv.REPO_TABLE));
+			dbt.setDbTableName(dbo.getAsString(Sv.TABLE_NAME));
+			dbt.setDbSchema(CONST_DEFAULT_SCHEMA);
+			dbt.setDbRepoName(CONST_MASTER_REPO);
+			dbt.setLabel_code(dbo.getAsString(Sv.LABEL_CODE));
+
+			// Assuming dbt has a setter for use_cache
+			dbt.setUse_cache(dbo.getAsBoolean("use_cache"));
+
+			dbt.setIsConfigTable(dbo.getAsBoolean("is_config_table"));
+			dbt.setConfigColumnName(dbo.getAsString("config_unq_id"));
+
+			// reference to the original config type
+			dbt.setConfigTypeName(dbo.getAsString("config_type_id"));
+			dbt.setConfigRelationType(dbo.getAsString("config_relation_type"));
+			dbt.setConfigRelatedTypeName(dbo.getAsString("config_relation_id"));
+			dbt.setGui_metadata(dbo.getAsString("gui_metadata"));
+			dbt.setParentName(dbo.getAsString("parent_name"));
+
+			String cacheType = dbo.getAsString(Sv.CACHE_TYPE);
+			dbt.setCacheType(cacheType);
+
+			// We only map size and expiry if it's not a Permanent cache,
+			// matching the logic of your setter.
+			if (cacheType == null || !cacheType.equals("PERM")) {
+				dbt.setCacheSize(dbo.getAsLong("cache_size"));
+				dbt.setCacheTTL(dbo.getAsLong("cache_expiry"));
+			}
+
+			ArrayList<DbDataField> fields = new ArrayList<DbDataField>();
+			// now iterate again the list and find each who has matching parent
+			for (DbDataObject dboChild : dbaIn.getItems()) {
+				// just skip everything which is not a FIELD and Parent name is not the table
+				// name (the if-then will be too long!)
+				if (!dboChild.getObjectType().equals(svCONST.OBJECT_TYPE_FIELD))
+					continue;
+
+				DbDataField dbf = new DbDataField();
+				// Mapping system identifiers
+				// dbt.setObjectId(dbo.getParentId());
+				// svObjectId = dbo.getObjectId();
+
+				// Mapping field-specific values
+
+				dbf.setDbFieldName(dboChild.getAsString(Sv.FIELD_NAME));
+				dbf.setDbFieldType(dboChild.getAsString(Sv.FIELD_TYPE));
+				dbf.setDbFieldSize(dboChild.getAsInt(Sv.FIELD_SIZE));
+				if(dboChild.hasVal(Sv.FIELD_SCALE.toString()))
+					dbf.setDbFieldScale((int) dboChild.getAsLong(Sv.FIELD_SCALE));
+				dbf.setDbSequenceName(dboChild.getAsString(Sv.SEQUENCE_NAME));
+				dbf.setIsNull(dboChild.getAsBoolean(Sv.IS_NULL));
+				dbf.setIsUnique(dboChild.getAsBoolean(Sv.IS_UNIQUE));
+
+				// Reversing the unique level logic
+				dbf.setUnique_level(dboChild.getAsString(Sv.UNQ_LEVEL));
+
+				dbf.setUnique_constraint_name(dboChild.getAsString(Sv.UNQ_CONSTRAINT_NAME));
+				dbf.setIsPrimaryKey(dboChild.getAsBoolean(Sv.IS_PRIMARY_KEY));
+				dbf.setIndexName(dboChild.getAsString(Sv.INDEX_NAME));
+				dbf.setLabel_code(dboChild.getAsString(Sv.LABEL_CODE));
+
+				// Contextual mapping
+				// dbf.setDbTableName(dbo.getAsString(Sv.PARENT_NAME));
+
+				dbf.setReferentialTable(dboChild.getAsString(Sv.REFERENTIAL_TABLE));
+				dbf.setRefereftialField(dboChild.getAsString(Sv.REFERENTIAL_FIELD));
+				dbf.setGeometryType(dboChild.getAsString(Sv.GEOMETRY_TYPE));
+				dbf.setCode_list_user_code(dboChild.getAsString(Sv.CODE_LIST_MNEMONIC));
+				dbf.setIs_updateable(dboChild.getAsBoolean(Sv.IS_UPDATEABLE));
+				dbf.setSort_order((int) dboChild.getAsLong(Sv.SORT_ORDER));
+
+				if (dbf.getDbFieldName().toUpperCase().equals("PKID"))
+					dbf.setGui_metadata(getDefaultUiMeta(true, true, true, false).toString());
+				else
+					dbf.setGui_metadata(dboChild.getAsString("gui_metadata"));
+
+				fields.add(dbf);
+			}
+			// no fields so fail
+			if (fields.size() <= 0)
+				throw new Exception("Table has no fields!");
+			else {
+				dbt.setDbTableFields(fields.toArray(new DbDataField[0]));
+			}
+
+		}
+
+		return dbt;
+
+	}
+
+	/**
+	 * Method to parse the map of JSON strings and convert them to usable
+	 * DbDataTable objects which can be further used for upgrade.
+	 * 
+	 * @param jsonTables The map containing the file name as key and the content of
+	 *                   the table descriptor as string
+	 * @return Map of table names with the DbDataTable object as value
+	 */
+	public static Map<String, List<DbDataTable>> getJsonTableList(Map<String, String> jsonTables) {
+		Map<String, List<DbDataTable>> result = new HashMap<String, List<DbDataTable>>();
+		Gson g = new Gson();
+
+		for (Map.Entry<String, String> e : jsonTables.entrySet()) {
+			try {
+				DbDataArray dba = new DbDataArray();
+				JsonObject j = g.fromJson(e.getValue(), JsonObject.class);
+				dba.fromJson(j);
+				DbDataTable currentDbt = dbDataArray2DbDataTable(dba);
+				List<DbDataTable> tableList = new ArrayList<DbDataTable>();
+				tableList.add(currentDbt);
+				if (log4j.isDebugEnabled())
+					log4j.error("Processing file:" + e.getKey());
+				result.put(e.getKey(), tableList);
+			} catch (Exception ex) {
+				log4j.error("Error parsing file:" + e.getKey(), ex);
+			}
+
+		}
+
+		return result;
+		// TODO Auto-generated method stub
 
 	}
 }
