@@ -7923,7 +7923,7 @@ public class DbInit {
 				dbf.setDbFieldName(dboChild.getAsString(Sv.FIELD_NAME));
 				dbf.setDbFieldType(dboChild.getAsString(Sv.FIELD_TYPE));
 				dbf.setDbFieldSize(dboChild.getAsInt(Sv.FIELD_SIZE));
-				if(dboChild.hasVal(Sv.FIELD_SCALE.toString()))
+				if (dboChild.hasVal(Sv.FIELD_SCALE.toString()))
 					dbf.setDbFieldScale((int) dboChild.getAsLong(Sv.FIELD_SCALE));
 				dbf.setDbSequenceName(dboChild.getAsString(Sv.SEQUENCE_NAME));
 				dbf.setIsNull(dboChild.getAsBoolean(Sv.IS_NULL));
@@ -7962,7 +7962,7 @@ public class DbInit {
 			}
 
 		}
-
+		addSortOrder(dbt);
 		return dbt;
 
 	}
@@ -7998,6 +7998,26 @@ public class DbInit {
 
 		return result;
 		// TODO Auto-generated method stub
+
+	}
+
+	public static String verifyTables(Map<String, List<DbDataTable>> allTables) {
+		// TODO Auto-generated method stub
+		Map<String, DbDataTable> finalTables = new HashMap<String, DbDataTable>();
+		for (Map.Entry<String, List<DbDataTable>> e : allTables.entrySet()) {
+			List<DbDataTable> tables = e.getValue();
+			for (DbDataTable dbt : tables) {
+				if (dbt instanceof DbDataTableExtension)
+					continue;
+
+				if (finalTables.containsKey(dbt.getDbTableName()))
+					return "Duplicate table descriptor, remove duplicates and upgrade again! " + dbt.getDbTableName()
+							+ " is duplicate";
+
+				finalTables.put(dbt.getDbTableName(), dbt);
+			}
+		}
+		return "";
 
 	}
 }

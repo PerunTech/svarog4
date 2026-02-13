@@ -1184,6 +1184,13 @@ public class SvarogInstall {
 		
 		allTables.putAll(allJsonTables);
 
+		String errorMessage = DbInit.verifyTables(allTables);
+		if (!errorMessage.equals("")) {
+			log4j.error("Error verifying tables. " + errorMessage);
+			return -1;
+		}
+			
+
 		// Load all available table configurations
 		allTables = DbInit.applyDbDataTableExtensions(allTables);
 		
@@ -1194,7 +1201,7 @@ public class SvarogInstall {
 
 		// create all JSON configurations from DbDataTables to prepare for SCHEMA
 		// upgrade (creation of tables and views)
-		String errorMessage = DbInit.createJsonSvarogRepo(allTables);
+		errorMessage = DbInit.createJsonSvarogRepo(allTables);
 		if (!errorMessage.equals("")) {
 			log4j.error("Error building svarog master repo. " + errorMessage);
 			return -1;
