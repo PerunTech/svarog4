@@ -7725,7 +7725,8 @@ public class DbInit {
 					String fileName = je.getName().toLowerCase();
 					if (fileName.startsWith(resourceName) && fileName.endsWith(suffix)) {
 						try (InputStream is = jarFile.getInputStream(je)) {
-							retVal.put(fileName.replace(resourceName, ""), IOUtils.toString(is, "UTF-8"));
+							retVal.put(jarFile.getName() + ":" + fileName.replace(resourceName, ""),
+									IOUtils.toString(is, "UTF-8"));
 						} catch (Exception e2) {
 							log4j.error("Error loading resource: " + pathToJar + "!" + fileName, e);
 						}
@@ -8003,18 +8004,24 @@ public class DbInit {
 
 	public static String verifyTables(Map<String, List<DbDataTable>> allTables) {
 		// TODO Auto-generated method stub
-		Map<String, DbDataTable> finalTables = new HashMap<String, DbDataTable>();
+		Map<String, Map<String, DbDataTable>> finalTables = new HashMap<String, Map<String, DbDataTable>>();
+
 		for (Map.Entry<String, List<DbDataTable>> e : allTables.entrySet()) {
 			List<DbDataTable> tables = e.getValue();
 			for (DbDataTable dbt : tables) {
 				if (dbt instanceof DbDataTableExtension)
 					continue;
+				Map<String, DbDataTable> dbtm;
+				if (finalTables.containsKey(dbt.getDbTableName())) {
+					dbtm = finalTables.get(dbt.getDbTableName());
+					Map.Entry<String, DbDataTable> firstEntry = dbtm.entrySet().iterator().next();
 
-				if (finalTables.containsKey(dbt.getDbTableName()))
 					return "Duplicate table descriptor, remove duplicates and upgrade again! " + dbt.getDbTableName()
-							+ " is duplicate";
-
-				finalTables.put(dbt.getDbTableName(), dbt);
+							+ " exists in: " + e.getKey() + ", and also in " + firstEntry.getKey();
+				}
+				dbtm = new HashMap<String, DbDataTable>();
+				dbtm.put(e.getKey(), dbt);
+				finalTables.put(dbt.getDbTableName(), dbtm);
 			}
 		}
 		return "";

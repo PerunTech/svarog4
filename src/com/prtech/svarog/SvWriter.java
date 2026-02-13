@@ -999,6 +999,9 @@ public class SvWriter extends SvCore {
 			boolean skipPreSaveChecks) throws SvException {
 		HashMap<Long, Object[]> oldRepoData = null;
 
+		if (!this.getIsInternal() && (dbt.getObjectId().equals(svCONST.OBJECT_TYPE_TABLE)
+				|| dbt.getObjectId().equals(svCONST.OBJECT_TYPE_FIELD)))
+			throw (new SvException("system.error.must_use_upgrade", instanceUser, dba, dbt));
 		// TODO: why do we always hit the DB to get the repo data?
 		// and not to mention that we are ignoring the JDBC batching!!!
 		// if the object is in the cache and its not dirty, does it make sense
