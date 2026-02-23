@@ -1651,6 +1651,7 @@ public class SvarogTest {
 			for (Map.Entry<String, Object> val : vals) {
 				duplicateObj.setVal(val.getKey(), val.getValue());
 			}
+			svw.isInternal = true;
 			svw.saveObject(duplicateObj);
 			fail("Object was saved although its duplicate");
 

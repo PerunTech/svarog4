@@ -229,6 +229,7 @@ public class SvCoreTest {
 			String j = (String) objFromDb.getVal(Sv.GUI_METADATA);
 			if (j == null || !j.contains("search_form")) {
 				objFromDb.setVal(Sv.GUI_METADATA, badJson);
+				svw.isInternal = true;
 				svw.saveObject(objFromDb, true);
 				SvCore.initSvCore(true);
 				objFromInit = SvCore.getDbt(svCONST.OBJECT_TYPE_USER);
