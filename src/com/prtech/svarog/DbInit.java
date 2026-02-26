@@ -7611,7 +7611,8 @@ public class DbInit {
 					} catch (java.lang.NoClassDefFoundError | java.lang.IllegalAccessError | java.lang.VerifyError
 							| ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
 
-						if (!isClassStandard(className) && !className.contains("$")) {
+						if (!isClassStandard(className) && !className.contains("$")
+								&& !(ex instanceof java.lang.NoClassDefFoundError)) {
 							log4j.error("Error loading class:" + className + ", faulty jar:" + pathToJar);
 							log4j.debug(ex);
 						}
