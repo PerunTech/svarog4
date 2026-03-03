@@ -1807,14 +1807,14 @@ public class SvarogInstall {
 		if (!isSvarogInstalled())
 			return;
 
-		StringBuilder sbr = new StringBuilder(100);
-		sbr.append("DELETE FROM ");
-		sbr.append(SvConf.getDefaultSchema() + ".");
-		sbr.append((String) SvCore.getDbt(svCONST.OBJECT_TYPE_CLUSTER).getVal("REPO_NAME") + " WHERE ");
-		sbr.append(" OBJECT_TYPE=" + Long.toString(svCONST.OBJECT_TYPE_CLUSTER) + " AND OBJECT_ID="
-				+ Long.toString(svCONST.CLUSTER_COORDINATOR_ID));
-
 		try (SvReader svr = new SvReader(); Statement st = svr.dbGetConn().createStatement()) {
+			StringBuilder sbr = new StringBuilder(100);
+			sbr.append("DELETE FROM ");
+			sbr.append(SvConf.getDefaultSchema() + ".");
+			sbr.append((String) SvCore.getDbt(svCONST.OBJECT_TYPE_CLUSTER).getVal("REPO_NAME") + " WHERE ");
+			sbr.append(" OBJECT_TYPE=" + Long.toString(svCONST.OBJECT_TYPE_CLUSTER) + " AND OBJECT_ID="
+					+ Long.toString(svCONST.CLUSTER_COORDINATOR_ID));
+		
 			DbDataObject clusterCoordinator = svr.getObjectById(svCONST.CLUSTER_COORDINATOR_ID,
 					svCONST.OBJECT_TYPE_CLUSTER, null);
 			if (clusterCoordinator == null) {
