@@ -7718,6 +7718,7 @@ public class DbInit {
 		resourceName = resourceName.toLowerCase();
 		suffix = suffix.toLowerCase();
 		Gson g = new Gson();
+
 		if (pathToJar != null && !pathToJar.equals("")) {
 			try (JarFile jarFile = new JarFile(pathToJar)) {
 				Enumeration<JarEntry> e = jarFile.entries();
@@ -7726,8 +7727,10 @@ public class DbInit {
 					String fileName = je.getName().toLowerCase();
 					if (fileName.startsWith(resourceName) && fileName.endsWith(suffix)) {
 						try (InputStream is = jarFile.getInputStream(je)) {
-							retVal.put(jarFile.getName() + ":" + fileName.replace(resourceName, ""),
+							File fl = new File(pathToJar);
+							retVal.put(fl.getName() + "_" + fileName.replace(resourceName, ""),
 									IOUtils.toString(is, "UTF-8"));
+
 						} catch (Exception e2) {
 							log4j.error("Error loading resource: " + pathToJar + "!" + fileName, e);
 						}

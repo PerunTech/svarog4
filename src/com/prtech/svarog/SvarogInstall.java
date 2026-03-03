@@ -1152,7 +1152,7 @@ public class SvarogInstall {
 	 * 3. Generate DbDataObjects for the Labels loaded from all OSGi bundles
 	 * 
 	 * @return 0 if success, -1 if failed
-	 * @throws SvException 
+	 * @throws SvException
 	 */
 	private static int generateJsonCfg() throws SvException {
 		// we should not connect to database at all and check if svarog is
@@ -1173,15 +1173,17 @@ public class SvarogInstall {
 			log4j.error("Error deleting conf resources ", e);
 		}
 
-		Map<String, String> jsonTables = DbInit.loadTextFilesFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY), jsonTablesPath, "json");
+		Map<String, String> jsonTables = DbInit
+				.loadTextFilesFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY), jsonTablesPath, "json");
 
 		Map<String, List<DbDataTable>> allJsonTables = DbInit.getJsonTableList(jsonTables);
 
 		// first get map of all available dbInit instances
-		Map<IDbInit, String> dbInits = DbInit.loadDbInitFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
+		Map<IDbInit, String> dbInits = DbInit
+				.loadDbInitFromDir(SvConf.getParam(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY));
 		// Load all available table configurations
 		Map<String, List<DbDataTable>> allTables = DbInit.getDbInitTableList(dbInits);
-		
+
 		allTables.putAll(allJsonTables);
 
 		String errorMessage = DbInit.verifyTables(allTables);
@@ -1189,15 +1191,12 @@ public class SvarogInstall {
 			log4j.error("Error verifying tables. " + errorMessage);
 			return -1;
 		}
-			
 
 		// Load all available table configurations
 		allTables = DbInit.applyDbDataTableExtensions(allTables);
-		
+
 		// Load all available table configurations
 		Map<String, List<DbDataObject>> allObjects = DbInit.getDbInitObjectInstances(dbInits);
-
-
 
 		// create all JSON configurations from DbDataTables to prepare for SCHEMA
 		// upgrade (creation of tables and views)
@@ -3759,6 +3758,23 @@ public class SvarogInstall {
 		}
 	}
 
+	static Map<String, Long> codeLists = null;
+
+	synchronized static Map<String, Long> getCodeLists(SvCore svc) throws SvException {
+		if (codeLists == null) {
+			try (CodeList cl = new CodeList(svc)) {
+				HashMap<Long, String> tmpcl = cl.getCodeListIdValues(0L);
+				codeLists = new HashMap<String, Long>();
+				for (Map.Entry<Long, String> e : tmpcl.entrySet()) {
+					codeLists.put(e.getValue(), e.getKey());
+				}
+
+			}
+		}
+		return codeLists;
+
+	}
+
 	/**
 	 * Method to perform upgrade of the fields in the svarog platform
 	 * 
@@ -3806,31 +3822,17 @@ public class SvarogInstall {
 			existingField = dbFields.getItemByIdx((String) dboUpgrade.getVal("FIELD_NAME"),
 					fieldDbParent.getObjectId());
 
-			if (dboUpgrade.getVal("CODE_LIST_MNEMONIC") != null) {
+			String clMnemonic = dboUpgrade.getAsString("CODE_LIST_MNEMONIC");
+			if (clMnemonic != null && clMnemonic.trim().length() > 0) {
 				// sync ids of the code lists in the db
-				DbSearchCriterion critCodeVal = new DbSearchCriterion("CODE_VALUE", DbCompareOperand.EQUAL,
-						dboUpgrade.getVal("CODE_LIST_MNEMONIC"));
-				DbSearchCriterion critCodeParent = new DbSearchCriterion("PARENT_ID", DbCompareOperand.EQUAL, 0L);
-				DbSearchExpression searchCode = new DbSearchExpression();
-				searchCode.addDbSearchItem(critCodeVal);
-				searchCode.addDbSearchItem(critCodeParent);
+				log4j.trace("Decoding CODE_LIST_MNEMONIC:" + clMnemonic);
+				Map<String, Long> codeLists = getCodeLists(dbu);
 
-				log4j.trace("Decoding CODE_LIST_MNEMONIC:" + dboUpgrade.getVal("CODE_LIST_MNEMONIC"));
-				DbDataArray codes = null;
-				try {
-					svr = new SvReader(dbu);
-					codes = svr.getObjects(searchCode, svCONST.OBJECT_TYPE_CODE, null, 0, 0);
-				} catch (Exception ex) {
-					log4j.error("Failed decoding mnemonic", ex);
-				} finally {
-					if (svr != null)
-						svr.release();
-				}
-				if (codes != null && codes.getItems().size() > 0) {
-					dboUpgrade.setVal("CODE_LIST_ID", codes.getItems().get(0).getObjectId());
+				if (codeLists.containsKey(clMnemonic)) {
+					dboUpgrade.setVal("CODE_LIST_ID", codeLists.get(clMnemonic));
 				} else {
 					throw (new SvException("system.error.upgrade_no_codelist", dbu.instanceUser, dboUpgrade,
-							searchCode));
+							clMnemonic));
 
 				}
 			}
