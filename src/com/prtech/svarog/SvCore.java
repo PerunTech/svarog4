@@ -2507,10 +2507,12 @@ public abstract class SvCore implements ISvCore, java.lang.AutoCloseable {
 		// deserialize multi
 		if (dbf != null) {
 			if (dbf.getVal(Sv.SV_MULTISELECT) != null && (Boolean) dbf.getVal(Sv.SV_MULTISELECT)) {
-				String[] multivals = ((String) fieldVal).split(SvConf.getMultiSelectSeparator());
-				fieldVal = new ArrayList<String>(Arrays.asList(multivals));
-				dbo.setVal(fieldName, fieldVal);
-			}
+			    if (fieldVal != null) {
+			        String[] multivals = ((String) fieldVal).split(SvConf.getMultiSelectSeparator());
+			        fieldVal = new ArrayList<String>(Arrays.asList(multivals));
+			        dbo.setVal(fieldName, fieldVal);
+			    }
+			}  
 			if (dbf.getVal(Sv.SV_ISLABEL) != null && (Boolean) dbf.getVal(Sv.SV_ISLABEL)
 					&& dbf.getVal(Sv.SV_LOADLABEL) != null && (Boolean) dbf.getVal(Sv.SV_LOADLABEL)) {
 
