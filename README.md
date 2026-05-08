@@ -39,8 +39,8 @@ The method `DbDataArray.getDistinctValuesPerColumns` no more accepts a `SvReader
 3. Pull the latest version of svarog and configure your properties file.
 
 4. To configure svarog automatically, navigate to the svarog directory and run one of these commands, depending on your properties 
-	`$ mvn exec:java@install-auto -P PostgreSQL for Postgres`
-	`$ mvn exec:java@install-auto -P Oracle for Oracle`
+	`$ mvn exec:java@install-auto -P PostgreSQL` for Postgres
+	`$ mvn exec:java@install-auto -P Oracle` for Oracle
 	
 5. If you wish to configure svarog manually, you can follow the steps listed below
 
