@@ -1814,7 +1814,7 @@ public class SvarogInstall {
 			sbr.append((String) SvCore.getDbt(svCONST.OBJECT_TYPE_CLUSTER).getVal("REPO_NAME") + " WHERE ");
 			sbr.append(" OBJECT_TYPE=" + Long.toString(svCONST.OBJECT_TYPE_CLUSTER) + " AND OBJECT_ID="
 					+ Long.toString(svCONST.CLUSTER_COORDINATOR_ID));
-		
+
 			DbDataObject clusterCoordinator = svr.getObjectById(svCONST.CLUSTER_COORDINATOR_ID,
 					svCONST.OBJECT_TYPE_CLUSTER, null);
 			if (clusterCoordinator == null) {
@@ -3547,8 +3547,20 @@ public class SvarogInstall {
 		if (dbtUpgrade.getVal("config_relation_id") != null
 				&& dbtUpgrade.getVal("config_relation_id") instanceof String) {
 			configRelationName = (String) dbtUpgrade.getVal("config_relation_id");
-			dbtUpgrade.setVal("config_relation_id", nameToId(dbtUpgrade, (Long) dbtUpgrade.getVal("CONFIG_TYPE_ID"),
-					svCONST.OBJECT_TYPE_FIELD, configRelationName, svw));
+			Long CfgtypeId = 0L;
+			if (dbtUpgrade.getVal("CONFIG_TYPE_ID") instanceof String) {
+				String cfgTypeName = (String) dbtUpgrade.getVal("CONFIG_TYPE_ID");
+				try {
+					CfgtypeId = SvCore.getTypeIdByName(cfgTypeName);
+				} catch (Exception e) {
+					log4j.error("Unresolved dependency:" + cfgTypeName, e);
+				}
+
+			} else
+				CfgtypeId = (Long) dbtUpgrade.getVal("CONFIG_TYPE_ID");
+
+			if (dbtOld != null)
+				dbtUpgrade.setVal("config_relation_id", dbtOld.getVal("config_relation_id"));
 		}
 
 		updateRequired = true;
