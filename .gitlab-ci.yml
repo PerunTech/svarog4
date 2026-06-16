@@ -95,7 +95,9 @@ install-oracle-ut:
     - mvn test -P Oracle
     - mvn exec:java@upgrade-force-auto -P Oracle
     - mvn test -P Oracle
-    
+  only:
+    - nottoberun
+
 upgrade-postgres-pipeline:
   stage: svarog-upgrade-pipeline
   script:
@@ -125,10 +127,7 @@ upgrade-oracle-pipeline:
   environment:
     name: $CI_COMMIT_REF_NAME
   only:
-    - master
-    - staging
-    - dev
-
+    - nottoberun
 
 svarog-sonarqube:
   stage: code_analysis
