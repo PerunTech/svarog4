@@ -125,10 +125,7 @@ upgrade-oracle-pipeline:
   environment:
     name: $CI_COMMIT_REF_NAME
   only:
-    - master
-    - staging
-    - dev
-
+    - nottoberun
 
 svarog-sonarqube:
   stage: code_analysis
