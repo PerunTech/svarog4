@@ -30,21 +30,20 @@ The method `DbDataArray.getDistinctValuesPerColumns` no more accepts a `SvReader
 	`DbDataArray1.getDistinctValuesPerColumns(columnsSpecified, fieldsPerObjectType);`
 
 
-### Bootstrap of V3
+### Bootstrap of V4
 
 ##Prerequisites
 1. Install latest version of Apache Maven. On linux just do: sudo apt install maven
 2. Install git (standalone or eclipse module)
-3. Pull the following dependencies from github:
-* 	`svarog-jts-io (https://github.com/PerunTech/svarog-jts-io)`
-* 	`svarog-interfaces (https://github.com/PerunTech/svarog-interfaces)`
 
-4. On each of the projects (exactly in the same order as they appear on the list above) go into the project directory and run. 
-	
-*  `$ mvn install`
+3. Pull the latest version of svarog and configure your properties file.
 
-5. Pull the latest version of svarog and configure your properties file.
+4. To configure svarog automatically, navigate to the svarog directory and run one of these commands, depending on your properties 
+	`$ mvn exec:java@install-auto -P PostgreSQL` for Postgres
+	`$ mvn exec:java@install-auto -P Oracle` for Oracle
 	
+5. If you wish to configure svarog manually, you can follow the steps listed below
+
 	5.1: To generate JSON files for installation run maven with java@json target. According to your properties configuration you need to set the correct profile. If oracle then "-P Oracle". If Posgres then "-P PostgreSQL"
 	$ mvn exec:java@json -P PostgreSQL
 	
@@ -68,8 +67,9 @@ The method `DbDataArray.getDistinctValuesPerColumns` no more accepts a `SvReader
 	5.8 Pull the triglav-core project from gitlab, package as jar and place in the osgi-bunlde dir to provide basic proof of concept how to use Svarog v3. In order to build triglav-core sample you need to install svarog library first 
 	$mvn install -DskipTests
 	
-	5.8 To run the svarog OSGI container 
+	5.9 To run the svarog OSGI container 
 	$mvn exec:java@osgi -P PostgreSQL
+
 	
 	
 6. Unzip the osgi-bundles-defaults.zip (Download from https://github.com/PerunTech/svarog/blob/83fa485dc0f0141a3b18de1dea609865ae0ab671/osgi-bundles-default.zip) archive into the directory osgi-bundles (or the directory you configured in your svarog.properties file) and restart the svarog osgi container. Now you can see the standard felix admin console at http://localhost:8080/system/console.
