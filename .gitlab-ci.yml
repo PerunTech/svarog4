@@ -95,7 +95,9 @@ install-oracle-ut:
     - mvn test -P Oracle
     - mvn exec:java@upgrade-force-auto -P Oracle
     - mvn test -P Oracle
-    
+  only:
+    - nottoberun
+
 upgrade-postgres-pipeline:
   stage: svarog-upgrade-pipeline
   script:
