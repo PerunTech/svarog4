@@ -3561,6 +3561,12 @@ public class SvarogInstall {
 
 			if (dbtOld != null)
 				dbtUpgrade.setVal("config_relation_id", dbtOld.getVal("config_relation_id"));
+			else if (dbtUpgrade.getVal("config_relation_id") != null
+					&& dbtUpgrade.getVal("config_relation_id") instanceof String) {
+				configRelationName = (String) dbtUpgrade.getVal("config_relation_id");
+				dbtUpgrade.setVal("config_relation_id", nameToId(dbtUpgrade, (Long) dbtUpgrade.getVal("CONFIG_TYPE_ID"),
+						svCONST.OBJECT_TYPE_FIELD, configRelationName, svw));
+			}
 		}
 
 		updateRequired = true;
