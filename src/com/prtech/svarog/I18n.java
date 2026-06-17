@@ -295,7 +295,7 @@ public class I18n implements II18n {
 
 			if (lblGroup == null || lblGroup.size() < 1) {
 				ignoredLabels.add(getKey(localeId, labelCode));
-				log4j.error("Label: " + labelCode + " and locale:" + localeId + " are added to ignore list. "
+				log4j.debug("Label: " + labelCode + " and locale:" + localeId + " are added to ignore list. "
 						+ "Translate the label and restart the application server. "
 						+ "Svarog will not try to load the object again!");
 
