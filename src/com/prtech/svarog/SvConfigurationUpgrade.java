@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.felix.main.AutoProcessor;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
