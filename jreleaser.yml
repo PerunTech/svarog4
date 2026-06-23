@@ -1,3 +1,8 @@
+signing:
+  pgp:
+    active: ALWAYS
+    armored: true
+    
 deploy:
   maven:
     mavenCentral:
