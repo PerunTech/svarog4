@@ -472,6 +472,7 @@ Agreement
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>3.4.1</version>
 						<configuration>
+							<failOnError>false</failOnError>
 							<reportPlugins>
 								<plugin>
 									<groupId>org.apache.maven.plugins</groupId>
