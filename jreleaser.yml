@@ -1,7 +1,6 @@
 signing:
-  pgp:
-    active: ALWAYS
-    armored: true
+  active: ALWAYS
+  armored: true
     
 deploy:
   maven:
